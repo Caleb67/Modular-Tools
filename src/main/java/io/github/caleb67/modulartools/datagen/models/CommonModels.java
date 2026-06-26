@@ -18,6 +18,16 @@ public class CommonModels {
     public final ItemModel.Unbaked copperToolRod;
     public final ItemModel.Unbaked prismarineToolRod;
     public final ItemModel.Unbaked lapisToolRod;
+
+    public final ItemModel.Unbaked woodSwordToolRod;
+    public final ItemModel.Unbaked stoneSwordToolRod;
+    public final ItemModel.Unbaked goldSwordToolRod;
+    public final ItemModel.Unbaked blazeSwordToolRod;
+    public final ItemModel.Unbaked emeraldSwordToolRod;
+    public final ItemModel.Unbaked ironSwordToolRod;
+    public final ItemModel.Unbaked copperSwordToolRod;
+    public final ItemModel.Unbaked prismarineSwordToolRod;
+    public final ItemModel.Unbaked lapisSwordToolRod;
     private CommonModels(ItemModelGenerators itemModelGenerators) {
         woodToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -37,6 +47,25 @@ public class CommonModels {
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         lapisToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+
+        woodSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
+        stoneSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_stone", ModelTemplates.FLAT_HANDHELD_ITEM));
+        goldSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_gold", ModelTemplates.FLAT_HANDHELD_ITEM));
+        blazeSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_blaze", ModelTemplates.FLAT_HANDHELD_ITEM));
+        emeraldSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_emerald", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ironSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_iron", ModelTemplates.FLAT_HANDHELD_ITEM));
+        copperSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_copper", ModelTemplates.FLAT_HANDHELD_ITEM));
+        prismarineSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
+        lapisSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
     }
 
     public static void load(ItemModelGenerators itemModelGenerators) {

@@ -69,6 +69,23 @@ public class Items {
                     )
     );
 
+    public static final Item BASE_SWORD_TOOL = register(
+            "base_sword_tool",
+            properties -> new AbstractModularToolItem(properties) {
+                @Override protected @NotNull HeadType getHeadType() {return new HeadType.Sword();}
+            },
+            new Item.Properties().stacksTo(1)
+                    .durability(ToolMaterial.WOOD.durability())
+                    .component(MTDataComponents.MODULAR_TOOL_HEAD, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                    .component(MTDataComponents.MODULAR_TOOL_ROD, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                    .component(MTDataComponents.MODULAR_TOOL_TRIM, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false)
+                    .component(
+                            DataComponents.TOOLTIP_DISPLAY,
+                            new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
+                    )
+    );
+
 
     public static final Item ROD = register(
             "rod",

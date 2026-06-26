@@ -1,9 +1,6 @@
 package io.github.caleb67.modulartools.datagen;
 
-import io.github.caleb67.modulartools.datagen.models.AxeModels;
-import io.github.caleb67.modulartools.datagen.models.CommonModels;
-import io.github.caleb67.modulartools.datagen.models.PickaxeModels;
-import io.github.caleb67.modulartools.datagen.models.ShovelModels;
+import io.github.caleb67.modulartools.datagen.models.*;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -25,6 +22,7 @@ public class ModularToolsModelProvider extends FabricModelProvider {
         PickaxeModels.generateItemModels(itemModelGenerators);
         ShovelModels.generateItemModels(itemModelGenerators);
         AxeModels.generateItemModels(itemModelGenerators);
+        SwordModels.generateItemModels(itemModelGenerators);
     }
 
     @Override

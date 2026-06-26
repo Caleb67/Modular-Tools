@@ -22,6 +22,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.WHITE)
 
     );
@@ -33,6 +34,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.WHITE)
     );
 
@@ -44,6 +46,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.YELLOW)
                     .setEffectFormatting(ChatFormatting.GOLD, ChatFormatting.ITALIC)
     );
@@ -55,6 +58,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.AQUA)
                     .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.BOLD)
     );
@@ -66,6 +70,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.YELLOW)
                     .setEffectFormatting(ChatFormatting.GREEN)
     );
@@ -77,6 +82,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.YELLOW)
     );
     public static final MaterialBehavior COPPER_MATERIAL_BEHAVIOR = register(
@@ -87,6 +93,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.WHITE)
                     .setEffectFormatting(ChatFormatting.RED)
     );
@@ -99,6 +106,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.WHITE)
                     .setEffectFormatting(ChatFormatting.DARK_AQUA)
     );
@@ -111,6 +119,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.WHITE)
                     .setEffectFormatting(ChatFormatting.BLUE)
     );

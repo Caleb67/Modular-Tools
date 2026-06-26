@@ -99,6 +99,25 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Lapis Axe");
 
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Wood Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Stone Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Gold Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Blaze Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Emerald Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Iron Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Copper Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Prismarine Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Lapis Sword");
+
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, Part.ROD), "Wood Rod");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR.key, Part.ROD), "Stone Rod");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR.key, Part.ROD), "Gold Rod");
