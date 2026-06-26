@@ -78,7 +78,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Prismarine Shovel");
         translationBuilder.add(
-                TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Prismarine Shovel");
+                TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Lapis Shovel");
 
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Wood Axe");
