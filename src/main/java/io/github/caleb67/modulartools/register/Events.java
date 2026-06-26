@@ -3,14 +3,11 @@ package io.github.caleb67.modulartools.register;
 
 import io.github.caleb67.modulartools.content.EndTickEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
-import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
-import io.github.caleb67.modulartools.content.materials.PrismarineMaterialBehavior;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.concurrent.atomic.AtomicReference;
 
