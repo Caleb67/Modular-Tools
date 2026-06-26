@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "modulartools",
+  "version": "${version}",
+  "name": "Modular Tools",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/progr/ModularTools"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/modulartools/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.caleb67.modulartools.client.ModularToolsClient"
+    ],
+    "main": [
+      "io.github.caleb67.modulartools.ModularTools"
+    ],
+    "fabric-datagen": [
+      "io.github.caleb67.modulartools.datagen.ModularToolsDataGenerator"
+    ]
+  },
+  "mixins": [
+    "modulartools.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

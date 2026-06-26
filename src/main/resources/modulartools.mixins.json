@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "io.github.caleb67.modulartools.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "BlockPlaceDamageCopperMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

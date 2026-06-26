@@ -1,0 +1,44 @@
+package io.github.caleb67.modulartools.register;
+
+
+import io.github.caleb67.modulartools.content.EndTickEvents;
+import io.github.caleb67.modulartools.content.LootTableChanges;
+import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
+import io.github.caleb67.modulartools.content.materials.PrismarineMaterialBehavior;
+import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import org.apache.logging.log4j.core.jmx.Server;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+public class Events {
+    public static void load() {
+        LootTableChanges.changes.forEach(LootTableEvents.MODIFY_DROPS::register);
+        EndTickEvents.changes.forEach(ServerTickEvents.END_SERVER_TICK::register);
+
+        ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> {
+            minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
+                var attack_speed_attr = serverPlayer.getAttribute(Attributes.ATTACK_SPEED);
+                var attack_damage_attr = serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE);
+                AtomicReference<ItemStack> viable_tool = new AtomicReference<>();
+                serverPlayer.getInventory().forEach(itemStack -> {
+                    if (ItemStack.isSameItemSameComponents((serverPlayer).getMainHandItem(), itemStack) &&
+                            (itemStack.getItem() instanceof AbstractModularToolItem)) {
+                        viable_tool.set(itemStack);
+                    }
+                });
+
+                if (viable_tool.get() != null) {
+                    var stack = viable_tool.get();
+                    ((AbstractModularToolItem) stack.getItem()).updateAttackAttributes(stack, serverPlayer);
+                } else {
+                    attack_speed_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
+                    attack_damage_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
+                }
+            });
+        });
+    }
+}
