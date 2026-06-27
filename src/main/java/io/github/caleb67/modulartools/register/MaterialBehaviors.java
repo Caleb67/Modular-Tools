@@ -7,8 +7,11 @@ import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 
 import java.util.function.Function;

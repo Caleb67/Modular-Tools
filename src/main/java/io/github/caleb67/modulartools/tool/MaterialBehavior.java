@@ -1,9 +1,12 @@
 package io.github.caleb67.modulartools.tool;
 
+import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -19,13 +22,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class MaterialBehavior {
     public final ToolMaterial material;
     private HashMap<HeadType, Attribute> attribute_map;
     public final ResourceKey<MaterialBehavior> key;
+    private Set<Item> items;
 
     private final Properties properties;
 
@@ -34,10 +43,13 @@ public class MaterialBehavior {
         this.attribute_map = properties.attribute_map;
         this.key = properties.getIdOrThrow();
         this.properties = properties;
+        this.items = Set.of();
     }
 
     public ChatFormatting[] getFormatting() { return this.properties.formatting != null ? this.properties.formatting : new ChatFormatting[]{ChatFormatting.WHITE}; }
     public ChatFormatting[] getEffectFormatting() { return this.properties.effect_formatting != null ? this.properties.effect_formatting : new ChatFormatting[]{ChatFormatting.WHITE}; }
+
+    public List<Item> getItems() { return this.items.stream().toList();}
 
     public boolean mineBlock(Part part, HeadType type, ItemStack itemStack, Level level,
                              BlockState state, BlockPos pos, LivingEntity owner) {
@@ -96,6 +108,10 @@ public class MaterialBehavior {
         return attribute.baseAttackSpeed;
     }
 
+    public void addValidItems(Set<Item> items) {
+        this.items = Stream.concat(this.items.stream(), items.stream()).collect(Collectors.toSet());
+    }
+
     public Optional<ToolEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.empty();
     }
@@ -105,6 +121,14 @@ public class MaterialBehavior {
             throw new IllegalArgumentException("HeadType '"+key.getName()+"' already has attributes for material '"+this.key.identifier()+"'!");
         else
             this.attribute_map.put(key, new Attribute(baseAttackDamage, baseAttackSpeed));
+    }
+
+    public static Set<MaterialBehavior> fromItem(Item item) {
+        var materials = ModularToolsRegistries.getAllMaterialBehaviors();
+        return StreamSupport
+                .stream(materials.spliterator(), false)
+                .filter(materialBehavior -> materialBehavior.getItems().contains(item))
+                .collect(Collectors.toSet());
     }
 
     public static final class Properties {

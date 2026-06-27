@@ -4,6 +4,7 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.BaseAxeItem;
 import io.github.caleb67.modulartools.tool.HeadType;
+import io.github.caleb67.modulartools.tool.ToolTemplateItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,6 +37,11 @@ public class Items {
                             DataComponents.TOOLTIP_DISPLAY,
                             new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
                     )
+    );
+    public static final Item PICKAXE_TOOL_TEMPLATE = register(
+            "pickaxe_tool_template",
+            properties -> new ToolTemplateItem(properties, (AbstractModularToolItem) BASE_PICKAXE_TOOL),
+            new Item.Properties()
     );
     public static final Item BASE_SHOVEL_TOOL = register(
             "base_shovel_tool",

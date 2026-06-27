@@ -5,9 +5,11 @@ import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
+import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipExecutor;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -32,17 +34,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public abstract class AbstractModularToolItem extends Item {
+    public static final Identifier BASE_ATTACK_SPEED = Identifier.fromNamespaceAndPath(ModularTools.MODID, "base_attack_speed");
+    public static final Identifier BASE_ATTACK_DAMAGE = Identifier.fromNamespaceAndPath(ModularTools.MODID, "base_attack_damage");
+
     public AbstractModularToolItem(Properties properties) {
         super(properties);
     }
-
-    public static final Identifier BASE_ATTACK_SPEED = Identifier.fromNamespaceAndPath(ModularTools.MODID, "base_attack_speed");
-    public static final Identifier BASE_ATTACK_DAMAGE = Identifier.fromNamespaceAndPath(ModularTools.MODID, "base_attack_damage");
 
     @Override
     public @NotNull Component getName(ItemStack itemStack) {

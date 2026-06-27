@@ -2,10 +2,7 @@ package io.github.caleb67.modulartools;
 
 import io.github.caleb67.modulartools.content.EndTickEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
-import io.github.caleb67.modulartools.register.Events;
-import io.github.caleb67.modulartools.register.Items;
-import io.github.caleb67.modulartools.register.MTDataComponents;
-import io.github.caleb67.modulartools.register.MaterialBehaviors;
+import io.github.caleb67.modulartools.register.*;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +15,11 @@ public class ModularTools implements ModInitializer {
         ModularToolsRegistries.load();
         MaterialBehaviors.load();
         MTDataComponents.load();
+        MenuTypes.load();
+        Payloads.load();
         Items.load();
+        Blocks.load();
+        BlockEntities.load();
         LootTableChanges.load();
         EndTickEvents.load();
         Events.load();
