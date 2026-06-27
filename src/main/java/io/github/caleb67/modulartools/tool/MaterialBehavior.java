@@ -131,6 +131,8 @@ public class MaterialBehavior {
                 .collect(Collectors.toSet());
     }
 
+    public void hurtEnemy(Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
+
     public static final class Properties {
         HashMap<HeadType, Attribute> attribute_map;
         ResourceKey<MaterialBehavior> key;

@@ -33,6 +33,7 @@ public class ModularToolsModelProvider extends FabricModelProvider {
         SwordModels.generateItemModels(itemModelGenerators);
 
         itemModelGenerators.generateFlatItem(Items.PICKAXE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(Items.SHOVEL_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
     }
 
     @Override

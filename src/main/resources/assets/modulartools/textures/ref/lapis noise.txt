@@ -1,0 +1,4 @@
+lapis noise
+intensity 30
+color saturation 0
+coverage 40

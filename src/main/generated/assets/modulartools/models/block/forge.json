@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "modulartools:block/forge_bottom",
+    "east": "modulartools:block/forge_side",
+    "north": "modulartools:block/forge_side",
+    "particle": "modulartools:block/forge_side",
+    "south": "modulartools:block/forge_side",
+    "up": "modulartools:block/forge_top",
+    "west": "modulartools:block/forge_side"
+  }
+}

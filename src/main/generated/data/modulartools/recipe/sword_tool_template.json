@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:wooden_sword"
+  ],
+  "result": {
+    "id": "modulartools:sword_tool_template"
+  }
+}

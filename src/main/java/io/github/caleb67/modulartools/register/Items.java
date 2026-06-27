@@ -43,6 +43,7 @@ public class Items {
             properties -> new ToolTemplateItem(properties, (AbstractModularToolItem) BASE_PICKAXE_TOOL),
             new Item.Properties()
     );
+
     public static final Item BASE_SHOVEL_TOOL = register(
             "base_shovel_tool",
             properties -> new AbstractModularToolItem(properties) {
@@ -59,6 +60,11 @@ public class Items {
                             new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
                     )
     );
+    public static final Item SHOVEL_TOOL_TEMPLATE = register(
+            "shovel_tool_template",
+            properties -> new ToolTemplateItem(properties, (AbstractModularToolItem) BASE_SHOVEL_TOOL),
+            new Item.Properties()
+    );
 
     public static final Item BASE_AXE_TOOL = register(
             "base_axe_tool",
@@ -73,6 +79,11 @@ public class Items {
                             DataComponents.TOOLTIP_DISPLAY,
                             new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
                     )
+    );
+    public static final Item AXE_TOOL_TEMPLATE = register(
+            "axe_tool_template",
+            properties -> new ToolTemplateItem(properties, (AbstractModularToolItem) BASE_AXE_TOOL),
+            new Item.Properties()
     );
 
     public static final Item BASE_SWORD_TOOL = register(
@@ -90,6 +101,11 @@ public class Items {
                             DataComponents.TOOLTIP_DISPLAY,
                             new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
                     )
+    );
+    public static final Item SWORD_TOOL_TEMPLATE = register(
+            "sword_tool_template",
+            properties -> new ToolTemplateItem(properties, (AbstractModularToolItem) BASE_SWORD_TOOL),
+            new Item.Properties()
     );
 
 

@@ -9,5 +9,6 @@ public class ModularToolsDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ModularToolsModelProvider::new);
         pack.addProvider(ModularToolsEnglishLangProvider::new);
+        pack.addProvider(ModularToolsRecipeProvider::new);
     }
 }

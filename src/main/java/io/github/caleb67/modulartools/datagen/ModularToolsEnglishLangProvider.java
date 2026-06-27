@@ -1,6 +1,7 @@
 package io.github.caleb67.modulartools.datagen;
 
 import io.github.caleb67.modulartools.ModularTools;
+import io.github.caleb67.modulartools.register.Items;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.Part;
@@ -140,6 +141,11 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, Part.TRIM), "Copper Trim");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, Part.TRIM), "Prismarine Trim");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, Part.TRIM), "Lapis Trim");
+
+        translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
+        translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
+        translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Axe Template");
+        translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Sword Template");
 
         translationBuilder
                 .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");

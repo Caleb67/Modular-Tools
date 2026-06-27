@@ -134,6 +134,28 @@ public abstract class AbstractModularToolItem extends Item {
         return true;
     }
 
+
+    @Override
+    public void hurtEnemy(ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {
+        itemStack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+
+        var tool_head = getToolHead(itemStack);
+        var tool_rod = getToolRod(itemStack);
+        var tool_trim = getToolTrim(itemStack);
+
+        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
+            super.hurtEnemy(itemStack, mob, attacker);
+        // !TODO log this at some point
+
+        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
+        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
+        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
+
+        head.hurtEnemy(Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
+        rod.hurtEnemy(Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        trim.hurtEnemy(Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+    }
+
     @Override
     public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
         var tool_head = getToolHead(itemStack);

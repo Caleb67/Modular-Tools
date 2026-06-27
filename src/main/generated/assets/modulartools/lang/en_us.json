@@ -1,4 +1,8 @@
 {
+  "item.modulartools.axe_tool_template": "Axe Template",
+  "item.modulartools.pickaxe_tool_template": "Pickaxe Template",
+  "item.modulartools.shovel_tool_template": "Shovel Template",
+  "item.modulartools.sword_tool_template": "Sword Template",
   "menu.modulartools.forge": "Forge",
   "part_effect.modulartools.blaze_material_behavior.1": "Smelting",
   "part_effect.modulartools.blaze_material_behavior.2": "Smelting",
