@@ -20,5 +20,6 @@ public class ModularToolsRegistries {
         return MATERIAL_BEHAVIOR.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toSet());
     };
 
-    public static void load() {}
+    public static void load() {
+    }
 }

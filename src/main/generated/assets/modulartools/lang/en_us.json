@@ -1,4 +1,5 @@
 {
+  "creativeTab.modulartools": "Modular Tools",
   "item.modulartools.axe_tool_template": "Axe Template",
   "item.modulartools.pickaxe_tool_template": "Pickaxe Template",
   "item.modulartools.shovel_tool_template": "Shovel Template",
@@ -27,6 +28,7 @@
   "part_effect.modulartools.lapis_material_behavior.1": "Amplifier I",
   "part_effect.modulartools.lapis_material_behavior.2": "Amplifier II",
   "part_effect.modulartools.lapis_material_behavior.3": "Amplifier III",
+  "part_effect.modulartools.lapis_material_behavior.4": "Amplifier IV",
   "part_effect.modulartools.prismarine_material_behavior.1": "Aquatic I",
   "part_effect.modulartools.prismarine_material_behavior.2": "Aquatic II",
   "part_effect.modulartools.prismarine_material_behavior.3": "Aquatic III",
@@ -78,6 +80,7 @@
   "tool_description.modulartools.lapis_material_behavior.rod": "Lapis Rod",
   "tool_description.modulartools.lapis_material_behavior.trim": "Lapis Trim",
   "tool_description.modulartools.prismarine_material_behavior.modulartools.axe": "Prismarine Axe",
+  "tool_description.modulartools.prismarine_material_behavior.modulartools.pickaxe": "Prismarine Pickaxe",
   "tool_description.modulartools.prismarine_material_behavior.modulartools.shovel": "Prismarine Shovel",
   "tool_description.modulartools.prismarine_material_behavior.modulartools.sword": "Prismarine Sword",
   "tool_description.modulartools.prismarine_material_behavior.rod": "Prismarine Rod",

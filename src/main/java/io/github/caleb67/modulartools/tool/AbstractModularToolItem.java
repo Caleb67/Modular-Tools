@@ -56,7 +56,7 @@ public abstract class AbstractModularToolItem extends Item {
             return super.getName(itemStack);
     }
 
-    protected abstract @NotNull HeadType getHeadType();
+    public abstract @NotNull HeadType getHeadType();
 
     @Override
     public void appendHoverText(ItemStack itemStack, TooltipContext context,

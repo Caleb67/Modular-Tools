@@ -1,31 +1,34 @@
 package io.github.caleb67.modulartools.register;
 
 import io.github.caleb67.modulartools.ModularTools;
-import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
-import io.github.caleb67.modulartools.tool.BaseAxeItem;
-import io.github.caleb67.modulartools.tool.HeadType;
-import io.github.caleb67.modulartools.tool.ToolTemplateItem;
+import io.github.caleb67.modulartools.tool.*;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.TooltipDisplay;
+import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Items {
 
-    public static final Item BASE_PICKAXE_TOOL = register(
+    public static final AbstractModularToolItem BASE_PICKAXE_TOOL = register(
             "base_pickaxe_tool",
             properties -> new AbstractModularToolItem(properties) {
-                @Override protected @NotNull HeadType getHeadType() {return new HeadType.Pickaxe();}
+                @Override public @NotNull HeadType getHeadType() {return new HeadType.Pickaxe();}
             },
             new Item.Properties().stacksTo(1)
                     .durability(ToolMaterial.WOOD.durability())
@@ -44,10 +47,10 @@ public class Items {
             new Item.Properties()
     );
 
-    public static final Item BASE_SHOVEL_TOOL = register(
+    public static final AbstractModularToolItem BASE_SHOVEL_TOOL = register(
             "base_shovel_tool",
             properties -> new AbstractModularToolItem(properties) {
-                @Override protected @NotNull HeadType getHeadType() {return new HeadType.Shovel();}
+                @Override public @NotNull HeadType getHeadType() {return new HeadType.Shovel();}
             },
             new Item.Properties().stacksTo(1)
                     .durability(ToolMaterial.WOOD.durability())
@@ -66,7 +69,7 @@ public class Items {
             new Item.Properties()
     );
 
-    public static final Item BASE_AXE_TOOL = register(
+    public static final BaseAxeItem BASE_AXE_TOOL = register(
             "base_axe_tool",
             properties -> new BaseAxeItem(properties),
             new Item.Properties().stacksTo(1)
@@ -86,10 +89,10 @@ public class Items {
             new Item.Properties()
     );
 
-    public static final Item BASE_SWORD_TOOL = register(
+    public static final AbstractModularToolItem BASE_SWORD_TOOL = register(
             "base_sword_tool",
             properties -> new AbstractModularToolItem(properties) {
-                @Override protected @NotNull HeadType getHeadType() {return new HeadType.Sword();}
+                @Override public @NotNull HeadType getHeadType() {return new HeadType.Sword();}
             },
             new Item.Properties().stacksTo(1)
                     .durability(ToolMaterial.WOOD.durability())
@@ -120,8 +123,8 @@ public class Items {
             new Item.Properties().stacksTo(1)
     );
 
-    private static Item register(String name,
-                                 Function<Item.Properties, Item> factory,
+    private static <T extends Item> T register(String name,
+                                 Function<Item.Properties, T> factory,
                                  Item.Properties properties) {
         var key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(ModularTools.MODID, name));
         var item = factory.apply(properties.setId(key));

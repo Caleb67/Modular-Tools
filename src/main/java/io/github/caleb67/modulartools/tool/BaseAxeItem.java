@@ -18,7 +18,7 @@ public class BaseAxeItem extends AbstractModularToolItem{
     }
 
     @Override
-    protected @NotNull HeadType getHeadType() {
+    public @NotNull HeadType getHeadType() {
         return new HeadType.Axe();
     }
 }

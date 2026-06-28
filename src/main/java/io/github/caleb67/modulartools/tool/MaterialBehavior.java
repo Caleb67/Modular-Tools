@@ -116,11 +116,16 @@ public class MaterialBehavior {
         return Optional.empty();
     }
 
-    public void addHeadTypeAttributes(HeadType key, float baseAttackDamage, float baseAttackSpeed) {
-        if (this.attribute_map.containsKey(key))
-            throw new IllegalArgumentException("HeadType '"+key.getName()+"' already has attributes for material '"+this.key.identifier()+"'!");
+    public void addHeadTypeAttributes(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
+        if (this.attribute_map.containsKey(type))
+            throw new IllegalArgumentException("HeadType '"+type.getName()+"' already has attributes for material '"+this.key.identifier()+"'!");
         else
-            this.attribute_map.put(key, new Attribute(baseAttackDamage, baseAttackSpeed));
+            this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
+    }
+
+    public boolean hasHeadTypeAttributes(HeadType type) {
+        Attribute attribute = this.attribute_map.get(type);
+        return attribute != null;
     }
 
     public static Set<MaterialBehavior> fromItem(Item item) {
