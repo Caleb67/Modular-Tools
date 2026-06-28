@@ -2,8 +2,7 @@ package io.github.caleb67.modulartools.network;
 
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.content.blocks.ForgeMenu;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.core.BlockPos;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -11,9 +10,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.UUID;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.SoundType;
 
 public record ServerboundForgeToolPayload(int containerId) implements CustomPacketPayload {
     public static final Identifier FORGE_TOOL_PAYLOAD_ID = Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge_tool");
@@ -30,8 +28,9 @@ public record ServerboundForgeToolPayload(int containerId) implements CustomPack
     // !TODO play sound effects
     public static void handle(ServerboundForgeToolPayload packet, ServerPlayer player, ServerLevel level) {
         if (player.containerMenu instanceof ForgeMenu fm && fm.containerId == packet.containerId()) {
-
-            fm.attemptForge(level);
+            boolean result = fm.attemptForge(level);
+            ClientboundForgeToolResultPayload payload = new ClientboundForgeToolResultPayload(result);
+            ServerPlayNetworking.send(player, payload);
         }
     }
 }

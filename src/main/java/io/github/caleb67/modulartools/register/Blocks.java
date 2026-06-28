@@ -13,14 +13,14 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import java.util.function.Function;
 
 public class Blocks {
-    public static final Block FORGE = register(
+    public static final ForgeBlock FORGE = register(
             "forge",
             ForgeBlock::new,
             BlockBehaviour.Properties.of()
     );
 
-    private static Block register(String name,
-                                  Function<BlockBehaviour.Properties, Block> factory,
+    private static <T extends Block> T register(String name,
+                                  Function<BlockBehaviour.Properties, T> factory,
                                   BlockBehaviour.Properties properties) {
         var key = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(ModularTools.MODID, name));
         var block = factory.apply(properties.setId(key));

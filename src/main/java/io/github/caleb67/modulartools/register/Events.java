@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.register;
 
 import io.github.caleb67.modulartools.content.EndTickEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
+import io.github.caleb67.modulartools.content.blocks.ForgeMenu;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -44,6 +45,12 @@ public class Events {
                 } else {
                     attack_speed_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
                     attack_damage_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
+                }
+
+
+                // update Menus if open
+                if (serverPlayer.containerMenu instanceof ForgeMenu fm) {
+                    fm.updateFuel();
                 }
             });
         });

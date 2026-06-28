@@ -12,6 +12,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,6 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
 
 public class ForgeBlock extends Block implements EntityBlock {
     public static final Component CONTAINER_NAME = Component.translatable(
@@ -36,7 +39,10 @@ public class ForgeBlock extends Block implements EntityBlock {
 
     @Override protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         return new SimpleMenuProvider(
-                (containerId, inventory, player) -> new ForgeMenu(containerId, inventory, ContainerLevelAccess.create(level, pos)),
+                (containerId, inventory, player) -> new ForgeMenu(
+                        containerId, inventory, ContainerLevelAccess.create(level, pos),
+                        new SimpleContainerData(1)
+                ),
                 CONTAINER_NAME
         );
     }
@@ -53,13 +59,24 @@ public class ForgeBlock extends Block implements EntityBlock {
     }
 
     @Nullable
-    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+                                                                            BlockEntityType<T> type) {
         return (level1, pos, state1, entity) -> ForgeBlockEntity.tick(level1, pos, state1, (ForgeBlockEntity) entity);
     }
 
+    public Optional<Map.Entry<BlockPos, BlockPos>> getBlastFurnaces(Level level, BlockPos pos,
+                                                                        BlockState state) {
+        var furnaces = new ArrayList<BlockPos>();
+        for (BlockPos pos1 : getSurrounding(pos)) {
+            if (level.getBlockState(pos1).is(Blocks.BLAST_FURNACE)) {
+                furnaces.add(pos1);
+            }
+        }
+        if (furnaces.size() == 2) return Optional.of(Map.entry(furnaces.get(0), furnaces.get(1)));
+        else return Optional.empty();
+    };
 
-
-    public static boolean satisfiesConditions(BlockPos pos, ServerLevel level) {
+    private static ArrayList<BlockPos> getSurrounding(BlockPos pos) {
         ArrayList<BlockPos> positions = new ArrayList<>();
         positions.add(pos.north());
         positions.add(pos.east());
@@ -69,6 +86,11 @@ public class ForgeBlock extends Block implements EntityBlock {
         positions.add(pos.north().west());
         positions.add(pos.south().east());
         positions.add(pos.south().west());
+        return positions;
+    }
+
+    public static boolean satisfiesConditions(BlockPos pos, ServerLevel level) {
+        var positions = getSurrounding(pos);
 
         int anvils = 0;
         int stone = 0;
