@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.tool;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
+import io.github.caleb67.modulartools.content.materials.QuartzMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
@@ -191,6 +192,7 @@ public abstract class AbstractModularToolItem extends Item {
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         EmeraldMaterialBehavior.testAndApply(itemStack, level);
+        QuartzMaterialBehavior.testAndApply(itemStack, level);
         super.inventoryTick(itemStack, level, owner, slot);
     }
 

@@ -30,6 +30,8 @@ public class ShovelModels {
                 itemModelGenerators.createFlatItemModel(Items.BASE_SHOVEL_TOOL, "_prismarine_head", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisShovelHead = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.BASE_SHOVEL_TOOL, "_lapis_head", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzShovelHead = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.BASE_SHOVEL_TOOL, "_quartz_head", ModelTemplates.FLAT_HANDHELD_ITEM));
 
 
         ItemModel.Unbaked woodShovelToolTrim = ItemModelUtils.plainModel(
@@ -50,6 +52,8 @@ public class ShovelModels {
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_shovel_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisShovelToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_shovel_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzShovelToolTrim = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.TRIM, "_shovel_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModelGenerators.itemModelOutput.accept(
                 Items.BASE_SHOVEL_TOOL,
@@ -63,7 +67,8 @@ public class ShovelModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.ironToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.copperToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.prismarineToolRod),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.quartzToolRod)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_HEAD),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodShovelHead),
@@ -74,7 +79,8 @@ public class ShovelModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironShovelHead),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperShovelHead),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineShovelHead),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisShovelHead)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisShovelHead),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzShovelHead)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_TRIM),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodShovelToolTrim),
@@ -85,7 +91,8 @@ public class ShovelModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironShovelToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperShovelToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineShovelToolTrim),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisShovelToolTrim)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisShovelToolTrim),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzShovelToolTrim)
                         )
                 )
         );

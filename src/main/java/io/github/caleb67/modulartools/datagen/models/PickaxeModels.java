@@ -29,6 +29,8 @@ public class PickaxeModels {
                 itemModelGenerators.createFlatItemModel(Items.BASE_PICKAXE_TOOL, "_prismarine_head", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisPickaxeHead = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.BASE_PICKAXE_TOOL, "_lapis_head", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzPickaxeHead = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.BASE_PICKAXE_TOOL, "_quartz_head", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         ItemModel.Unbaked woodPickaxeToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_pickaxe_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -48,6 +50,8 @@ public class PickaxeModels {
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_pickaxe_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisPickaxeToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_pickaxe_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzPickaxeToolTrim = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.TRIM, "_pickaxe_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModelGenerators.itemModelOutput.accept(
                 Items.BASE_PICKAXE_TOOL,
@@ -61,7 +65,8 @@ public class PickaxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.ironToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.copperToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.prismarineToolRod),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.quartzToolRod)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_HEAD),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodPickaxeHead),
@@ -72,7 +77,8 @@ public class PickaxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironPickaxeHead),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperPickaxeHead),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarinePickaxeHead),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisPickaxeHead)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisPickaxeHead),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzPickaxeHead)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_TRIM),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodPickaxeToolTrim),
@@ -83,7 +89,8 @@ public class PickaxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironPickaxeToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperPickaxeToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarinePickaxeToolTrim),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisPickaxeToolTrim)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisPickaxeToolTrim),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzPickaxeToolTrim)
                         )
                 )
         );

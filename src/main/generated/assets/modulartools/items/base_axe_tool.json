@@ -67,6 +67,13 @@
               "model": "modulartools:item/rod_lapis"
             },
             "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_quartz"
+            },
+            "when": "modulartools:quartz_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -137,6 +144,13 @@
               "model": "modulartools:item/base_axe_tool_lapis_head"
             },
             "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_axe_tool_quartz_head"
+            },
+            "when": "modulartools:quartz_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -207,6 +221,13 @@
               "model": "modulartools:item/trim_axe_lapis"
             },
             "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/trim_axe_quartz"
+            },
+            "when": "modulartools:quartz_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

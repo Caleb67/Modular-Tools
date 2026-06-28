@@ -30,6 +30,8 @@ public class AxeModels {
                 itemModelGenerators.createFlatItemModel(Items.BASE_AXE_TOOL, "_prismarine_head", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisAxeHead = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.BASE_AXE_TOOL, "_lapis_head", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzAxeHead = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.BASE_AXE_TOOL, "_quartz_head", ModelTemplates.FLAT_HANDHELD_ITEM));
 
 
         ItemModel.Unbaked woodAxeToolTrim = ItemModelUtils.plainModel(
@@ -50,6 +52,8 @@ public class AxeModels {
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_axe_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lapisAxeToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_axe_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked quartzAxeToolTrim = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.TRIM, "_axe_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModelGenerators.itemModelOutput.accept(
                 Items.BASE_AXE_TOOL,
@@ -63,7 +67,8 @@ public class AxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.ironToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.copperToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.prismarineToolRod),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisToolRod),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.quartzToolRod)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_HEAD),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodAxeHead),
@@ -74,7 +79,8 @@ public class AxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironAxeHead),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperAxeHead),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineAxeHead),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisAxeHead)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisAxeHead),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzAxeHead)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_TRIM),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodAxeToolTrim),
@@ -85,7 +91,8 @@ public class AxeModels {
                                 ItemModelUtils.when(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.key, ironAxeToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperAxeToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineAxeToolTrim),
-                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisAxeToolTrim)
+                                ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisAxeToolTrim),
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzAxeToolTrim)
                         )
                 )
         );

@@ -17,9 +17,8 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 import java.util.Optional;
 
-public class EmeraldMaterialBehavior extends MaterialBehavior {
-
-    public EmeraldMaterialBehavior(Properties properties) {
+public class QuartzMaterialBehavior extends MaterialBehavior {
+    public QuartzMaterialBehavior(Properties properties) {
         super(properties);
     }
 
@@ -49,25 +48,23 @@ public class EmeraldMaterialBehavior extends MaterialBehavior {
         var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_rod).value();
         var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_trim).value();
 
-        int enchant_level = 0;
-        if (head instanceof EmeraldMaterialBehavior)
-            enchant_level++;
-        if (rod instanceof EmeraldMaterialBehavior)
-            enchant_level++;
-        if (trim instanceof EmeraldMaterialBehavior)
-            enchant_level++;
+        boolean should_enchant;
+        if (head instanceof QuartzMaterialBehavior ||
+            rod instanceof QuartzMaterialBehavior ||
+            trim instanceof QuartzMaterialBehavior) {
+            should_enchant = true;
+        } else {
+            should_enchant = false;
+        }
 
-        Holder<Enchantment> fortune = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
-        Holder<Enchantment> looting = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
+        Holder<Enchantment> silk_touch = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH);
 
         var enchantments = itemStack.getEnchantments();
         var item_enchantments = new ItemEnchantments.Mutable(enchantments);
 
-        item_enchantments.removeIf(enchantmentHolder -> enchantmentHolder.value() == fortune.value() ||
-                                                        enchantmentHolder.value() == looting.value());
-        if (enchant_level > 0) {
-            item_enchantments.set(fortune, enchant_level);
-            item_enchantments.set(looting, enchant_level);
+        item_enchantments.removeIf(enchantmentHolder -> enchantmentHolder.value() == silk_touch.value());
+        if (should_enchant) {
+            item_enchantments.set(silk_touch, 1);
         }
         EnchantmentHelper.setEnchantments(itemStack,item_enchantments.toImmutable());
     }

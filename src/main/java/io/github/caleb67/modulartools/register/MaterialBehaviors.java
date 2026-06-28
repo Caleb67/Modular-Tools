@@ -127,6 +127,19 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.BLUE)
     );
 
+    public static final MaterialBehavior QUARTZ_MATERIAL_BEHAVIOR = register(
+            "quartz_material_behavior",
+            QuartzMaterialBehavior::new,
+            new MaterialBehavior.Properties()
+                    .toolMaterial(ToolMaterial.IRON)
+                    .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
+                    .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
+                    .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+                    .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
+                    .setFormatting(ChatFormatting.YELLOW)
+                    .setEffectFormatting(ChatFormatting.WHITE, ChatFormatting.ITALIC)
+    );
+
 
     private static MaterialBehavior register(String name, Function<MaterialBehavior.Properties, MaterialBehavior> factory, MaterialBehavior.Properties properties) {
         var key = ResourceKey.create(ModularToolsRegistries.MATERIAL_BEHAVIOR.key(), Identifier.fromNamespaceAndPath(ModularTools.MODID, name));

@@ -18,6 +18,7 @@ public class CommonModels {
     public final ItemModel.Unbaked copperToolRod;
     public final ItemModel.Unbaked prismarineToolRod;
     public final ItemModel.Unbaked lapisToolRod;
+    public final ItemModel.Unbaked quartzToolRod;
 
     public final ItemModel.Unbaked woodSwordToolRod;
     public final ItemModel.Unbaked stoneSwordToolRod;
@@ -28,6 +29,7 @@ public class CommonModels {
     public final ItemModel.Unbaked copperSwordToolRod;
     public final ItemModel.Unbaked prismarineSwordToolRod;
     public final ItemModel.Unbaked lapisSwordToolRod;
+    public final ItemModel.Unbaked quartzSwordToolRod;
     private CommonModels(ItemModelGenerators itemModelGenerators) {
         woodToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -47,6 +49,8 @@ public class CommonModels {
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         lapisToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+        quartzToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         woodSwordToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -66,6 +70,8 @@ public class CommonModels {
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_prismarine", ModelTemplates.FLAT_HANDHELD_ITEM));
         lapisSwordToolRod = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
+        quartzSwordToolRod = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_sword_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
     }
 
     public static void load(ItemModelGenerators itemModelGenerators) {

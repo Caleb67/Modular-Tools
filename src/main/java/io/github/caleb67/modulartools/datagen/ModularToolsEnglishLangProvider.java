@@ -43,6 +43,10 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, 2), "Aquatic II");
         translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, 3), "Aquatic III");
         translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, 4), "Aquatic IV");
+        translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, 1), "Silk Touch");
+        translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, 2), "Silk Touch");
+        translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, 3), "Silk Touch");
+        translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, 4), "Silk Touch");
 
         translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, 1), "Amplifier I");
         translationBuilder.add(TranslationUtil.makeEffectDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, 2), "Amplifier II");
@@ -64,6 +68,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
                 TranslationUtil.makeToolDescId(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, new HeadType.Pickaxe()), "Copper Pickaxe");
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Pickaxe()), "Lapis Pickaxe");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, new HeadType.Pickaxe()), "Quartz Pickaxe");
 
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Wood Shovel");
@@ -83,6 +89,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
                 TranslationUtil.makeToolDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Prismarine Shovel");
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Lapis Shovel");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, new HeadType.Shovel()), "Quartz Shovel");
 
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Wood Axe");
@@ -102,6 +110,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
                 TranslationUtil.makeToolDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Prismarine Axe");
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Lapis Axe");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, new HeadType.Axe()), "Quartz Axe");
 
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Wood Sword");
@@ -121,6 +131,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
                 TranslationUtil.makeToolDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Prismarine Sword");
         translationBuilder.add(
                 TranslationUtil.makeToolDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Lapis Sword");
+        translationBuilder.add(
+                TranslationUtil.makeToolDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, new HeadType.Sword()), "Quartz Sword");
 
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, Part.ROD), "Wood Rod");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR.key, Part.ROD), "Stone Rod");
@@ -131,6 +143,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, Part.ROD), "Copper Rod");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, Part.ROD), "Prismarine Rod");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, Part.ROD), "Lapis Rod");
+        translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, Part.ROD), "Quartz Rod");
 
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, Part.TRIM), "Wood Trim");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR.key, Part.TRIM), "Stone Trim");
@@ -141,6 +154,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, Part.TRIM), "Copper Trim");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, Part.TRIM), "Prismarine Trim");
         translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, Part.TRIM), "Lapis Trim");
+        translationBuilder.add(TranslationUtil.makePartDescId(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, Part.TRIM), "Quartz Trim");
 
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
