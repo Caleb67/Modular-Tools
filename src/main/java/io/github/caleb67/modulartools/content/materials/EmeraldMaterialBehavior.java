@@ -57,6 +57,8 @@ public class EmeraldMaterialBehavior extends MaterialBehavior {
         if (trim instanceof EmeraldMaterialBehavior)
             enchant_level++;
 
+        enchant_level = enchant_level * LapisMaterialBehavior.getAmplifierAmount(itemStack);
+
         Holder<Enchantment> fortune = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
         Holder<Enchantment> looting = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
 
