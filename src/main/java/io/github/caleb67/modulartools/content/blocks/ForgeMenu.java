@@ -1,7 +1,6 @@
 package io.github.caleb67.modulartools.content.blocks;
 
 import io.github.caleb67.modulartools.ModularTools;
-import io.github.caleb67.modulartools.network.ClientboundForgeToolResultPayload;
 import io.github.caleb67.modulartools.network.ServerboundForgeToolPayload;
 import io.github.caleb67.modulartools.register.Blocks;
 import io.github.caleb67.modulartools.register.MTDataComponents;

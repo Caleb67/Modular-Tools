@@ -10,8 +10,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.SoundType;
 
 public record ServerboundForgeToolPayload(int containerId) implements CustomPacketPayload {
     public static final Identifier FORGE_TOOL_PAYLOAD_ID = Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge_tool");

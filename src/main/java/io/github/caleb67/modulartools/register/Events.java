@@ -8,8 +8,6 @@ import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.client.telemetry.events.WorldLoadEvent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;

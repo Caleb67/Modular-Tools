@@ -7,11 +7,9 @@ import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.QuartzMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
-import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipExecutor;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -36,9 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
