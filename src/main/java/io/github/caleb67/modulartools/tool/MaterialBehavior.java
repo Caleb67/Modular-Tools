@@ -1,6 +1,7 @@
 package io.github.caleb67.modulartools.tool;
 
 import io.github.caleb67.modulartools.ModularToolsRegistries;
+import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
@@ -61,7 +62,8 @@ public class MaterialBehavior {
 
         if (level.isClientSide() || state.getDestroySpeed(level, pos) <= 0.0F || tool.damagePerBlock() <= 0) return true;
 
-        itemStack.hurtAndBreak(tool.damagePerBlock(), owner, EquipmentSlot.MAINHAND);
+        if (!DiamondMaterialBehavior.shouldNotDamage(itemStack, owner.getRandom()))
+            itemStack.hurtAndBreak(tool.damagePerBlock(), owner, EquipmentSlot.MAINHAND);
 
         return true;
     }

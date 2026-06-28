@@ -31,6 +31,9 @@ public class SwordModels {
                 itemModelGenerators.createFlatItemModel(Items.BASE_SWORD_TOOL, "_lapis_head", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked quartzSwordHead = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.BASE_SWORD_TOOL, "_quartz_head", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked diamondSwordHead = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.BASE_SWORD_TOOL, "_diamond_head", ModelTemplates.FLAT_HANDHELD_ITEM));
+
 
         ItemModel.Unbaked woodSwordToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_sword_wood", ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -52,6 +55,8 @@ public class SwordModels {
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_sword_lapis", ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked quartzSwordToolTrim = ItemModelUtils.plainModel(
                 itemModelGenerators.createFlatItemModel(Items.TRIM, "_sword_quartz", ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked diamondSwordToolTrim = ItemModelUtils.plainModel(
+                itemModelGenerators.createFlatItemModel(Items.TRIM, "_sword_diamond", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModelGenerators.itemModelOutput.accept(
                 Items.BASE_SWORD_TOOL,
@@ -66,7 +71,8 @@ public class SwordModels {
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.copperSwordToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.prismarineSwordToolRod),
                                 ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.lapisSwordToolRod),
-                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.quartzSwordToolRod)
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.quartzSwordToolRod),
+                                ItemModelUtils.when(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR.key, CommonModels.commonModels.diamondSwordToolRod)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_HEAD),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodSwordHead),
@@ -78,7 +84,8 @@ public class SwordModels {
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperSwordHead),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineSwordHead),
                                 ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisSwordHead),
-                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzSwordHead)
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzSwordHead),
+                                ItemModelUtils.when(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR.key, diamondSwordHead)
                         ),
                         ItemModelUtils.select(new ComponentContents<>(MTDataComponents.MODULAR_TOOL_TRIM),
                                 ItemModelUtils.when(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key, woodSwordToolTrim),
@@ -90,7 +97,8 @@ public class SwordModels {
                                 ItemModelUtils.when(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.key, copperSwordToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.key, prismarineSwordToolTrim),
                                 ItemModelUtils.when(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR.key, lapisSwordToolTrim),
-                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzSwordToolTrim)
+                                ItemModelUtils.when(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.key, quartzSwordToolTrim),
+                                ItemModelUtils.when(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR.key, diamondSwordToolTrim)
                         )
                 )
         );

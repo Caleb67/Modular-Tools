@@ -74,6 +74,13 @@
               "model": "modulartools:item/rod_sword_quartz"
             },
             "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_diamond"
+            },
+            "when": "modulartools:diamond_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -151,6 +158,13 @@
               "model": "modulartools:item/base_sword_tool_quartz_head"
             },
             "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_diamond_head"
+            },
+            "when": "modulartools:diamond_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -228,6 +242,13 @@
               "model": "modulartools:item/trim_sword_quartz"
             },
             "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/trim_sword_diamond"
+            },
+            "when": "modulartools:diamond_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

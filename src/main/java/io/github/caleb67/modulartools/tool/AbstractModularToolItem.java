@@ -2,6 +2,7 @@ package io.github.caleb67.modulartools.tool;
 
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
+import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.QuartzMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
@@ -138,7 +139,8 @@ public abstract class AbstractModularToolItem extends Item {
 
     @Override
     public void hurtEnemy(ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {
-        itemStack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+        if (!DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom()))
+            itemStack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 
         var tool_head = getToolHead(itemStack);
         var tool_rod = getToolRod(itemStack);
