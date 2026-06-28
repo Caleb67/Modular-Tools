@@ -26,12 +26,7 @@ public class ModularToolsModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
-        CommonModels.load(itemModelGenerators);
-        PickaxeModels.generateItemModels(itemModelGenerators);
-        ShovelModels.generateItemModels(itemModelGenerators);
-        AxeModels.generateItemModels(itemModelGenerators);
-        SwordModels.generateItemModels(itemModelGenerators);
-
+        ToolModels.generateItemModels(itemModelGenerators);
         itemModelGenerators.generateFlatItem(Items.PICKAXE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(Items.SHOVEL_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(Items.AXE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);

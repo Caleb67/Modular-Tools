@@ -8,37 +8,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_wood"
-            },
-            "when": "modulartools:wood_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_stone"
-            },
-            "when": "modulartools:stone_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_gold"
-            },
-            "when": "modulartools:gold_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
               "model": "modulartools:item/rod_sword_blaze"
             },
             "when": "modulartools:blaze_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_emerald"
-            },
-            "when": "modulartools:emerald_material_behavior"
           },
           {
             "model": {
@@ -50,16 +22,23 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_copper"
+              "model": "modulartools:item/rod_sword_prismarine"
             },
-            "when": "modulartools:copper_material_behavior"
+            "when": "modulartools:prismarine_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_prismarine"
+              "model": "modulartools:item/rod_sword_gold"
             },
-            "when": "modulartools:prismarine_material_behavior"
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_diamond"
+            },
+            "when": "modulartools:diamond_material_behavior"
           },
           {
             "model": {
@@ -71,6 +50,27 @@
           {
             "model": {
               "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_emerald"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_copper"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_stone"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
               "model": "modulartools:item/rod_sword_quartz"
             },
             "when": "modulartools:quartz_material_behavior"
@@ -78,9 +78,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/rod_sword_diamond"
+              "model": "modulartools:item/rod_sword_wood"
             },
-            "when": "modulartools:diamond_material_behavior"
+            "when": "modulartools:wood_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -92,37 +92,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_wood_head"
-            },
-            "when": "modulartools:wood_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_stone_head"
-            },
-            "when": "modulartools:stone_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_gold_head"
-            },
-            "when": "modulartools:gold_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
               "model": "modulartools:item/base_sword_tool_blaze_head"
             },
             "when": "modulartools:blaze_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_emerald_head"
-            },
-            "when": "modulartools:emerald_material_behavior"
           },
           {
             "model": {
@@ -134,16 +106,23 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_copper_head"
+              "model": "modulartools:item/base_sword_tool_prismarine_head"
             },
-            "when": "modulartools:copper_material_behavior"
+            "when": "modulartools:prismarine_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_prismarine_head"
+              "model": "modulartools:item/base_sword_tool_gold_head"
             },
-            "when": "modulartools:prismarine_material_behavior"
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_diamond_head"
+            },
+            "when": "modulartools:diamond_material_behavior"
           },
           {
             "model": {
@@ -155,6 +134,27 @@
           {
             "model": {
               "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_emerald_head"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_copper_head"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_stone_head"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
               "model": "modulartools:item/base_sword_tool_quartz_head"
             },
             "when": "modulartools:quartz_material_behavior"
@@ -162,9 +162,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_sword_tool_diamond_head"
+              "model": "modulartools:item/base_sword_tool_wood_head"
             },
-            "when": "modulartools:diamond_material_behavior"
+            "when": "modulartools:wood_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -176,79 +176,79 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_wood"
-            },
-            "when": "modulartools:wood_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_stone"
-            },
-            "when": "modulartools:stone_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_gold"
-            },
-            "when": "modulartools:gold_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_blaze"
+              "model": "modulartools:item/base_sword_tool_blaze_trim"
             },
             "when": "modulartools:blaze_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_emerald"
-            },
-            "when": "modulartools:emerald_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_iron"
+              "model": "modulartools:item/base_sword_tool_iron_trim"
             },
             "when": "modulartools:iron_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_copper"
-            },
-            "when": "modulartools:copper_material_behavior"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_prismarine"
+              "model": "modulartools:item/base_sword_tool_prismarine_trim"
             },
             "when": "modulartools:prismarine_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_lapis"
+              "model": "modulartools:item/base_sword_tool_gold_trim"
+            },
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_diamond_trim"
+            },
+            "when": "modulartools:diamond_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_lapis_trim"
             },
             "when": "modulartools:lapis_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_quartz"
+              "model": "modulartools:item/base_sword_tool_emerald_trim"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_copper_trim"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_stone_trim"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_quartz_trim"
             },
             "when": "modulartools:quartz_material_behavior"
           },
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/trim_sword_diamond"
+              "model": "modulartools:item/base_sword_tool_wood_trim"
             },
-            "when": "modulartools:diamond_material_behavior"
+            "when": "modulartools:wood_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

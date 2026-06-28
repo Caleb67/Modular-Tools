@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "modulartools:item/base_shovel_tool_copper_trim"
+  }
+}

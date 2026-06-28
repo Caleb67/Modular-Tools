@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "modulartools:item/base_pickaxe_tool_stone_trim"
+  }
+}
