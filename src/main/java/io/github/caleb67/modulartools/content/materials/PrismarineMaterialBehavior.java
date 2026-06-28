@@ -50,7 +50,9 @@ public class PrismarineMaterialBehavior extends MaterialBehavior {
         var player = (Player) owner;
 
         var submerged_mine_speed = player.getAttribute(Attributes.SUBMERGED_MINING_SPEED);
+        assert submerged_mine_speed != null;
         var oxygen_bonus = player.getAttribute(Attributes.OXYGEN_BONUS);
+        assert oxygen_bonus != null;
 
         if (modular_tool_head == null ||
                 modular_tool_rod == null ||

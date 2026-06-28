@@ -50,7 +50,9 @@ public class CopperMaterialBehavior extends MaterialBehavior {
         var player = (Player) owner;
 
         var block_range = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
+        assert block_range != null;
         var interaction_range = player.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
+        assert interaction_range != null;
 
         if (modular_tool_head == null ||
                 modular_tool_rod == null ||
@@ -81,15 +83,17 @@ public class CopperMaterialBehavior extends MaterialBehavior {
 
         if (increase == 0) {
             block_range.removeModifier(INCREASE_BLOCK_REACH);
-            interaction_range.removeModifier(INCREASE_BLOCK_REACH);
+            interaction_range.removeModifier(INCREASE_ENTITY_REACH);
             return;
         }
+
 
         block_range.addOrReplacePermanentModifier(new AttributeModifier(
                 INCREASE_BLOCK_REACH,
                 increase,
                 AttributeModifier.Operation.ADD_VALUE
         ));
+
         interaction_range.addOrReplacePermanentModifier(new AttributeModifier(
                 INCREASE_ENTITY_REACH,
                 increase,
