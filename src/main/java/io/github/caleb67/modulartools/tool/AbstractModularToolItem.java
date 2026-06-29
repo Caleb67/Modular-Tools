@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.tool;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
+import io.github.caleb67.modulartools.content.materials.DragonMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.QuartzMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
@@ -135,8 +136,7 @@ public abstract class AbstractModularToolItem extends Item {
 
     @Override
     public void hurtEnemy(ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {
-        if (!DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom()))
-            itemStack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+        hurtAndBreakTool(itemStack, 1, attacker, EquipmentSlot.MAINHAND);
 
         var tool_head = getToolHead(itemStack);
         var tool_rod = getToolRod(itemStack);
@@ -188,16 +188,35 @@ public abstract class AbstractModularToolItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        var tool_head = getToolHead(itemStack);
+        var tool_rod = getToolRod(itemStack);
+        var tool_trim = getToolTrim(itemStack);
+        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) {
+            super.inventoryTick(itemStack, level, owner, slot);
+            return;
+        }
+
+        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
+        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
+        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
+
+        InventoryTickContext context = new InventoryTickContext();
+
+        head.inventoryTick(context, itemStack, level, owner, slot);
+        context.add(head.key);
+        rod.inventoryTick(context, itemStack, level, owner, slot);
+        context.add(rod.key);
+        trim.inventoryTick(context, itemStack, level, owner, slot);
+        context.add(trim.key);
+
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
-        EmeraldMaterialBehavior.testAndApply(itemStack, level);
-        QuartzMaterialBehavior.testAndApply(itemStack, level);
         super.inventoryTick(itemStack, level, owner, slot);
     }
 
     protected double getSumAttributesOfParts(BiFunction<Part, HeadType, Float> head,
                                            BiFunction<Part, HeadType, Float> rod,
                                            BiFunction<Part, HeadType, Float> trim,
-                                           double divisor, ItemStack itemStack) {
+                                           double divisor) {
         var vhead = head.apply(Part.HEAD, this.getHeadType()) / divisor;
         var vrod = rod.apply(Part.ROD, this.getHeadType()) / divisor;
         var vtrim = trim.apply(Part.TRIM, this.getHeadType()) / divisor;
@@ -227,7 +246,7 @@ public abstract class AbstractModularToolItem extends Item {
                                 (part, type) -> head.getAttackSpeed(part, type, itemStack),
                                 (part, type) -> rod.getAttackSpeed(part, type, itemStack),
                                 (part, type) -> trim.getAttackSpeed(part, type, itemStack),
-                                3, itemStack
+                                3
                         ),
                         AttributeModifier.Operation.ADD_VALUE
                 )
@@ -239,7 +258,7 @@ public abstract class AbstractModularToolItem extends Item {
                                 (part, type) -> head.getAttackDamage(part, type, itemStack),
                                 (part, type) -> rod.getAttackDamage(part, type, itemStack),
                                 (part, type) -> trim.getAttackDamage(part, type, itemStack),
-                                3, itemStack
+                                3
                         ),
                         AttributeModifier.Operation.ADD_VALUE
                 )
@@ -250,14 +269,26 @@ public abstract class AbstractModularToolItem extends Item {
         var tool_head = getToolHead(itemStack);
         var tool_rod = getToolRod(itemStack);
         var tool_trim = getToolTrim(itemStack);
-
         if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
             return 0;
         // !TODO log this at some point
+        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
+        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
+        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
 
-        double head = (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value().material.durability() / 1.5);
-        double rod =(ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value().material.durability() / 1.5);
-        double trim = (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value().material.durability() / 1.5);
-        return (int) (Math.ceil(head) + Math.ceil(rod) + Math.ceil(trim));
+
+        var sum =this.getSumAttributesOfParts(
+                (_, _) -> (float) head.material.durability(),
+                (_, _) -> (float) rod.material.durability(),
+                (_, _) -> (float) trim.material.durability(),
+                1.5
+        );
+        return (int) (Math.ceil(sum));
+    }
+
+    public static void hurtAndBreakTool(ItemStack itemStack, int amount, LivingEntity attacker, EquipmentSlot slot) {
+        if (DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom())) return;
+        if (DragonMaterialBehavior.shouldNotDamage(itemStack)) return;
+        itemStack.hurtAndBreak(amount, attacker, slot);
     }
 }

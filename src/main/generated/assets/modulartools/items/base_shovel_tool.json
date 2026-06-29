@@ -81,6 +81,13 @@
               "model": "modulartools:item/rod_wood"
             },
             "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_dragon"
+            },
+            "when": "modulartools:dragon_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -165,6 +172,13 @@
               "model": "modulartools:item/base_shovel_tool_wood_head"
             },
             "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_shovel_tool_dragon_head"
+            },
+            "when": "modulartools:dragon_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -249,6 +263,13 @@
               "model": "modulartools:item/base_shovel_tool_wood_trim"
             },
             "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_shovel_tool_dragon_trim"
+            },
+            "when": "modulartools:dragon_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

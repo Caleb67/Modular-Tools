@@ -8,6 +8,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -60,8 +62,7 @@ public class MaterialBehavior {
 
         if (level.isClientSide() || state.getDestroySpeed(level, pos) <= 0.0F || tool.damagePerBlock() <= 0) return true;
 
-        if (!DiamondMaterialBehavior.shouldNotDamage(itemStack, owner.getRandom()))
-            itemStack.hurtAndBreak(tool.damagePerBlock(), owner, EquipmentSlot.MAINHAND);
+        AbstractModularToolItem.hurtAndBreakTool(itemStack, 1, owner, EquipmentSlot.MAINHAND);
 
         return true;
     }
@@ -70,6 +71,9 @@ public class MaterialBehavior {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         else return 1.0F;
     }
+
+    public void inventoryTick(final InventoryTickContext context, ItemStack itemStack, ServerLevel level,
+                              Entity owner, @Nullable EquipmentSlot slot) {}
 
     public boolean isCorrectToolForDrops(HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return true;

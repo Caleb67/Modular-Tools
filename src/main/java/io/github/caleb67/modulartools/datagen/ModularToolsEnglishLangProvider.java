@@ -42,6 +42,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         effectTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Silk Touch", false);
         effectTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Durable", true);
         effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
+        effectTranslations.accept(MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR, "Third Eye", true);
 
         BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()), name+" Pickaxe");
@@ -62,6 +63,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         toolTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Lapis");
         toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
         toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
+        toolTranslations.accept(MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR, "Dragon");
 
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");

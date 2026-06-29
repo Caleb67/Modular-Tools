@@ -69,6 +69,7 @@ public class Events {
             MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.PRISMARINE_SHARD));
             MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.QUARTZ));
             MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.DIAMOND));
+            MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.DRAGON_EGG));
         });
     }
 

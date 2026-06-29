@@ -30,7 +30,8 @@ public class ToolModels {
             Map.entry(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR,"copper"),
             Map.entry(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR,"stone"),
             Map.entry(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR,"quartz"),
-            Map.entry(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR,"wood")
+            Map.entry(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR,"wood"),
+            Map.entry(MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR,"dragon")
     );
     public static void generateItemModels(ItemModelGenerators itemModelGenerators) {
         var pickaxe_heads = makePickaxeToolHeadModels(itemModelGenerators);
