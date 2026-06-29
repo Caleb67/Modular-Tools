@@ -6,8 +6,7 @@ import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.DragonMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipExecutor;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -32,7 +31,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -64,7 +62,6 @@ public abstract class AbstractModularToolItem extends Item {
         var tool_head = getToolHead(itemStack);
         var tool_rod = getToolRod(itemStack);
         var tool_trim = getToolTrim(itemStack);
-
         tool_rod.ifPresentOrElse(
                 rod -> ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(rod).value()
                         .appendPartTooltip(Part.ROD, context, display, builder, tooltipFlag),
@@ -75,21 +72,16 @@ public abstract class AbstractModularToolItem extends Item {
                         .appendPartTooltip(Part.TRIM, context, display, builder, tooltipFlag),
                 () -> builder.accept(Component.translatable(TranslationUtil.makePartUnknown()))
         );
+        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) return;
 
-        ArrayList<ToolEffectTooltipOperation> operations = new ArrayList<>(3);
-        ToolEffectTooltipExecutor executor = new ToolEffectTooltipExecutor();
-
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
-            builder.accept(Component.translatable(TranslationUtil.makePartUnknown()));
-        else operations = executor.add(tool_head.get())
+        MaterialEffectTooltipCollector collector = new MaterialEffectTooltipCollector();
+        var operations = collector.add(tool_head.get())
                 .add(tool_rod.get())
                 .add(tool_trim.get())
                 .complete(itemStack, context, display, builder, tooltipFlag);
-
-        if (!operations.isEmpty()) {
+        if (!operations.isEmpty())
             builder.accept(Component.literal("————————").withStyle(ChatFormatting.GRAY, ChatFormatting.BOLD));
-            operations.forEach(operation -> operation.apply(executor, context, display, builder, tooltipFlag));
-        }
+        operations.forEach(operation -> operation.apply(collector, context, display, builder, tooltipFlag));
     }
 
     public static Optional<ResourceKey<MaterialBehavior>> getToolHead(ItemInstance item) {

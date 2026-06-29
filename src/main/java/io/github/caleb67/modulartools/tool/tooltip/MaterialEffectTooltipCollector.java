@@ -15,15 +15,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class ToolEffectTooltipExecutor {
+public class MaterialEffectTooltipCollector {
     private HashMap<Identifier, Integer> seen = new HashMap<>();
-    public ToolEffectTooltipExecutor add(ResourceKey<MaterialBehavior> behavior) {
+    public MaterialEffectTooltipCollector add(ResourceKey<MaterialBehavior> behavior) {
         var cur_num_visits = this.seen.getOrDefault(behavior.identifier(), 0);
         this.seen.put(behavior.identifier(), cur_num_visits + 1);
         return this;
     }
-    public ArrayList<ToolEffectTooltipOperation> complete(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
-        ArrayList<ToolEffectTooltipOperation> out = new ArrayList<>(3);
+    public ArrayList<MaterialEffectTooltipOperation> complete(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+        ArrayList<MaterialEffectTooltipOperation> out = new ArrayList<>(3);
         final var amplifier = LapisMaterialBehavior.getAmplifierAmount(itemStack);
         this.seen.forEach(((identifier, numTimes) -> {
             var key = ResourceKey.create(ModularToolsRegistries.MATERIAL_BEHAVIOR.key(), identifier);

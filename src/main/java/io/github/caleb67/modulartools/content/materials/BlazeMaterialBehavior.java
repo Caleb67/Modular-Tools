@@ -4,7 +4,7 @@ import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -61,7 +61,7 @@ public class BlazeMaterialBehavior extends MaterialBehavior {
         super(properties);
     }
 
-    public Optional<ToolEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(

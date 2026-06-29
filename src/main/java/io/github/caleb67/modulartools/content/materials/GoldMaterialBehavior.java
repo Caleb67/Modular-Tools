@@ -4,7 +4,7 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +17,7 @@ public class GoldMaterialBehavior extends MaterialBehavior {
         super(properties);
     }
 
-    public Optional<ToolEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(

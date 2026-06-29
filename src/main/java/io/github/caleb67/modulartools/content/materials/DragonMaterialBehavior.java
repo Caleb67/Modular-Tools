@@ -8,7 +8,7 @@ import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -91,7 +91,7 @@ public class DragonMaterialBehavior extends MaterialBehavior {
     }
 
     @Override
-    public Optional<ToolEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(

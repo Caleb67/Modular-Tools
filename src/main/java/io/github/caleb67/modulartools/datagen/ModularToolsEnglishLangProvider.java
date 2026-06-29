@@ -68,6 +68,11 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Axe Template");
         translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Sword Template");
 
+        translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Unknown Type Pickaxe");
+        translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Unknown Type Pickaxe");
+        translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Unknown Type Axe");
+        translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Unknown Type Sword");
+
         translationBuilder
                 .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");
 

@@ -5,7 +5,7 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
-import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -26,7 +26,7 @@ public class QuartzMaterialBehavior extends MaterialBehavior {
         super(properties);
     }
 
-    public Optional<ToolEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(
