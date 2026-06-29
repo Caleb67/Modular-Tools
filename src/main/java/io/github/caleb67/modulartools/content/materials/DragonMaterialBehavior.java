@@ -1,6 +1,7 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import com.mojang.math.Transformation;
+import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
@@ -8,18 +9,24 @@ import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipOperation;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.minecraft.client.telemetry.events.WorldLoadEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -29,7 +36,11 @@ import java.util.*;
 
 
 public class DragonMaterialBehavior extends MaterialBehavior {
+
     private HashMap<Entity, HashMap<BlockPos, Display.BlockDisplay>> active;
+    public static Component ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME = Component.literal(
+            Identifier.fromNamespaceAndPath(ModularTools.MODID, "ore_highlight_block_display").toString()
+    );
     public Colors ore_colors = new Colors() {
         private HashMap<ResourceKey<Block>, Color> colors = new HashMap<>();
         @Override public Color get(BlockState state) {
@@ -46,19 +57,34 @@ public class DragonMaterialBehavior extends MaterialBehavior {
 
     public static final ServerTickEvents.EndTick ORE_SIGHT_BEHAVIOR = minecraftServer -> {
         minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
-            var this_material = ((DragonMaterialBehavior)MaterialBehaviors
-                    .DRAGON_MATERIAL_BEHAVIOR);
+            var this_material = MaterialBehaviors
+                    .DRAGON_MATERIAL_BEHAVIOR;
             if (!this_material.active.containsKey(serverPlayer))
                 this_material.active.put(serverPlayer, new HashMap<>());
             for (var entry: this_material.active.get(serverPlayer).entrySet()) {
                 if (!entry.getValue().closerThan(serverPlayer, 5.0) &&
                         entry.getValue() != null) {
-                    entry.getValue().kill(serverPlayer.level());
+                    entry.getValue().kill((ServerLevel) entry.getValue().level());
                     entry.setValue(null);
                 }
             }
             this_material.active.get(serverPlayer).values().removeIf(Objects::isNull);
         });
+    };
+
+    public static final ServerEntityEvents.Load ORE_SIGHT_BEHAVIOR_PURGE_DISPLAYS = (entity, level) -> {
+        if (entity instanceof Display.BlockDisplay bd) {
+            var name = bd.getCustomName().getString();
+            var compare = ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString();
+            if (!name.equals(compare)) return;
+            if (MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR.active.entrySet()
+                    .stream().anyMatch(entry -> entry.getValue().containsValue(bd))) return;
+            entity.kill(level);
+        }
+    };
+
+    public static final ServerLevelEvents.Load ORE_SIGHT_BEHAVIOR_LOAD_LEVEL = (minecraftServer, level) -> {
+            MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR.active.clear();
     };
 
     public DragonMaterialBehavior(Properties properties) {
@@ -141,14 +167,11 @@ public class DragonMaterialBehavior extends MaterialBehavior {
 
         var center = owner.getOnPos();
 
-        ArrayList<Object> orePositions = new ArrayList<>();
-
-        this.getPositions(center).forEach(pos -> {
+        getPositions(center).forEach(pos -> {
             var state = level.getBlockState(pos);
             if (state.is(ConventionalBlockTags.ORES) &&
                 !this.active.get(owner).containsKey(pos)) {
-                var display = EntityTypes.BLOCK_DISPLAY.spawn(
-                        level, pos, EntitySpawnReason.TRIGGERED);
+                var display = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
                 display.setBlockState(state);
                 display.setTransformation(new Transformation(
                         null, null,
@@ -160,11 +183,16 @@ public class DragonMaterialBehavior extends MaterialBehavior {
                 display.setYRot(0);
                 display.setGlowingTag(true);
                 display.setGlowColorOverride(ore_colors.get(state).getRGB());
-
+                display.setCustomNameVisible(false);
+                display.setCustomName(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME);
                 this.active.get(owner).put(pos, display);
-                orePositions.add(pos);
+                level.addFreshEntity(display);
             }
         });
+    }
+
+    public void clearActive() {
+
     }
 
     public interface Colors {

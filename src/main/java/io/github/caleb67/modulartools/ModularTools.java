@@ -1,13 +1,12 @@
 package io.github.caleb67.modulartools;
 
 import io.github.caleb67.modulartools.content.EndTickEvents;
+
+import io.github.caleb67.modulartools.content.LevelLoadEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
+import io.github.caleb67.modulartools.content.LoadEntityEvents;
 import io.github.caleb67.modulartools.register.*;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.CreativeModeTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +28,8 @@ public class ModularTools implements ModInitializer {
         BlockEntities.load();
         LootTableChanges.load();
         EndTickEvents.load();
+        LoadEntityEvents.load();
+        LevelLoadEvents.load();
         Events.load();
         CreativeTabs.load();
     }

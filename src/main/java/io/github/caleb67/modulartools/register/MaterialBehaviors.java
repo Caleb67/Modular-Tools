@@ -38,7 +38,7 @@ public class MaterialBehaviors {
                     .setFormatting(ChatFormatting.WHITE)
     );
 
-    public static final MaterialBehavior GOLD_MATERIAL_BEHAVIOR = register(
+    public static final GoldMaterialBehavior GOLD_MATERIAL_BEHAVIOR = register(
             "gold_material_behavior",
             GoldMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -50,7 +50,7 @@ public class MaterialBehaviors {
                     .setFormatting(ChatFormatting.YELLOW)
                     .setEffectFormatting(ChatFormatting.GOLD, ChatFormatting.ITALIC)
     );
-    public static final MaterialBehavior BLAZE_MATERIAL_BEHAVIOR = register(
+    public static final BlazeMaterialBehavior BLAZE_MATERIAL_BEHAVIOR = register(
             "blaze_material_behavior",
             BlazeMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -62,7 +62,7 @@ public class MaterialBehaviors {
                     .setFormatting(ChatFormatting.AQUA)
                     .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.BOLD)
     );
-    public static final MaterialBehavior EMERALD_MATERIAL_BEHAVIOR = register(
+    public static final EmeraldMaterialBehavior EMERALD_MATERIAL_BEHAVIOR = register(
             "emerald_material_behavior",
             EmeraldMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -85,7 +85,7 @@ public class MaterialBehaviors {
                     .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
                     .setFormatting(ChatFormatting.YELLOW)
     );
-    public static final MaterialBehavior COPPER_MATERIAL_BEHAVIOR = register(
+    public static final CopperMaterialBehavior COPPER_MATERIAL_BEHAVIOR = register(
             "copper_material_behavior",
             CopperMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -98,7 +98,7 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.RED)
     );
 
-    public static final MaterialBehavior PRISMARINE_MATERIAL_BEHAVIOR = register(
+    public static final PrismarineMaterialBehavior PRISMARINE_MATERIAL_BEHAVIOR = register(
             "prismarine_material_behavior",
             PrismarineMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -111,7 +111,7 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.DARK_AQUA)
     );
 
-    public static final MaterialBehavior LAPIS_MATERIAL_BEHAVIOR = register(
+    public static final LapisMaterialBehavior LAPIS_MATERIAL_BEHAVIOR = register(
             "lapis_material_behavior",
             LapisMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -124,7 +124,7 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.BLUE)
     );
 
-    public static final MaterialBehavior QUARTZ_MATERIAL_BEHAVIOR = register(
+    public static final QuartzMaterialBehavior QUARTZ_MATERIAL_BEHAVIOR = register(
             "quartz_material_behavior",
             QuartzMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -137,7 +137,7 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.WHITE, ChatFormatting.ITALIC)
     );
 
-    public static final MaterialBehavior DIAMOND_MATERIAL_BEHAVIOR = register(
+    public static final DiamondMaterialBehavior DIAMOND_MATERIAL_BEHAVIOR = register(
             "diamond_material_behavior",
             DiamondMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -150,7 +150,7 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.AQUA, ChatFormatting.BOLD)
     );
 
-    public static final MaterialBehavior DRAGON_MATERIAL_BEHAVIOR = register(
+    public static final DragonMaterialBehavior DRAGON_MATERIAL_BEHAVIOR = register(
             "dragon_material_behavior",
             DragonMaterialBehavior::new,
             new MaterialBehavior.Properties()
@@ -164,7 +164,9 @@ public class MaterialBehaviors {
     );
 
 
-    private static MaterialBehavior register(String name, Function<MaterialBehavior.Properties, MaterialBehavior> factory, MaterialBehavior.Properties properties) {
+    private static <T extends MaterialBehavior> T register(String name,
+                                                           Function<MaterialBehavior.Properties, T> factory,
+                                                           MaterialBehavior.Properties properties) {
         var key = ResourceKey.create(ModularToolsRegistries.MATERIAL_BEHAVIOR.key(), Identifier.fromNamespaceAndPath(ModularTools.MODID, name));
         var material_behavior = factory.apply(properties.setId(key));
         return Registry.register(ModularToolsRegistries.MATERIAL_BEHAVIOR, key, material_behavior);
