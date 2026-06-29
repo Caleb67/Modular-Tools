@@ -13,10 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import org.apache.logging.log4j.util.TriConsumer;
-
-import java.util.List;
 
 public class CreativeTabs {
     public static final ResourceKey<CreativeModeTab> MODULARTOOLS_CREATIVE_TAB_KEY = ResourceKey.create(

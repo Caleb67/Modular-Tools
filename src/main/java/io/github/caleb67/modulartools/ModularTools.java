@@ -1,10 +1,9 @@
 package io.github.caleb67.modulartools;
 
 import io.github.caleb67.modulartools.content.EndTickEvents;
-
 import io.github.caleb67.modulartools.content.LevelLoadEvents;
-import io.github.caleb67.modulartools.content.LootTableChanges;
 import io.github.caleb67.modulartools.content.LoadEntityEvents;
+import io.github.caleb67.modulartools.content.LootTableChanges;
 import io.github.caleb67.modulartools.register.*;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package io.github.caleb67.modulartools.datagen;
 
-import io.github.caleb67.modulartools.datagen.models.*;
+import io.github.caleb67.modulartools.datagen.models.ToolModels;
 import io.github.caleb67.modulartools.register.Blocks;
 import io.github.caleb67.modulartools.register.Items;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;

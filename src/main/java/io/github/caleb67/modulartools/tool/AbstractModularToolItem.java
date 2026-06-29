@@ -4,8 +4,6 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.DragonMaterialBehavior;
-import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
-import io.github.caleb67.modulartools.content.materials.QuartzMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.tool.tooltip.ToolEffectTooltipExecutor;

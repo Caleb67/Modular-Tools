@@ -1,10 +1,8 @@
 package io.github.caleb67.modulartools.tool;
 
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class InventoryTickContext {
     private ArrayList<ResourceKey<MaterialBehavior>> has_been_seen = new ArrayList<>();

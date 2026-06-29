@@ -1,7 +1,6 @@
 package io.github.caleb67.modulartools.datagen;
 
 import io.github.caleb67.modulartools.ModularTools;
-import io.github.caleb67.modulartools.content.materials.EmeraldMaterialBehavior;
 import io.github.caleb67.modulartools.register.Items;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.HeadType;
@@ -13,7 +12,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import org.apache.commons.lang3.function.TriConsumer;
-import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
