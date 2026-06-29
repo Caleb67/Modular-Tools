@@ -48,6 +48,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Shovel()), name+" Shovel");
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Axe()), name+" Axe");
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Sword()), name+" Sword");
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name+" Rod");
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name+" Trim");
         };
         toolTranslations.accept(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, "Wood");
         toolTranslations.accept(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR, "Iron");
@@ -60,22 +62,6 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         toolTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Lapis");
         toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
         toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
-
-        BiConsumer<MaterialBehavior, String> partTranslations = (material, name) -> {
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name+" Rod");
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name+" Trim");
-        };
-        partTranslations.accept(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, "Wood");
-        partTranslations.accept(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR, "Iron");
-        partTranslations.accept(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR, "Stone");
-        partTranslations.accept(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, "Copper");
-        partTranslations.accept(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, "Gold");
-        partTranslations.accept(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR, "Blaze");
-        partTranslations.accept(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR, "Emerald");
-        partTranslations.accept(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR, "Prismarine");
-        partTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Lapis");
-        partTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
-        partTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
 
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
