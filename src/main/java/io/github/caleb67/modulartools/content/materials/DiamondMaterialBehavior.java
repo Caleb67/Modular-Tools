@@ -1,9 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
-import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -27,30 +26,15 @@ public class DiamondMaterialBehavior extends MaterialBehavior {
     }
 
     public static boolean shouldNotDamage(ItemStack itemStack, RandomSource randomSource) {
-        var modular_tool_head = itemStack.get(MTDataComponents.MODULAR_TOOL_HEAD);
-        var modular_tool_rod = itemStack.get(MTDataComponents.MODULAR_TOOL_ROD);
-        var modular_tool_trim = itemStack.get(MTDataComponents.MODULAR_TOOL_TRIM);
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
 
-        if (modular_tool_head == null ||
-                modular_tool_rod == null ||
-                modular_tool_trim == null) {
-            return true;
-            // !TODO log this at some point
-        }
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_head).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_rod).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_trim).value();
-
-        int count = 0;
-        if (head instanceof DiamondMaterialBehavior)
-            count++;
-        if (rod instanceof DiamondMaterialBehavior)
-            count++;
-        if (trim instanceof DiamondMaterialBehavior)
-            count++;
+        int count = (head.get() instanceof DiamondMaterialBehavior ? 1 : 0)
+            + (rod.get() instanceof DiamondMaterialBehavior ? 1 : 0)
+            + (trim.get() instanceof DiamondMaterialBehavior ? 1 : 0);
         count = count * LapisMaterialBehavior.getAmplifierAmount(itemStack);
-
         return randomSource.nextInt(6) < count;
     }
 }

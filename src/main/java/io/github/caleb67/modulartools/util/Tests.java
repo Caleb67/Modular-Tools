@@ -10,6 +10,11 @@ public class Tests {
     }
 
     @SafeVarargs
+    public static <T> Predicate<T> comprisesAll(T... array) {
+        return (t) -> Arrays.stream(array).allMatch(t::equals);
+    }
+
+    @SafeVarargs
     public static <T> Predicate<T> in(T... array) {
         return (t) -> Arrays.asList(array).contains(t);
     }

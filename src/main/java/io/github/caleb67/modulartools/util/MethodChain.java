@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class MethodChain<T> {
-    private T object;
+    protected T object;
     public MethodChain(T object) { this.object = object;}
 
     public MethodChain<T> and(Consumer<T> method) {

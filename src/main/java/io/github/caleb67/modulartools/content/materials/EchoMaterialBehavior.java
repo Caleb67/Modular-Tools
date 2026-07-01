@@ -2,14 +2,14 @@ package io.github.caleb67.modulartools.content.materials;
 
 import com.mojang.math.Transformation;
 import io.github.caleb67.modulartools.ModularTools;
-import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
+import io.github.caleb67.modulartools.util.Tests;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -62,16 +62,17 @@ public class EchoMaterialBehavior extends MaterialBehavior {
                 this_material.active.put(serverPlayer, new HashMap<>());
             for (var entry: this_material.active.get(serverPlayer).entrySet()) {
                 var display = entry.getValue();
-                var level = display.level();
-                if (!display.closerThan(serverPlayer, 5.0) &&
-                        entry.getValue() != null) {
-                    entry.getValue().kill((ServerLevel) entry.getValue().level());
-                    entry.setValue(null);
-                } else if (!level.getBlockState(BlockPos.containing(display.position().subtract(0.0001)))
-                        .is(display.getBlockState().getBlock())) {
-                    entry.getValue().kill((ServerLevel) entry.getValue().level());
-                    entry.setValue(null);
-                }
+                var level = (ServerLevel) display.level();
+                var test_pos = display.position().subtract(0.0001);
+                var test_block = display.getBlockState().getBlock();
+                if (!display.closerThan(serverPlayer, 5.0) && entry.getValue() != null)
+                    new MethodChain<>(entry)
+                        .and(Map.Entry::getValue, e -> e.kill(level))
+                        .and(Map.Entry::setValue, (Display.BlockDisplay) null);
+                else if (!level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
+                    new MethodChain<>(entry)
+                        .and(Map.Entry::getValue, e -> e.kill(level))
+                        .and(Map.Entry::setValue, (Display.BlockDisplay) null);
             }
             this_material.active.get(serverPlayer).values().removeIf(Objects::isNull);
         });
@@ -88,9 +89,8 @@ public class EchoMaterialBehavior extends MaterialBehavior {
         }
     };
 
-    public static final ServerLevelEvents.Load ORE_SIGHT_BEHAVIOR_LOAD_LEVEL = (minecraftServer, level) -> {
-            MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.clear();
-    };
+    public static final ServerLevelEvents.Load ORE_SIGHT_BEHAVIOR_LOAD_LEVEL =
+        (_, _) -> MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.clear();
 
     public EchoMaterialBehavior(Properties properties) {
         super(properties);
@@ -109,22 +109,13 @@ public class EchoMaterialBehavior extends MaterialBehavior {
     }
 
     public static boolean shouldNotDamage(ItemStack itemStack) {
-        var modular_tool_head = itemStack.get(MTDataComponents.MODULAR_TOOL_HEAD);
-        var modular_tool_rod = itemStack.get(MTDataComponents.MODULAR_TOOL_ROD);
-        var modular_tool_trim = itemStack.get(MTDataComponents.MODULAR_TOOL_TRIM);
-        if (modular_tool_head == null ||
-                modular_tool_rod == null ||
-                modular_tool_trim == null) {
-            return true;
-            // !TODO log this at some point
-        }
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_head).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_rod).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_trim).value();
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
 
-        return head instanceof EchoMaterialBehavior &&
-                rod instanceof EchoMaterialBehavior &&
-                trim instanceof EchoMaterialBehavior;
+        return Tests.comprisesAll(head.get(), rod.get(), trim.get())
+            .test(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR);
     }
 
     private void addColors() {
@@ -197,10 +188,6 @@ public class EchoMaterialBehavior extends MaterialBehavior {
                 level.addFreshEntity(display);
             }
         });
-    }
-
-    public void clearActive() {
-
     }
 
     public interface Colors {

@@ -1,9 +1,11 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
+import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
+import io.github.caleb67.modulartools.util.Tests;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -37,9 +39,8 @@ public class BlazeMaterialBehavior extends MaterialBehavior {
         var rod = Part.ROD.getMaterial(tool);
         var trim = Part.TRIM.getMaterial(tool);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return;
-        if (!(head.get() instanceof BlazeMaterialBehavior) &&
-            !(rod.get() instanceof BlazeMaterialBehavior) &&
-            !(trim.get() instanceof BlazeMaterialBehavior)) return;
+        if (!Tests.in(head.get(), rod.get(), trim.get())
+            .test(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR)) return;
 
         stacks.replaceAll(stack -> {
                     SingleRecipeInput input = new SingleRecipeInput(stack);
