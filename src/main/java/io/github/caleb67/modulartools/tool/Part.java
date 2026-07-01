@@ -1,7 +1,7 @@
 package io.github.caleb67.modulartools.tool;
 
 import io.github.caleb67.modulartools.ModularToolsRegistries;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemInstance;
 
 import java.util.Optional;
 
@@ -20,13 +20,13 @@ public enum Part {
         };
     }
 
-    public Optional<MaterialBehavior> getMaterial(ItemStack itemStack) {
+    public Optional<MaterialBehavior> getMaterial(ItemInstance itemInstance) {
         return switch (this) {
-            case HEAD -> getToolHead(itemStack).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+            case HEAD -> getToolHead(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
                         .flatMap(value -> Optional.of(value.value()));
-            case ROD -> getToolRod(itemStack).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+            case ROD -> getToolRod(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
                         .flatMap(value -> Optional.of(value.value()));
-            case TRIM -> getToolTrim(itemStack).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+            case TRIM -> getToolTrim(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
                         .flatMap(value -> Optional.of(value.value()));
         };
     }

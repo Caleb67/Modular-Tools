@@ -6,6 +6,7 @@ import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
+import io.github.caleb67.modulartools.util.Tests;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -60,13 +61,10 @@ public class EmeraldMaterialBehavior extends MaterialBehavior {
                 .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
 
         var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
-        item_enchantments.removeIf(enchantmentHolder -> enchantmentHolder.value() == fortune.value() ||
-                                                        enchantmentHolder.value() == looting.value());
-
-
+        item_enchantments.removeIf(Tests.in(fortune, looting));
         if (enchant_level > 0) new MethodChain<>(item_enchantments)
-                    .and(ie -> ie.set(fortune, enchant_level))
-                    .and(ie -> ie.set(looting, enchant_level));
+                    .and(ItemEnchantments.Mutable::set, fortune, enchant_level)
+                    .and(ItemEnchantments.Mutable::set, looting, enchant_level);
         EnchantmentHelper.setEnchantments(itemStack,item_enchantments.toImmutable());
     }
 }

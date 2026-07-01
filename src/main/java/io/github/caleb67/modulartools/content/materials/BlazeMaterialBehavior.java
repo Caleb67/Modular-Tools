@@ -1,9 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
-import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.network.chat.Component;
@@ -34,23 +33,20 @@ public class BlazeMaterialBehavior extends MaterialBehavior {
             tool = context.getParameter(LootContextParams.TOOL);
         }
 
-        var tool_head = AbstractModularToolItem.getToolHead(tool);
-        var tool_rod = AbstractModularToolItem.getToolRod(tool);
-        var tool_trim = AbstractModularToolItem.getToolTrim(tool);
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) return;
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-        if (!(head instanceof BlazeMaterialBehavior) &&
-                !(rod instanceof BlazeMaterialBehavior) &&
-                !(trim instanceof BlazeMaterialBehavior)) return;
+        var head = Part.HEAD.getMaterial(tool);
+        var rod = Part.ROD.getMaterial(tool);
+        var trim = Part.TRIM.getMaterial(tool);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return;
+        if (!(head.get() instanceof BlazeMaterialBehavior) &&
+            !(rod.get() instanceof BlazeMaterialBehavior) &&
+            !(trim.get() instanceof BlazeMaterialBehavior)) return;
 
         stacks.replaceAll(stack -> {
                     SingleRecipeInput input = new SingleRecipeInput(stack);
-                    var out_stack = SMELTING_CHECK.getRecipeFor(input, context.getLevel()).map(RecipeHolder::value)
-                            .map(recipe -> recipe.assemble(input))
-                            .orElse(stack);
+                    var out_stack = SMELTING_CHECK.getRecipeFor(input, context.getLevel())
+                        .map(RecipeHolder::value)
+                        .map(recipe -> recipe.assemble(input))
+                        .orElse(stack);
                     out_stack.setCount(stack.getCount());
                     return out_stack;
                 }
