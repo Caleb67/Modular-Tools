@@ -59,25 +59,23 @@ public abstract class AbstractModularToolItem extends Item {
     public void appendHoverText(ItemStack itemStack, TooltipContext context,
                                 TooltipDisplay display, Consumer<Component> builder,
                                 TooltipFlag tooltipFlag) {
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
+        var tool_head = Part.HEAD.getMaterial(itemStack);
+        var tool_rod = Part.ROD.getMaterial(itemStack);
+        var tool_trim = Part.TRIM.getMaterial(itemStack);
         tool_rod.ifPresentOrElse(
-                rod -> ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(rod).value()
-                        .appendPartTooltip(Part.ROD, context, display, builder, tooltipFlag),
+                rod -> rod.appendPartTooltip(Part.ROD, context, display, builder, tooltipFlag),
                 () -> builder.accept(Component.translatable(TranslationUtil.makePartUnknown()))
         );
         tool_trim.ifPresentOrElse(
-                trim -> ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(trim).value()
-                        .appendPartTooltip(Part.TRIM, context, display, builder, tooltipFlag),
+                trim -> trim.appendPartTooltip(Part.TRIM, context, display, builder, tooltipFlag),
                 () -> builder.accept(Component.translatable(TranslationUtil.makePartUnknown()))
         );
         if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) return;
 
         MaterialEffectTooltipCollector collector = new MaterialEffectTooltipCollector();
-        var operations = collector.add(tool_head.get())
-                .add(tool_rod.get())
-                .add(tool_trim.get())
+        var operations = collector.add(tool_head.get().key)
+                .add(tool_rod.get().key)
+                .add(tool_trim.get().key)
                 .complete(itemStack, context, display, builder, tooltipFlag);
         if (!operations.isEmpty())
             builder.accept(Component.literal("————————").withStyle(ChatFormatting.GRAY, ChatFormatting.BOLD));
@@ -105,21 +103,15 @@ public abstract class AbstractModularToolItem extends Item {
 
     @Override
     public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity owner) {
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.mineBlock(itemStack, level, state, pos, owner);
-        // !TODO log this at some point
 
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-
-        if (!head.mineBlock(Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner)) return false;
-        if (!rod.mineBlock(Part.ROD, new HeadType.NotApplicable(), itemStack, level, state, pos, owner)) return false;
-        if (!trim.mineBlock(Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner)) return false;
+        if (!head.get().mineBlock(Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner)) return false;
+        if (!rod.get().mineBlock(Part.ROD, new HeadType.NotApplicable(), itemStack, level, state, pos, owner)) return false;
+        if (!trim.get().mineBlock(Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner)) return false;
         return true;
     }
 
@@ -127,77 +119,60 @@ public abstract class AbstractModularToolItem extends Item {
     @Override
     public void hurtEnemy(ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {
         hurtAndBreakTool(itemStack, 1, attacker, EquipmentSlot.MAINHAND);
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) {
+            super.hurtEnemy(itemStack, mob, attacker); return;
+        }
 
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
-            super.hurtEnemy(itemStack, mob, attacker);
-        // !TODO log this at some point
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-
-        head.hurtEnemy(Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
-        rod.hurtEnemy(Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
-        trim.hurtEnemy(Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        head.get().hurtEnemy(Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
+        rod.get().hurtEnemy(Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        trim.get().hurtEnemy(Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
     }
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
-        var tool_head = getToolHead(itemStack);
-        if (tool_head.isEmpty())
-            return super.isCorrectToolForDrops(itemStack, state);
-        // !TODO log this at some point
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        return head.isCorrectToolForDrops(this.getHeadType(), itemStack, state);
+        var head = Part.HEAD.getMaterial(itemStack);
+        return head
+                .map(materialBehavior -> materialBehavior.isCorrectToolForDrops(this.getHeadType(), itemStack, state))
+                .orElseGet(() -> super.isCorrectToolForDrops(itemStack, state));
     }
 
     @Override
     public float getDestroySpeed(ItemStack itemStack, BlockState state) {
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.getDestroySpeed(itemStack, state);
-        // !TODO log this at some point
 
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-
-        var head_speed = this.getHeadType().getTool(head.material).getMiningSpeed(state) * head.getDestroySpeed(Part.HEAD, this.getHeadType(), itemStack, state);
-        var rod_speed = this.getHeadType().getTool(rod.material).getMiningSpeed(state) * rod.getDestroySpeed(Part.ROD, new HeadType.NotApplicable(), itemStack, state);
-        var trim_speed = this.getHeadType().getTool(trim.material).getMiningSpeed(state) * trim.getDestroySpeed(Part.TRIM, new HeadType.NotApplicable(), itemStack, state);
+        var head_speed = this.getHeadType().getTool(head.get().material).getMiningSpeed(state)
+                * head.get().getDestroySpeed(Part.HEAD, this.getHeadType(), itemStack, state);
+        var rod_speed = this.getHeadType().getTool(rod.get().material).getMiningSpeed(state)
+                * rod.get().getDestroySpeed(Part.ROD, new HeadType.NotApplicable(), itemStack, state);
+        var trim_speed = this.getHeadType().getTool(trim.get().material).getMiningSpeed(state)
+                * trim.get().getDestroySpeed(Part.TRIM, new HeadType.NotApplicable(), itemStack, state);
         return head_speed + rod_speed + trim_speed;
     }
 
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) {
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-
         InventoryTickContext context = new InventoryTickContext();
 
-        head.inventoryTick(context, itemStack, level, owner, slot);
-        context.add(head.key);
-        rod.inventoryTick(context, itemStack, level, owner, slot);
-        context.add(rod.key);
-        trim.inventoryTick(context, itemStack, level, owner, slot);
-        context.add(trim.key);
+        head.get().inventoryTick(context, itemStack, level, owner, slot);
+        context.add(head.get().key);
+        rod.get().inventoryTick(context, itemStack, level, owner, slot);
+        context.add(rod.get().key);
+        trim.get().inventoryTick(context, itemStack, level, owner, slot);
+        context.add(trim.get().key);
 
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         super.inventoryTick(itemStack, level, owner, slot);
@@ -218,23 +193,20 @@ public abstract class AbstractModularToolItem extends Item {
         var attack_speed_attr = player.getAttribute(Attributes.ATTACK_SPEED);
         var attack_damage_attr = player.getAttribute(Attributes.ATTACK_DAMAGE);
 
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return;
         // !TODO log this at some point
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
 
         attack_speed_attr.addOrReplacePermanentModifier(
                 new AttributeModifier(
                         BASE_ATTACK_SPEED,
                         this.getSumAttributesOfParts(
-                                (part, type) -> head.getAttackSpeed(part, type, itemStack),
-                                (part, type) -> rod.getAttackSpeed(part, type, itemStack),
-                                (part, type) -> trim.getAttackSpeed(part, type, itemStack),
+                                (part, type) -> head.get().getAttackSpeed(part, type, itemStack),
+                                (part, type) -> rod.get().getAttackSpeed(part, type, itemStack),
+                                (part, type) -> trim.get().getAttackSpeed(part, type, itemStack),
                                 3
                         ),
                         AttributeModifier.Operation.ADD_VALUE
@@ -244,9 +216,9 @@ public abstract class AbstractModularToolItem extends Item {
                 new AttributeModifier(
                         BASE_ATTACK_DAMAGE,
                         this.getSumAttributesOfParts(
-                                (part, type) -> head.getAttackDamage(part, type, itemStack),
-                                (part, type) -> rod.getAttackDamage(part, type, itemStack),
-                                (part, type) -> trim.getAttackDamage(part, type, itemStack),
+                                (part, type) -> head.get().getAttackDamage(part, type, itemStack),
+                                (part, type) -> rod.get().getAttackDamage(part, type, itemStack),
+                                (part, type) -> trim.get().getAttackDamage(part, type, itemStack),
                                 3
                         ),
                         AttributeModifier.Operation.ADD_VALUE
@@ -255,21 +227,16 @@ public abstract class AbstractModularToolItem extends Item {
     }
 
     public int findMaxDamage(ItemStack itemStack) {
-        var tool_head = getToolHead(itemStack);
-        var tool_rod = getToolRod(itemStack);
-        var tool_trim = getToolTrim(itemStack);
-        if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty())
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return 0;
-        // !TODO log this at some point
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_head.get()).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_rod.get()).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(tool_trim.get()).value();
-
 
         var sum =this.getSumAttributesOfParts(
-                (_, _) -> (float) head.material.durability(),
-                (_, _) -> (float) rod.material.durability(),
-                (_, _) -> (float) trim.material.durability(),
+                (_, _) -> (float) head.get().material.durability(),
+                (_, _) -> (float) rod.get().material.durability(),
+                (_, _) -> (float) trim.get().material.durability(),
                 1.5
         );
         return (int) (Math.ceil(sum));
