@@ -3,7 +3,6 @@ package io.github.caleb67.modulartools.tool;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
-import io.github.caleb67.modulartools.content.materials.EchoMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
@@ -255,7 +254,7 @@ public abstract class AbstractModularToolItem extends Item {
 
     public static void hurtAndBreakTool(ItemStack itemStack, int amount, LivingEntity attacker, EquipmentSlot slot) {
         if (DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom())) return;
-        if (EchoMaterialBehavior.shouldNotDamage(itemStack)) return;
+        //if (EchoMaterialBehavior.shouldNotDamage(itemStack)) return;
         itemStack.hurtAndBreak(amount, attacker, slot);
     }
 }

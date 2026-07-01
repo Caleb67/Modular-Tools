@@ -4,12 +4,11 @@ import com.mojang.math.Transformation;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
+import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
-import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
-import io.github.caleb67.modulartools.util.Tests;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -108,15 +107,15 @@ public class EchoMaterialBehavior extends MaterialBehavior {
         });
     }
 
-    public static boolean shouldNotDamage(ItemStack itemStack) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
-        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
-
-        return Tests.comprisesAll(head.get(), rod.get(), trim.get())
-            .test(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR);
-    }
+//    public static boolean shouldNotDamage(ItemStack itemStack) {
+//        var head = Part.HEAD.getMaterial(itemStack);
+//        var rod = Part.ROD.getMaterial(itemStack);
+//        var trim = Part.TRIM.getMaterial(itemStack);
+//        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
+//
+//        return Tests.comprisesAll(head.get(), rod.get(), trim.get())
+//            .test(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR);
+//    }
 
     private void addColors() {
         this.ore_colors.set(
@@ -186,6 +185,7 @@ public class EchoMaterialBehavior extends MaterialBehavior {
 
                 this.active.get(owner).put(pos, display);
                 level.addFreshEntity(display);
+                AbstractModularToolItem.hurtAndBreakTool(itemStack, 1, (LivingEntity) owner, EquipmentSlot.MAINHAND);
             }
         });
     }
