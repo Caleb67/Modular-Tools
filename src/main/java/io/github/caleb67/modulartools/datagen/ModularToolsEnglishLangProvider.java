@@ -40,7 +40,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         effectTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Silk Touch", false);
         effectTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Durable", true);
         effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
-        effectTranslations.accept(MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR, "Third Eye", true);
+        effectTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echoing", false);
 
         BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()), name+" Pickaxe");
@@ -61,17 +61,17 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         toolTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Lapis");
         toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
         toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
-        toolTranslations.accept(MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR, "Dragon");
+        toolTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echo");
 
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
         translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Axe Template");
         translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Sword Template");
 
-        translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Unknown Type Pickaxe");
-        translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Unknown Type Pickaxe");
-        translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Unknown Type Axe");
-        translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Unknown Type Sword");
+        translationBuilder.add(Items.BASE_PICKAXE_TOOL, "Unknown Type Pickaxe");
+        translationBuilder.add(Items.BASE_SHOVEL_TOOL, "Unknown Type Pickaxe");
+        translationBuilder.add(Items.BASE_AXE_TOOL, "Unknown Type Axe");
+        translationBuilder.add(Items.BASE_SWORD_TOOL, "Unknown Type Sword");
 
         translationBuilder
                 .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");

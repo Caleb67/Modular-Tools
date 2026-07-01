@@ -150,17 +150,17 @@ public class MaterialBehaviors {
                     .setEffectFormatting(ChatFormatting.AQUA, ChatFormatting.BOLD)
     );
 
-    public static final DragonMaterialBehavior DRAGON_MATERIAL_BEHAVIOR = register(
-            "dragon_material_behavior",
-            DragonMaterialBehavior::new,
+    public static final EchoMaterialBehavior ECHO_MATERIAL_BEHAVIOR = register(
+            "echo_material_behavior",
+            EchoMaterialBehavior::new,
             new MaterialBehavior.Properties()
                     .toolMaterial(ToolMaterial.NETHERITE)
                     .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
                     .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
                     .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
                     .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
-                    .setFormatting(ChatFormatting.LIGHT_PURPLE)
-                    .setEffectFormatting(ChatFormatting.DARK_PURPLE, ChatFormatting.OBFUSCATED)
+                    .setFormatting(ChatFormatting.DARK_AQUA)
+                    .setEffectFormatting(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC)
     );
 
 

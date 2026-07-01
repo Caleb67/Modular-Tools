@@ -33,7 +33,7 @@ import java.util.*;
 import java.util.List;
 
 
-public class DragonMaterialBehavior extends MaterialBehavior {
+public class EchoMaterialBehavior extends MaterialBehavior {
 
     private HashMap<Entity, HashMap<BlockPos, Display.BlockDisplay>> active;
     public static Component ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME = Component.literal(
@@ -53,15 +53,21 @@ public class DragonMaterialBehavior extends MaterialBehavior {
         public boolean isEmpty() {return colors.isEmpty();}
     };
 
-    public static final ServerTickEvents.EndTick ORE_SIGHT_BEHAVIOR = minecraftServer -> {
+    public static final ServerTickEvents.EndTick ORE_SIGHT_BEHAVIOR_CLEAR_DISPLAYS = minecraftServer -> {
         minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
             var this_material = MaterialBehaviors
-                    .DRAGON_MATERIAL_BEHAVIOR;
+                    .ECHO_MATERIAL_BEHAVIOR;
             if (!this_material.active.containsKey(serverPlayer))
                 this_material.active.put(serverPlayer, new HashMap<>());
             for (var entry: this_material.active.get(serverPlayer).entrySet()) {
-                if (!entry.getValue().closerThan(serverPlayer, 5.0) &&
+                var display = entry.getValue();
+                var level = display.level();
+                if (!display.closerThan(serverPlayer, 5.0) &&
                         entry.getValue() != null) {
+                    entry.getValue().kill((ServerLevel) entry.getValue().level());
+                    entry.setValue(null);
+                } else if (!level.getBlockState(BlockPos.containing(display.position().subtract(0.0001)))
+                        .is(display.getBlockState().getBlock())) {
                     entry.getValue().kill((ServerLevel) entry.getValue().level());
                     entry.setValue(null);
                 }
@@ -75,17 +81,17 @@ public class DragonMaterialBehavior extends MaterialBehavior {
             var name = bd.getCustomName().getString();
             var compare = ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString();
             if (!name.equals(compare)) return;
-            if (MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR.active.entrySet()
+            if (MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.entrySet()
                     .stream().anyMatch(entry -> entry.getValue().containsValue(bd))) return;
             entity.kill(level);
         }
     };
 
     public static final ServerLevelEvents.Load ORE_SIGHT_BEHAVIOR_LOAD_LEVEL = (minecraftServer, level) -> {
-            MaterialBehaviors.DRAGON_MATERIAL_BEHAVIOR.active.clear();
+            MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.clear();
     };
 
-    public DragonMaterialBehavior(Properties properties) {
+    public EchoMaterialBehavior(Properties properties) {
         super(properties);
         this.active = new HashMap<>();
     }
@@ -115,9 +121,9 @@ public class DragonMaterialBehavior extends MaterialBehavior {
         var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_rod).value();
         var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_trim).value();
 
-        return head instanceof DragonMaterialBehavior &&
-                rod instanceof DragonMaterialBehavior &&
-                trim instanceof DragonMaterialBehavior;
+        return head instanceof EchoMaterialBehavior &&
+                rod instanceof EchoMaterialBehavior &&
+                trim instanceof EchoMaterialBehavior;
     }
 
     private void addColors() {
@@ -173,10 +179,13 @@ public class DragonMaterialBehavior extends MaterialBehavior {
                 display.setBlockState(state);
                 display.setTransformation(new Transformation(
                         null, null,
-                        new Vector3f(0.99F, 0.99F, 0.99F),
+                        new Vector3f(0.999F, 0.999F, 0.999F),
                         null)
                 );
-                display.setPos(new Vec3(pos.getX(), pos.getY(), pos.getZ()));
+                display.setPos(
+                        new Vec3(pos.getX(), pos.getY(), pos.getZ())
+                                .add(0.0001)
+                );
                 display.setXRot(0);
                 display.setYRot(0);
                 display.setGlowingTag(true);
@@ -203,7 +212,7 @@ public class DragonMaterialBehavior extends MaterialBehavior {
         ArrayList<BlockPos> positions = new ArrayList<>();
         positions.add(center);
         for (int i = -2; i <= 2 ; i++) {
-            for (int j = -2; j <= 3; j++) {
+            for (int j = -1; j <= 4; j++) {
                 for (int k = -2; k <= 2; k++) {
                     positions.add(center.offset(i, j, k));
                 }

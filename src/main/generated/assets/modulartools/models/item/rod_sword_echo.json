@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "modulartools:item/rod_sword_dragon"
+    "layer0": "modulartools:item/rod_sword_echo"
   }
 }

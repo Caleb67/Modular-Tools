@@ -85,9 +85,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/rod_dragon"
+              "model": "modulartools:item/rod_echo"
             },
-            "when": "modulartools:dragon_material_behavior"
+            "when": "modulartools:echo_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -176,9 +176,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_axe_tool_dragon_head"
+              "model": "modulartools:item/base_axe_tool_echo_head"
             },
-            "when": "modulartools:dragon_material_behavior"
+            "when": "modulartools:echo_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -267,9 +267,9 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "modulartools:item/base_axe_tool_dragon_trim"
+              "model": "modulartools:item/base_axe_tool_echo_trim"
             },
-            "when": "modulartools:dragon_material_behavior"
+            "when": "modulartools:echo_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

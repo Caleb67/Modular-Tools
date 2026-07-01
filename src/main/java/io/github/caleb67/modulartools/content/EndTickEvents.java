@@ -1,7 +1,7 @@
 package io.github.caleb67.modulartools.content;
 
 import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
-import io.github.caleb67.modulartools.content.materials.DragonMaterialBehavior;
+import io.github.caleb67.modulartools.content.materials.EchoMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.PrismarineMaterialBehavior;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
@@ -13,6 +13,6 @@ public class EndTickEvents {
     public static void load() {
         changes.add(CopperMaterialBehavior.REACH_BEHAVIOR);
         changes.add(PrismarineMaterialBehavior.SUBMERGED_BEHAVIOR);
-        changes.add(DragonMaterialBehavior.ORE_SIGHT_BEHAVIOR);
+        changes.add(EchoMaterialBehavior.ORE_SIGHT_BEHAVIOR_CLEAR_DISPLAYS);
     }
 }
