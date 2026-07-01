@@ -20,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Display.BlockDisplay;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -35,12 +36,12 @@ import java.util.List;
 
 public class EchoMaterialBehavior extends MaterialBehavior {
 
-    private HashMap<Entity, HashMap<BlockPos, Display.BlockDisplay>> active;
+    private final HashMap<Entity, HashMap<BlockPos, BlockDisplay>> active;
     public static Component ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME = Component.literal(
             Identifier.fromNamespaceAndPath(ModularTools.MODID, "ore_highlight_block_display").toString()
     );
     public Colors ore_colors = new Colors() {
-        private HashMap<ResourceKey<Block>, Color> colors = new HashMap<>();
+        private final HashMap<ResourceKey<Block>, Color> colors = new HashMap<>();
         @Override public Color get(BlockState state) {
             return colors.getOrDefault(state.getBlock().properties().blockId(), Color.WHITE);
         }
@@ -67,21 +68,21 @@ public class EchoMaterialBehavior extends MaterialBehavior {
                 if (!display.closerThan(serverPlayer, 5.0) && entry.getValue() != null)
                     new MethodChain<>(entry)
                         .and(Map.Entry::getValue, e -> e.kill(level))
-                        .and(Map.Entry::setValue, (Display.BlockDisplay) null);
+                        .and(Map.Entry::setValue, (BlockDisplay) null);
                 else if (!level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
                     new MethodChain<>(entry)
                         .and(Map.Entry::getValue, e -> e.kill(level))
-                        .and(Map.Entry::setValue, (Display.BlockDisplay) null);
+                        .and(Map.Entry::setValue, (BlockDisplay) null);
             }
             this_material.active.get(serverPlayer).values().removeIf(Objects::isNull);
         });
     };
 
     public static final ServerEntityEvents.Load ORE_SIGHT_BEHAVIOR_PURGE_DISPLAYS = (entity, level) -> {
-        if (entity instanceof Display.BlockDisplay bd) {
-            var name = bd.getCustomName().getString();
-            var compare = ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString();
-            if (!name.equals(compare)) return;
+        if (entity instanceof BlockDisplay bd) {
+            var name = bd.getCustomName();
+            if (name == null) return;
+            if (!name.getString().equals(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString())) return;
             if (MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.entrySet()
                     .stream().anyMatch(entry -> entry.getValue().containsValue(bd))) return;
             entity.kill(level);
@@ -106,16 +107,6 @@ public class EchoMaterialBehavior extends MaterialBehavior {
             );
         });
     }
-
-//    public static boolean shouldNotDamage(ItemStack itemStack) {
-//        var head = Part.HEAD.getMaterial(itemStack);
-//        var rod = Part.ROD.getMaterial(itemStack);
-//        var trim = Part.TRIM.getMaterial(itemStack);
-//        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
-//
-//        return Tests.comprisesAll(head.get(), rod.get(), trim.get())
-//            .test(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR);
-//    }
 
     private void addColors() {
         this.ore_colors.set(
@@ -165,23 +156,22 @@ public class EchoMaterialBehavior extends MaterialBehavior {
                 if (display == null) return;
 
                 new MethodChain<>(display)
-                    .and(d -> d.setBlockState(state))
-                    .and(d -> d.setTransformation(
+                    .and(BlockDisplay::setBlockState, state)
+                    .and(BlockDisplay::setTransformation,
                         new Transformation(
                             null, null,
                             new Vector3f(0.999F, 0.999F, 0.999F),
-                            null
-                        )))
-                    .and(d -> d.setPos(
-                        new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                            .add(0.0001)
-                        ))
-                    .and(d -> d.setXRot(0))
-                    .and(d -> d.setYRot(0))
-                    .and(d -> d.setGlowingTag(true))
-                    .and(d -> d.setGlowColorOverride(ore_colors.get(state).getRGB()))
-                    .and(d -> d.setCustomNameVisible(false))
-                    .and(d -> d.setCustomName(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME));
+                            null)
+                    )
+                    .and(BlockDisplay::setPos,
+                        new Vec3(pos.getX(), pos.getY(), pos.getZ()).add(0.0001)
+                    )
+                    .and(BlockDisplay::setXRot, 0.0F)
+                    .and(BlockDisplay::setYRot, 0.0F)
+                    .and(BlockDisplay::setGlowingTag, true)
+                    .and(BlockDisplay::setGlowColorOverride, ore_colors.get(state).getRGB())
+                    .and(BlockDisplay::setCustomNameVisible, false)
+                    .and(BlockDisplay::setCustomName, ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME);
 
                 this.active.get(owner).put(pos, display);
                 level.addFreshEntity(display);
