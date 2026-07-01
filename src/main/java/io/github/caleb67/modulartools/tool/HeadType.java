@@ -62,10 +62,6 @@ public interface HeadType {
             ), 1.0F, 1, true);
         }
     }
-    record Spear() implements HeadType {
-        @Override
-        public Identifier getName() {return Identifier.fromNamespaceAndPath(ModularTools.MODID, "spear");}
-    }
     record NotApplicable() implements HeadType {
         @Override
         public Identifier getName() {return Identifier.fromNamespaceAndPath(ModularTools.MODID, "not_applicable");}
