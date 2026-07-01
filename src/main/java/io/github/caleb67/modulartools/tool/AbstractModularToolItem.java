@@ -6,9 +6,11 @@ import io.github.caleb67.modulartools.content.materials.DiamondMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.EchoMaterialBehavior;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
+import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -20,10 +22,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemInstance;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -31,6 +30,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -40,7 +41,17 @@ public abstract class AbstractModularToolItem extends Item {
     public static final Identifier BASE_ATTACK_DAMAGE = Identifier.fromNamespaceAndPath(ModularTools.MODID, "base_attack_damage");
 
     public AbstractModularToolItem(Properties properties) {
-        super(properties);
+        super(properties.stacksTo(1)
+                .durability(ToolMaterial.WOOD.durability())
+                .component(MTDataComponents.MODULAR_TOOL_HEAD, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                .component(MTDataComponents.MODULAR_TOOL_ROD, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                .component(MTDataComponents.MODULAR_TOOL_TRIM, MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.key)
+                .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false)
+                .component(
+                        DataComponents.TOOLTIP_DISPLAY,
+                        new TooltipDisplay(false, new LinkedHashSet<>(List.of(DataComponents.ENCHANTMENTS)))
+                )
+        );
     }
 
     @Override
@@ -178,7 +189,7 @@ public abstract class AbstractModularToolItem extends Item {
         super.inventoryTick(itemStack, level, owner, slot);
     }
 
-    protected double getSumAttributesOfParts(BiFunction<Part, HeadType, Float> head,
+    public double getSumAttributesOfParts(BiFunction<Part, HeadType, Float> head,
                                            BiFunction<Part, HeadType, Float> rod,
                                            BiFunction<Part, HeadType, Float> trim,
                                            double divisor) {

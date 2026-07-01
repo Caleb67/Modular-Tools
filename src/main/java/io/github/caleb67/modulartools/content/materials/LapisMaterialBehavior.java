@@ -1,9 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
-import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -15,35 +14,26 @@ public class LapisMaterialBehavior extends MaterialBehavior {
         super(properties);
     }
 
-    public static int getAmplifierAmount(ItemStack stack) {
-        var head = AbstractModularToolItem.getToolHead(stack);
-        var rod = AbstractModularToolItem.getToolRod(stack);
-        var trim = AbstractModularToolItem.getToolTrim(stack);
-        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
-            return 1;
-        // !TODO log this at some point
+    public static int getAmplifierAmount(ItemStack itemStack) {
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return 1;
 
-        int level = 1;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(head.get()).value() instanceof LapisMaterialBehavior) level = level * 2;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(rod.get()).value() instanceof LapisMaterialBehavior) level = level * 2;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(trim.get()).value() instanceof LapisMaterialBehavior) level = level * 2;
-
-        return level;
+        return (head.get() instanceof LapisMaterialBehavior ? 2 : 1)
+                * (rod.get() instanceof LapisMaterialBehavior ? 2 : 1)
+                * (trim.get() instanceof LapisMaterialBehavior ? 2 : 1);
     }
 
-    public static int getRealLevel(ItemStack stack) {
-        var head = AbstractModularToolItem.getToolHead(stack);
-        var rod = AbstractModularToolItem.getToolRod(stack);
-        var trim = AbstractModularToolItem.getToolTrim(stack);
-        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
-            return 0;
+    public static int getRealLevel(ItemStack itemStack) {
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return 1;
 
-        int level = 0;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(head.get()).value() instanceof LapisMaterialBehavior) level += 1;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(rod.get()).value() instanceof LapisMaterialBehavior) level += 1;
-        if (ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(trim.get()).value() instanceof LapisMaterialBehavior) level += 1;
-
-        return level;
+        return (head.get() instanceof LapisMaterialBehavior ? 1 : 0)
+                + (rod.get() instanceof LapisMaterialBehavior ? 1 : 0)
+                + (trim.get() instanceof LapisMaterialBehavior ? 1 : 0);
     }
 
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {

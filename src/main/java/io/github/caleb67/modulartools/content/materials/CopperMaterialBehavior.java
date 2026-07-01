@@ -1,10 +1,9 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.ModularTools;
-import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.network.chat.Component;
@@ -41,9 +40,9 @@ public class CopperMaterialBehavior extends MaterialBehavior {
     }
 
     public static void testAndApply(ItemStack itemStack, Entity owner) {
-        var modular_tool_head = itemStack.get(MTDataComponents.MODULAR_TOOL_HEAD);
-        var modular_tool_rod = itemStack.get(MTDataComponents.MODULAR_TOOL_ROD);
-        var modular_tool_trim = itemStack.get(MTDataComponents.MODULAR_TOOL_TRIM);
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
 
         var isPlayer = owner instanceof Player;
         if (!isPlayer) return;
@@ -54,31 +53,16 @@ public class CopperMaterialBehavior extends MaterialBehavior {
         var interaction_range = player.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
         assert interaction_range != null;
 
-        if (modular_tool_head == null ||
-                modular_tool_rod == null ||
-                modular_tool_trim == null) {
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty() ||
+                !ItemStack.isSameItemSameComponents(player.getMainHandItem(), itemStack)) {
             block_range.removeModifier(INCREASE_BLOCK_REACH);
-            return;
-            // !TODO log this at some point
-        }
-
-        var head = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_head).value();
-        var rod = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_rod).value();
-        var trim = ModularToolsRegistries.MATERIAL_BEHAVIOR.getOrThrow(modular_tool_trim).value();
-
-        if (!ItemStack.isSameItemSameComponents(player.getMainHandItem(), itemStack)) {
-            block_range.removeModifier(INCREASE_BLOCK_REACH);
+            interaction_range.removeModifier(INCREASE_ENTITY_REACH);
             return;
         }
 
-        double increase = 0;
-        if (head instanceof CopperMaterialBehavior)
-            increase += 2;
-        if (rod instanceof CopperMaterialBehavior)
-            increase += 2;
-        if (trim instanceof CopperMaterialBehavior)
-            increase += 2;
-
+        double increase = (head.get() instanceof CopperMaterialBehavior ? 2 : 0)
+                + (rod.get() instanceof CopperMaterialBehavior ? 2 : 0)
+                + (trim.get() instanceof CopperMaterialBehavior ? 2 : 0);
         increase = increase * LapisMaterialBehavior.getAmplifierAmount(itemStack);
 
         if (increase == 0) {

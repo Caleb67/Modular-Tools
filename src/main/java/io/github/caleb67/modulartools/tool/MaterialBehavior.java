@@ -91,6 +91,10 @@ public class MaterialBehavior {
         );
     }
 
+    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+        return Optional.empty();
+    }
+
     public float getAttackDamage(Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
 
@@ -113,10 +117,6 @@ public class MaterialBehavior {
 
     public void addValidItems(Set<Item> items) {
         this.items = Stream.concat(this.items.stream(), items.stream()).collect(Collectors.toSet());
-    }
-
-    public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
-        return Optional.empty();
     }
 
     public void addHeadTypeAttributes(HeadType type, float baseAttackDamage, float baseAttackSpeed) {

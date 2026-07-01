@@ -9,6 +9,7 @@ import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
+import io.github.caleb67.modulartools.util.MethodChain;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -160,38 +161,38 @@ public class EchoMaterialBehavior extends MaterialBehavior {
     @Override
     public void inventoryTick(InventoryTickContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
-
-        if (!this.active.containsKey(owner))
-            this.active.put(owner, new HashMap<>());
-
         if (slot != EquipmentSlot.MAINHAND && slot != EquipmentSlot.OFFHAND) return;
 
-        if (this.ore_colors.isEmpty())
-            this.addColors();
+        if (!this.active.containsKey(owner)) this.active.put(owner, new HashMap<>());
+        if (this.ore_colors.isEmpty()) this.addColors();
 
         var center = owner.getOnPos();
 
         getPositions(center).forEach(pos -> {
             var state = level.getBlockState(pos);
-            if (state.is(ConventionalBlockTags.ORES) &&
-                !this.active.get(owner).containsKey(pos)) {
+            if (state.is(ConventionalBlockTags.ORES) && !this.active.get(owner).containsKey(pos)) {
                 var display = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
-                display.setBlockState(state);
-                display.setTransformation(new Transformation(
-                        null, null,
-                        new Vector3f(0.999F, 0.999F, 0.999F),
-                        null)
-                );
-                display.setPos(
+                if (display == null) return;
+
+                new MethodChain<>(display)
+                    .and(d -> d.setBlockState(state))
+                    .and(d -> d.setTransformation(
+                        new Transformation(
+                            null, null,
+                            new Vector3f(0.999F, 0.999F, 0.999F),
+                            null
+                        )))
+                    .and(d -> d.setPos(
                         new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                                .add(0.0001)
-                );
-                display.setXRot(0);
-                display.setYRot(0);
-                display.setGlowingTag(true);
-                display.setGlowColorOverride(ore_colors.get(state).getRGB());
-                display.setCustomNameVisible(false);
-                display.setCustomName(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME);
+                            .add(0.0001)
+                        ))
+                    .and(d -> d.setXRot(0))
+                    .and(d -> d.setYRot(0))
+                    .and(d -> d.setGlowingTag(true))
+                    .and(d -> d.setGlowColorOverride(ore_colors.get(state).getRGB()))
+                    .and(d -> d.setCustomNameVisible(false))
+                    .and(d -> d.setCustomName(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME));
+
                 this.active.get(owner).put(pos, display);
                 level.addFreshEntity(display);
             }
