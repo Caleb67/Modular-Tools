@@ -152,7 +152,7 @@ public class EchoMaterialBehavior extends MaterialBehavior {
         getPositions(center).forEach(pos -> {
             var state = level.getBlockState(pos);
             if (state.is(ConventionalBlockTags.ORES) && !this.active.get(owner).containsKey(pos)) {
-                var display = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
+                var display = EntityType.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
                 if (display == null) return;
 
                 new MethodChain<>(display)
