@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceKey;
 
 import java.util.ArrayList;
 
-public class InventoryTickContext {
+public class MaterialFunctionContext {
     private ArrayList<ResourceKey<MaterialBehavior>> has_been_seen = new ArrayList<>();
     public void add(ResourceKey<MaterialBehavior> seen) {
         this.has_been_seen.add(seen);

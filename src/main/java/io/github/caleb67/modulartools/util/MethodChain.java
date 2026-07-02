@@ -1,7 +1,9 @@
 package io.github.caleb67.modulartools.util;
 
 import org.apache.commons.lang3.function.TriConsumer;
+import org.apache.commons.lang3.function.TriFunction;
 
+import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -21,22 +23,26 @@ public class MethodChain<T> {
         method.accept(object, param1, param2); return this;
     }
 
-    public <R> MethodChain<T> and(Function<T, R> method, ResultReference<R> result_ref) {
-        result_ref.value = method.apply(object); return this;
+    public <R> ChainResult<R, T> andWithResult(Function<T, R> method) {
+        return new ChainResult<>(method.apply(object), this);
     }
-    public <R, U> MethodChain<T> and(BiFunction<T, U, R> method, U param, ResultReference<R> result_ref) {
-        result_ref.value = method.apply(object, param); return this;
+    public <R, U> ChainResult<R, T> andWithResult(BiFunction<T, U, R> method, U param) {
+        return new ChainResult<>(method.apply(object, param), this);
     }
-
-    public <R> MethodChain<T> and(Function<T, R> method, Consumer<R> result_consumer) {
-        result_consumer.accept(method.apply(object)); return this;
-    }
-    public <R, U> MethodChain<T> and(BiFunction<T, U, R> method, U param, Consumer<R> result_consumer) {
-        result_consumer.accept(method.apply(object, param)); return this;
+    public <R, U, V> ChainResult<R, T> andWithResult(TriFunction<T, U, V, R> method, U param1, V param2) {
+        return new ChainResult<>(method.apply(object, param1, param2), this);
     }
 
-    public static final class ResultReference<T> {
-        public T value;
-        public ResultReference(T value) { this.value = value;}
+    public static final class ChainResult<R, T> {
+        private final MethodChain<T> chain;
+        public R value;
+        public ChainResult(R value, MethodChain<T> chain) {
+            this.chain = chain;
+            this.value = value;
+        }
+
+        public MethodChain<T> then(Consumer<R> handler) { handler.accept(value); return chain;}
+        public R get() { return value; }
+        public MethodChain<T> put(Collection<R> collection) { collection.add(value); return chain;}
     }
 }

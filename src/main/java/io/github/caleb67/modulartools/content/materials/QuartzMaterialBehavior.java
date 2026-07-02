@@ -1,8 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.core.Holder;
@@ -36,7 +36,7 @@ public class QuartzMaterialBehavior extends MaterialBehavior {
     }
 
     @Override
-    public void inventoryTick(InventoryTickContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
         testAndApply(itemStack, level);
     }

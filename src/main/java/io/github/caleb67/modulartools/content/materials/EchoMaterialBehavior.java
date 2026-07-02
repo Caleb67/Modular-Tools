@@ -5,8 +5,8 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
-import io.github.caleb67.modulartools.tool.InventoryTickContext;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
@@ -67,11 +67,13 @@ public class EchoMaterialBehavior extends MaterialBehavior {
                 var test_block = display.getBlockState().getBlock();
                 if (!display.closerThan(serverPlayer, 5.0) && entry.getValue() != null)
                     new MethodChain<>(entry)
-                        .and(Map.Entry::getValue, e -> e.kill(level))
+                        .andWithResult(Map.Entry::getValue)
+                            .then(e -> e.kill(level))
                         .and(Map.Entry::setValue, (BlockDisplay) null);
                 else if (!level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
                     new MethodChain<>(entry)
-                        .and(Map.Entry::getValue, e -> e.kill(level))
+                        .andWithResult(Map.Entry::getValue)
+                            .then(e -> e.kill(level))
                         .and(Map.Entry::setValue, (BlockDisplay) null);
             }
             this_material.active.get(serverPlayer).values().removeIf(Objects::isNull);
@@ -140,7 +142,7 @@ public class EchoMaterialBehavior extends MaterialBehavior {
     }
 
     @Override
-    public void inventoryTick(InventoryTickContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
         if (slot != EquipmentSlot.MAINHAND && slot != EquipmentSlot.OFFHAND) return;
 

@@ -71,7 +71,7 @@ public class MaterialBehavior {
         else return 1.0F;
     }
 
-    public void inventoryTick(final InventoryTickContext context, ItemStack itemStack, ServerLevel level,
+    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level,
                               Entity owner, @Nullable EquipmentSlot slot) {}
 
     public boolean isCorrectToolForDrops(HeadType type, ItemStack itemStack, BlockState state) {
@@ -84,7 +84,8 @@ public class MaterialBehavior {
         return type.getTool(this.material).isCorrectForDrops(state);
     }
 
-    public void appendPartTooltip(Part part, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendPartTooltip(Part part, Item.TooltipContext context, TooltipDisplay display,
+                                  Consumer<Component> builder, TooltipFlag tooltipFlag) {
         builder.accept(
                 Component.translatable(TranslationUtil.makePartDescId(this.key, part))
                         .withStyle(this.getFormatting())
@@ -140,6 +141,10 @@ public class MaterialBehavior {
     }
 
     public void hurtEnemy(Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
+
+    public void onCreation(MaterialFunctionContext context, Part part, HeadType type,
+                             ItemStack itemStack) {
+    }
 
     public static final class Properties {
         HashMap<HeadType, Attribute> attribute_map;

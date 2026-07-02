@@ -7,6 +7,7 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
+import io.github.caleb67.modulartools.util.MethodChain;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -184,14 +185,13 @@ public abstract class AbstractModularToolItem extends Item {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-        InventoryTickContext context = new InventoryTickContext();
+        MaterialFunctionContext context = new MaterialFunctionContext();
 
         head.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(head.get().key);
         rod.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(rod.get().key);
         trim.get().inventoryTick(context, itemStack, level, owner, slot);
-        context.add(trim.get().key);
 
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         super.inventoryTick(itemStack, level, owner, slot);
@@ -265,5 +265,18 @@ public abstract class AbstractModularToolItem extends Item {
         if (DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom())) return;
         //if (EchoMaterialBehavior.shouldNotDamage(itemStack)) return;
         itemStack.hurtAndBreak(amount, attacker, slot);
+    }
+
+    public void onCreation(ItemStack itemStack) {
+        if (!itemStack.is(this)) return;
+        MaterialFunctionContext context = new MaterialFunctionContext();
+        Part.HEAD.getMaterial(itemStack).ifPresent(head -> new MethodChain<>(head)
+            .and(h -> h.onCreation(context, Part.HEAD, this.getHeadType(), itemStack))
+            .and(h -> context.add(h.key)));
+        Part.ROD.getMaterial(itemStack).ifPresent(rod -> new MethodChain<>(rod)
+            .and(r -> r.onCreation(context, Part.ROD, this.getHeadType(), itemStack))
+            .and(r -> context.add(r.key)));
+        Part.TRIM.getMaterial(itemStack).ifPresent(
+            trim -> trim.onCreation(context, Part.TRIM, this.getHeadType(), itemStack));
     }
 }
