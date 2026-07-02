@@ -88,6 +88,20 @@
               "model": "modulartools:item/rod_sword_echo"
             },
             "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_redstone"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_sword_netherite"
+            },
+            "when": "modulartools:netherite_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_rod",
@@ -179,6 +193,20 @@
               "model": "modulartools:item/base_sword_tool_echo_head"
             },
             "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_redstone_head"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_netherite_head"
+            },
+            "when": "modulartools:netherite_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_head",
@@ -270,6 +298,20 @@
               "model": "modulartools:item/base_sword_tool_echo_trim"
             },
             "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_redstone_trim"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_sword_tool_netherite_trim"
+            },
+            "when": "modulartools:netherite_material_behavior"
           }
         ],
         "component": "modulartools:modular_tool_trim",

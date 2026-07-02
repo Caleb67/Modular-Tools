@@ -3,14 +3,19 @@ package io.github.caleb67.modulartools.register;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.*;
+import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 public class MaterialBehaviors {
@@ -159,7 +164,7 @@ public class MaterialBehaviors {
             .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
             .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
             .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
-            .setFormatting(ChatFormatting.DARK_AQUA)
+            .setFormatting(ChatFormatting.LIGHT_PURPLE)
             .setEffectFormatting(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC)
     );
     
@@ -172,8 +177,29 @@ public class MaterialBehaviors {
             .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
             .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
             .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
-            .setFormatting(ChatFormatting.RED)
+            .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.RED)
+    );
+    
+    public static final MaterialBehavior NETHERITE_MATERIAL_BEHAVIOR = register(
+        "netherite_material_behavior",
+        properties ->  new MaterialBehavior(properties) {
+            @Override
+            public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+                return Optional.of(((_, _, _, builder, _) -> builder.accept(
+                    Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
+                             .withStyle(this.getEffectFormatting())
+                )));
+            }
+        },
+        new MaterialBehavior.Properties()
+            .toolMaterial(ToolMaterial.NETHERITE)
+            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
+            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
+        .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
+        .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
+        .setFormatting(ChatFormatting.LIGHT_PURPLE)
+        .setEffectFormatting(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)
     );
     
     

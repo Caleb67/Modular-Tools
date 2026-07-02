@@ -29,6 +29,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.LinkedHashSet;
@@ -37,6 +38,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+@NullMarked
 public abstract class AbstractModularToolItem extends Item {
     public static final Identifier BASE_ATTACK_SPEED = Identifier.fromNamespaceAndPath(ModularTools.MODID,
         "base_attack_speed");
@@ -111,6 +113,11 @@ public abstract class AbstractModularToolItem extends Item {
     public static Optional<ResourceKey<MaterialBehavior>> getToolTrim(ItemInstance item) {
         var modular_tool_trim = item.get(MTDataComponents.MODULAR_TOOL_TRIM);
         return modular_tool_trim != null ? Optional.of(modular_tool_trim) : Optional.empty();
+    }
+    
+    public static Optional<ResourceKey<MaterialBehavior>> getToolImprint(ItemInstance item) {
+        var modular_tool_imprint = item.get(MTDataComponents.MODULAR_TOOL_IMPRINT);
+        return modular_tool_imprint != null ? Optional.of(modular_tool_imprint) : Optional.empty();
     }
     
     
@@ -202,6 +209,7 @@ public abstract class AbstractModularToolItem extends Item {
         context.add(rod.get().key);
         trim.get().inventoryTick(context, itemStack, level, owner, slot);
         
+        
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         super.inventoryTick(itemStack, level, owner, slot);
     }
@@ -219,7 +227,9 @@ public abstract class AbstractModularToolItem extends Item {
     public final void updateAttackAttributes(ItemStack itemStack, Entity owner) {
         if (!(owner instanceof ServerPlayer player)) return;
         var attack_speed_attr = player.getAttribute(Attributes.ATTACK_SPEED);
+        assert attack_speed_attr != null;
         var attack_damage_attr = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        assert attack_damage_attr != null;
         
         var head = Part.HEAD.getMaterial(itemStack);
         var rod = Part.ROD.getMaterial(itemStack);
@@ -227,6 +237,7 @@ public abstract class AbstractModularToolItem extends Item {
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return;
         // !TODO log this at some point
+        
         
         attack_speed_attr.addOrReplacePermanentModifier(
             new AttributeModifier(

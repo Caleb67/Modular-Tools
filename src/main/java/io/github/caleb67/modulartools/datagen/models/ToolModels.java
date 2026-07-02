@@ -31,7 +31,9 @@ public class ToolModels {
         Map.entry(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR, "stone"),
         Map.entry(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "quartz"),
         Map.entry(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, "wood"),
-        Map.entry(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "echo")
+        Map.entry(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "echo"),
+        Map.entry(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "redstone"),
+        Map.entry(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "netherite")
     );
     
     public static void generateItemModels(ItemModelGenerators itemModelGenerators) {
@@ -158,7 +160,8 @@ public class ToolModels {
     private static ItemModel.Unbaked makeRodModel(ItemModelGenerators itemModelGenerators, String material) {
         return ItemModelUtils
             .plainModel(
-                itemModelGenerators.createFlatItemModel(Items.ROD, "_" + material, ModelTemplates.FLAT_HANDHELD_ITEM));
+                itemModelGenerators.createFlatItemModel(Items.ROD, "_" + material,
+                    ModelTemplates.FLAT_HANDHELD_ITEM));
     }
     
     private static ItemModel.Unbaked makeSwordRodModel(ItemModelGenerators itemModelGenerators, String material) {

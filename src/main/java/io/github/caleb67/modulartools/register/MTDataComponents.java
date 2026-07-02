@@ -36,6 +36,14 @@ public class MTDataComponents {
                          .build()
     );
     
+    public static final DataComponentType<ResourceKey<MaterialBehavior>> MODULAR_TOOL_IMPRINT = Registry.register(
+        BuiltInRegistries.DATA_COMPONENT_TYPE,
+        Identifier.fromNamespaceAndPath(MODID, "modular_tool_imprint"),
+        DataComponentType.<ResourceKey<MaterialBehavior>>builder()
+                         .persistent(ResourceKey.codec(ModularToolsRegistries.MATERIAL_BEHAVIOR.key()))
+                         .build()
+    );
+    
     public static void load() {}
     
     ;

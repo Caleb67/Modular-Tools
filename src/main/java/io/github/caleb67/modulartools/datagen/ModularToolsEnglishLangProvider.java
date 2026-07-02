@@ -41,6 +41,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         effectTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Durable", true);
         effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
         effectTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echoing", false);
+        effectTranslations.accept(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "Smart", false);
+        effectTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Fireproof", false);
         
         BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()),
@@ -64,6 +66,8 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
         toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
         toolTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echo");
+        toolTranslations.accept(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "Redstone");
+        toolTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Netherite");
         
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");

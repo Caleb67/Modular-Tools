@@ -9,6 +9,6 @@ import java.util.function.Consumer;
 
 @FunctionalInterface
 public interface MaterialEffectTooltipOperation {
-    void apply(MaterialEffectTooltipCollector visitor, Item.TooltipContext context,
+    void apply(MaterialEffectTooltipCollector collector, Item.TooltipContext context,
                TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag);
 }

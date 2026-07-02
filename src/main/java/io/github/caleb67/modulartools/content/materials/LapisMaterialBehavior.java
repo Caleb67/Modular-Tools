@@ -38,7 +38,7 @@ public class LapisMaterialBehavior extends MaterialBehavior {
     
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         var num = getRealLevel(itemStack);
-        return Optional.of((executor, context,
+        return Optional.of((collector, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(
                 Component.translatable(TranslationUtil.makeEffectDescId(this.key, num))

@@ -1,14 +1,18 @@
 package io.github.caleb67.modulartools.content.materials;
 
+import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemContainerContents;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -67,5 +71,14 @@ public class RedstoneMaterialBehavior extends MaterialBehavior {
             sourceStack.setCount(sourceStack.getCount() - amount_to_move);
             destinationStack.setCount(destinationStack.getCount() + amount_to_move);
         }
+    }
+    
+    @Override public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
+        return Optional.of(((collector, context, display, builder, tooltipFlag) -> {
+            builder.accept(
+                Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
+                         .withStyle(this.getEffectFormatting())
+            );
+        }));
     }
 }
