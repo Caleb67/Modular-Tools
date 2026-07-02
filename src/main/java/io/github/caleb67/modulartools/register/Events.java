@@ -29,44 +29,45 @@ public class Events {
         EndTickEvents.changes.forEach(ServerTickEvents.END_SERVER_TICK::register);
         LoadEntityEvents.changes.forEach(ServerEntityEvents.ENTITY_LOAD::register);
         LevelLoadEvents.changes.forEach(ServerLevelEvents.LOAD::register);
-
+        
         ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> {
             minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
                 var attack_speed_attr = serverPlayer.getAttribute(Attributes.ATTACK_SPEED);
                 var attack_damage_attr = serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE);
                 assert attack_speed_attr != null;
                 assert attack_damage_attr != null;
-
+                
                 AtomicReference<ItemStack> viable_tool = new AtomicReference<>();
                 serverPlayer.getInventory().forEach(itemStack -> {
                     if (ItemStack.isSameItemSameComponents((serverPlayer).getMainHandItem(), itemStack) &&
-                            (itemStack.getItem() instanceof AbstractModularToolItem)) {
+                        (itemStack.getItem() instanceof AbstractModularToolItem)) {
                         viable_tool.set(itemStack);
                     }
                 });
-
+                
                 if (viable_tool.get() != null) {
                     var stack = viable_tool.get();
                     ((AbstractModularToolItem) stack.getItem()).updateAttackAttributes(stack, serverPlayer);
-                } else {
+                }
+                else {
                     attack_speed_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
                     attack_damage_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
                 }
-
-
+                
+                
                 // update Menus if open
                 if (serverPlayer.containerMenu instanceof ForgeMenu fm) {
                     fm.updateFuel();
                 }
             });
         });
-
+        
         ServerLevelEvents.LOAD.register((server, level) -> {
             MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.addValidItems(
-                    setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.PLANKS))
+                setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.PLANKS))
             );
             MaterialBehaviors.STONE_MATERIAL_BEHAVIOR.addValidItems(
-                    setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.STONE_TOOL_MATERIALS))
+                setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.STONE_TOOL_MATERIALS))
             );
             MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.COPPER_INGOT));
             MaterialBehaviors.IRON_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.IRON_INGOT));
@@ -80,10 +81,10 @@ public class Events {
             MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.ECHO_SHARD));
         });
     }
-
+    
     private static <T> Set<T> setFromHolderSet(HolderSet<T> holderSet) {
         return holderSet.stream()
-                .map(Holder::value)
-                .collect(Collectors.toSet());
+                        .map(Holder::value)
+                        .collect(Collectors.toSet());
     }
 }

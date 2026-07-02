@@ -24,46 +24,48 @@ public class BlazeMaterialBehavior extends MaterialBehavior {
         var isKill = context.hasParameter(LootContextParams.ATTACKING_ENTITY);
         var isBlockBreak = context.hasParameter(LootContextParams.BLOCK_STATE);
         if (!isKill && !isBlockBreak) return;
-
+        
         ItemInstance tool;
         if (isKill) {
             var source = context.getParameter(LootContextParams.ATTACKING_ENTITY);
             if (!(source instanceof Player player)) return;
             tool = player.getMainHandItem();
-        } else {
+        }
+        else {
             if (!context.hasParameter(LootContextParams.TOOL)) return;
             tool = context.getParameter(LootContextParams.TOOL);
         }
-
+        
         var head = Part.HEAD.getMaterial(tool);
         var rod = Part.ROD.getMaterial(tool);
         var trim = Part.TRIM.getMaterial(tool);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return;
         if (!Tests.in(head.get(), rod.get(), trim.get())
-            .test(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR)) return;
-
+                  .test(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR)) return;
+        
         stacks.replaceAll(stack -> {
-                    SingleRecipeInput input = new SingleRecipeInput(stack);
-                    var out_stack = SMELTING_CHECK.getRecipeFor(input, context.getLevel())
-                        .map(RecipeHolder::value)
-                        .map(recipe -> recipe.assemble(input))
-                        .orElse(stack);
-                    out_stack.setCount(stack.getCount());
-                    return out_stack;
-                }
+                SingleRecipeInput input = new SingleRecipeInput(stack);
+                var out_stack = SMELTING_CHECK.getRecipeFor(input, context.getLevel())
+                                              .map(RecipeHolder::value)
+                                              .map(recipe -> recipe.assemble(input))
+                                              .orElse(stack);
+                out_stack.setCount(stack.getCount());
+                return out_stack;
+            }
         );
-
+        
     };
+    
     public BlazeMaterialBehavior(Properties properties) {
         super(properties);
     }
-
+    
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(
-                    Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
-                            .withStyle(this.getEffectFormatting())
+                Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
+                         .withStyle(this.getEffectFormatting())
             );
         });
     }

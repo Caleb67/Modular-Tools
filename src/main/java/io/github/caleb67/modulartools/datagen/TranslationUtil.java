@@ -9,20 +9,20 @@ import net.minecraft.util.Util;
 
 public class TranslationUtil {
     public static String makePartDescId(ResourceKey<MaterialBehavior> material, Part part) {
-        return Util.makeDescriptionId("tool_description", material.identifier()) +"."+ part.getName();
+        return Util.makeDescriptionId("tool_description", material.identifier()) + "." + part.getName();
     }
-
+    
     public static String makeToolDescId(ResourceKey<MaterialBehavior> head_material, HeadType type) {
         return Util.makeDescriptionId("tool_description", head_material.identifier())
-                +"."+ type.getName().getNamespace()
-                +"."+ type.getName().getPath().replace('/', '.');
+            + "." + type.getName().getNamespace()
+            + "." + type.getName().getPath().replace('/', '.');
     }
-
+    
     public static String makeEffectDescId(ResourceKey<MaterialBehavior> material, int level) {
-        return Util.makeDescriptionId("part_effect", material.identifier()) +"."+ level;
+        return Util.makeDescriptionId("part_effect", material.identifier()) + "." + level;
     }
-
+    
     public static String makePartUnknown() {
-        return "tool_description."+ ModularTools.MODID+".unknown";
+        return "tool_description." + ModularTools.MODID + ".unknown";
     }
 }

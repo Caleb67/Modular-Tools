@@ -35,9 +35,9 @@ public class MaterialBehavior {
     private HashMap<HeadType, Attribute> attribute_map;
     public final ResourceKey<MaterialBehavior> key;
     private Set<Item> items;
-
+    
     private final Properties properties;
-
+    
     public MaterialBehavior(Properties properties) {
         this.material = properties.material;
         this.attribute_map = properties.attribute_map;
@@ -45,114 +45,128 @@ public class MaterialBehavior {
         this.properties = properties;
         this.items = Set.of();
     }
-
-    public ChatFormatting[] getFormatting() { return this.properties.formatting != null ? this.properties.formatting : new ChatFormatting[]{ChatFormatting.WHITE}; }
-    public ChatFormatting[] getEffectFormatting() { return this.properties.effect_formatting != null ? this.properties.effect_formatting : new ChatFormatting[]{ChatFormatting.WHITE}; }
-
-    public List<Item> getItems() { return this.items.stream().toList();}
-
+    
+    public ChatFormatting[] getFormatting() {
+        return this.properties.formatting != null
+            ? this.properties.formatting
+            : new ChatFormatting[]{ChatFormatting.WHITE};
+    }
+    
+    public ChatFormatting[] getEffectFormatting() {
+        return this.properties.effect_formatting != null
+            ? this.properties.effect_formatting
+            : new ChatFormatting[]{ChatFormatting.WHITE};
+    }
+    
+    public List<Item> getItems() {return this.items.stream().toList();}
+    
     public boolean mineBlock(Part part, HeadType type, ItemStack itemStack, Level level,
                              BlockState state, BlockPos pos, LivingEntity owner) {
         if (type instanceof HeadType.NotApplicable) return true;
-
+        
         Tool tool = type.getTool(this.material);
-
+        
         if (tool == null) return false;
-
-        if (level.isClientSide() || state.getDestroySpeed(level, pos) <= 0.0F || tool.damagePerBlock() <= 0) return true;
-
+        
+        if (level.isClientSide() || state.getDestroySpeed(level, pos) <= 0.0F || tool.damagePerBlock() <= 0)
+            return true;
+        
         AbstractModularToolItem.hurtAndBreakTool(itemStack, 1, owner, EquipmentSlot.MAINHAND);
-
+        
         return true;
     }
-
+    
     public float getDestroySpeed(Part part, HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         else return 1.0F;
     }
-
+    
     public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level,
                               Entity owner, @Nullable EquipmentSlot slot) {}
-
+    
     public boolean isCorrectToolForDrops(HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return true;
-
+        
         Attribute attribute = this.attribute_map.get(type);
         if (attribute == null)
-            throw new IllegalStateException("No attributes set for head type '" + type.getName() + "' with material '" + this.key.identifier() + "'!");
-
+            throw new IllegalStateException(
+                "No attributes set for head type '" + type.getName() + "' with material '" + this.key.identifier() + "'!");
+        
         return type.getTool(this.material).isCorrectForDrops(state);
     }
-
+    
     public void appendPartTooltip(Part part, Item.TooltipContext context, TooltipDisplay display,
                                   Consumer<Component> builder, TooltipFlag tooltipFlag) {
         builder.accept(
-                Component.translatable(TranslationUtil.makePartDescId(this.key, part))
-                        .withStyle(this.getFormatting())
+            Component.translatable(TranslationUtil.makePartDescId(this.key, part))
+                     .withStyle(this.getFormatting())
         );
     }
-
+    
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.empty();
     }
-
+    
     public float getAttackDamage(Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
-
+        
         Attribute attribute = this.attribute_map.get(type);
         if (attribute == null)
-            throw new IllegalStateException("No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
-
+            throw new IllegalStateException(
+                "No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
+        
         return attribute.baseAttackDamage + this.material.attackDamageBonus();
     }
-
+    
     public float getAttackSpeed(Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
-
+        
         Attribute attribute = this.attribute_map.get(type);
         if (attribute == null)
-            throw new IllegalStateException("No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
-
+            throw new IllegalStateException(
+                "No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
+        
         return attribute.baseAttackSpeed;
     }
-
+    
     public void addValidItems(Set<Item> items) {
         this.items = Stream.concat(this.items.stream(), items.stream()).collect(Collectors.toSet());
     }
-
+    
     public void addHeadTypeAttributes(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
         if (this.attribute_map.containsKey(type))
-            throw new IllegalArgumentException("HeadType '"+type.getName()+"' already has attributes for material '"+this.key.identifier()+"'!");
+            throw new IllegalArgumentException(
+                "HeadType '" + type.getName() + "' already has attributes for material '" + this.key.identifier() + "'!");
         else
             this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
     }
-
+    
     public boolean hasHeadTypeAttributes(HeadType type) {
         Attribute attribute = this.attribute_map.get(type);
         return attribute != null;
     }
-
+    
     public static Set<MaterialBehavior> fromItem(Item item) {
         var materials = ModularToolsRegistries.getAllMaterialBehaviors();
         return StreamSupport
-                .stream(materials.spliterator(), false)
-                .filter(materialBehavior -> materialBehavior.getItems().contains(item))
-                .collect(Collectors.toSet());
+            .stream(materials.spliterator(), false)
+            .filter(materialBehavior -> materialBehavior.getItems().contains(item))
+            .collect(Collectors.toSet());
     }
-
+    
     public void hurtEnemy(Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
-
+    
     public void onCreation(MaterialFunctionContext context, Part part, HeadType type,
-                             ItemStack itemStack) {
+                           ItemStack itemStack) {
     }
-
+    
     public static final class Properties {
         HashMap<HeadType, Attribute> attribute_map;
         ResourceKey<MaterialBehavior> key;
         ToolMaterial material;
         @Nullable ChatFormatting[] formatting;
         @Nullable ChatFormatting[] effect_formatting;
-
+        
         public Properties() {
             this.attribute_map = new HashMap<HeadType, Attribute>();
             this.key = null;
@@ -160,36 +174,37 @@ public class MaterialBehavior {
             this.formatting = null;
             this.effect_formatting = null;
         }
-
+        
         public Properties setId(ResourceKey<MaterialBehavior> key) {
             this.key = key;
             return this;
         }
-
+        
         public Properties setAttributesForHeadType(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
             this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
             return this;
         }
-
+        
         public Properties toolMaterial(ToolMaterial material) {
             this.material = material;
             return this;
         }
-
+        
         public Properties setFormatting(ChatFormatting... formatting) {
             this.formatting = formatting;
             return this;
         }
-
+        
         public Properties setEffectFormatting(ChatFormatting... formatting) {
             this.effect_formatting = formatting;
             return this;
         }
-
+        
         public ResourceKey<MaterialBehavior> getIdOrThrow() {
             if (this.key == null) throw new NullPointerException("MaterialBehavior id not set.");
             return this.key;
         }
     }
+    
     public record Attribute(float baseAttackDamage, float baseAttackSpeed) {}
 }

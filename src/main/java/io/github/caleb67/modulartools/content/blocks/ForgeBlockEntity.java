@@ -12,7 +12,7 @@ public class ForgeBlockEntity extends BlockEntity {
     public ForgeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntities.FORGE_BLOCK_ENTITY, pos, state);
     }
-
+    
     public static void tick(Level level, BlockPos pos, BlockState state, ForgeBlockEntity entity) {
         if (level.isClientSide()) return;
         if (!ForgeBlock.satisfiesConditions(pos, (ServerLevel) level)) {

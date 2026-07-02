@@ -11,7 +11,7 @@ public enum Part {
     HEAD,
     ROD,
     TRIM;
-
+    
     public String getName() {
         return switch (this) {
             case ROD -> "rod";
@@ -19,15 +19,15 @@ public enum Part {
             case TRIM -> "trim";
         };
     }
-
+    
     public Optional<MaterialBehavior> getMaterial(ItemInstance itemInstance) {
         return switch (this) {
             case HEAD -> getToolHead(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
-                        .flatMap(value -> Optional.of(value.value()));
+                                                  .flatMap(value -> Optional.of(value.value()));
             case ROD -> getToolRod(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
-                        .flatMap(value -> Optional.of(value.value()));
+                                                .flatMap(value -> Optional.of(value.value()));
             case TRIM -> getToolTrim(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
-                        .flatMap(value -> Optional.of(value.value()));
+                                                  .flatMap(value -> Optional.of(value.value()));
         };
     }
 }

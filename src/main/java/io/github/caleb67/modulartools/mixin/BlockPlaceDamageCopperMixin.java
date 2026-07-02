@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockItem.class)
 public abstract class BlockPlaceDamageCopperMixin implements ItemLike, FeatureElement, FabricItem {
-    @Inject(method="place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;consume(ILnet/minecraft/world/entity/LivingEntity;)V"))
+    @Inject(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;consume(ILnet/minecraft/world/entity/LivingEntity;)V"))
     public void place(BlockPlaceContext placeContext, CallbackInfoReturnable<InteractionResult> cir) {
         var stack = placeContext.getPlayer().getMainHandItem();
         if (stack.getItem() instanceof AbstractModularToolItem) {

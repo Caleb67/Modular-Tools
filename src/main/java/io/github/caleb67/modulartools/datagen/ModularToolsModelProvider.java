@@ -18,12 +18,12 @@ public class ModularToolsModelProvider extends FabricModelProvider {
     public ModularToolsModelProvider(FabricPackOutput output) {
         super(output);
     }
-
+    
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
         blockModelGenerators.createCraftingTableLike(Blocks.FORGE, Blocks.FORGE, this::forgeBlockMapping);
     }
-
+    
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
         ToolModels.generateItemModels(itemModelGenerators);
@@ -32,20 +32,20 @@ public class ModularToolsModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(Items.AXE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(Items.SWORD_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
     }
-
+    
     @Override
     public String getName() {
         return "ModularToolsModelProvider";
     }
-
+    
     public TextureMapping forgeBlockMapping(Block block, Block block2) {
         return new TextureMapping()
-                .put(TextureSlot.UP, new Material(ModelLocationUtils.getModelLocation(block, "_top")))
-                .put(TextureSlot.DOWN, new Material(ModelLocationUtils.getModelLocation(block2, "_bottom")))
-                .put(TextureSlot.NORTH, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
-                .put(TextureSlot.EAST, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
-                .put(TextureSlot.SOUTH, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
-                .put(TextureSlot.WEST, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
-                .put(TextureSlot.PARTICLE, new Material(ModelLocationUtils.getModelLocation(block, "_side")));
+            .put(TextureSlot.UP, new Material(ModelLocationUtils.getModelLocation(block, "_top")))
+            .put(TextureSlot.DOWN, new Material(ModelLocationUtils.getModelLocation(block2, "_bottom")))
+            .put(TextureSlot.NORTH, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
+            .put(TextureSlot.EAST, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
+            .put(TextureSlot.SOUTH, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
+            .put(TextureSlot.WEST, new Material(ModelLocationUtils.getModelLocation(block, "_side")))
+            .put(TextureSlot.PARTICLE, new Material(ModelLocationUtils.getModelLocation(block, "_side")));
     }
 }

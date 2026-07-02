@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LoadEntityEvents {
     public static final ArrayList<ServerEntityEvents.Load> changes = new ArrayList<>();
-
+    
     public static void load() {
         changes.add(EchoMaterialBehavior.ORE_SIGHT_BEHAVIOR_PURGE_DISPLAYS);
     }

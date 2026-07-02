@@ -23,48 +23,48 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class EmeraldMaterialBehavior extends MaterialBehavior {
-
+    
     public EmeraldMaterialBehavior(Properties properties) {
         super(properties);
     }
-
+    
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(
-                    Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
-                            .withStyle(this.getEffectFormatting())
+                Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
+                         .withStyle(this.getEffectFormatting())
             );
         });
     }
-
+    
     @Override
     public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
         testAndApply(itemStack, level);
     }
-
+    
     protected static void testAndApply(ItemStack itemStack, ServerLevel level) {
         var head = Part.HEAD.getMaterial(itemStack);
         var rod = Part.ROD.getMaterial(itemStack);
         var trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return;
-
+        
         final int enchant_level = ((head.get() instanceof EmeraldMaterialBehavior ? 1 : 0)
-                + (rod.get() instanceof EmeraldMaterialBehavior ? 1 : 0)
-                + (trim.get() instanceof EmeraldMaterialBehavior ? 1 : 0))
-                * LapisMaterialBehavior.getAmplifierAmount(itemStack);
-
+            + (rod.get() instanceof EmeraldMaterialBehavior ? 1 : 0)
+            + (trim.get() instanceof EmeraldMaterialBehavior ? 1 : 0))
+            *LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        
         Holder<Enchantment> fortune = level.registryAccess()
-                .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
+                                           .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
         Holder<Enchantment> looting = level.registryAccess()
-                .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
-
+                                           .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
+        
         var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
         item_enchantments.removeIf(Tests.in(fortune, looting));
         if (enchant_level > 0) new MethodChain<>(item_enchantments)
-                    .and(ItemEnchantments.Mutable::set, fortune, enchant_level)
-                    .and(ItemEnchantments.Mutable::set, looting, enchant_level);
-        EnchantmentHelper.setEnchantments(itemStack,item_enchantments.toImmutable());
+            .and(ItemEnchantments.Mutable::set, fortune, enchant_level)
+            .and(ItemEnchantments.Mutable::set, looting, enchant_level);
+        EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
 }

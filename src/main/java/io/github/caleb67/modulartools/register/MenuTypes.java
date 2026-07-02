@@ -9,12 +9,13 @@ import net.minecraft.world.inventory.MenuType;
 
 public class MenuTypes {
     public static final MenuType<ForgeMenu> FORGE = register("forge", ForgeMenu::new);
-
+    
     public static <T extends AbstractContainerMenu> MenuType<T> register(
-            String name,
-            MenuType.MenuSupplier<T> constructor
+        String name,
+        MenuType.MenuSupplier<T> constructor
     ) {
         return Registry.register(BuiltInRegistries.MENU, name, new MenuType<>(constructor, FeatureFlagSet.of()));
     }
+    
     public static void load() {}
 }

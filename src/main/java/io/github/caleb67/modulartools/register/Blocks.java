@@ -14,18 +14,18 @@ import java.util.function.Function;
 
 public class Blocks {
     public static final ForgeBlock FORGE = register(
-            "forge",
-            ForgeBlock::new,
-            BlockBehaviour.Properties.of()
+        "forge",
+        ForgeBlock::new,
+        BlockBehaviour.Properties.of()
     );
-
+    
     private static <T extends Block> T register(String name,
-                                  Function<BlockBehaviour.Properties, T> factory,
-                                  BlockBehaviour.Properties properties) {
+                                                Function<BlockBehaviour.Properties, T> factory,
+                                                BlockBehaviour.Properties properties) {
         var key = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(ModularTools.MODID, name));
         var block = factory.apply(properties.setId(key));
-        return Registry.register(BuiltInRegistries.BLOCK , key, block);
+        return Registry.register(BuiltInRegistries.BLOCK, key, block);
     }
-
+    
     public static void load() {}
 }

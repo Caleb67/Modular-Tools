@@ -21,16 +21,16 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         // Specifying en_us is optional, as it's the default language code
         super(dataOutput, "en_us", registryLookup);
     }
-
+    
     @Override
     public void generateTranslations(HolderLookup.Provider holderLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(TranslationUtil.makePartUnknown(), "Unknown");
-
+        
         TriConsumer<MaterialBehavior, String, Boolean> effectTranslations = (material, name, hasLevels) -> {
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1), hasLevels ? name+" I" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2), hasLevels ? name+" II" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3), hasLevels ? name+" III" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4), hasLevels ? name+" IV" : name);
+            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1), hasLevels ? name + " I" : name);
+            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2), hasLevels ? name + " II" : name);
+            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3), hasLevels ? name + " III" : name);
+            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4), hasLevels ? name + " IV" : name);
         };
         effectTranslations.accept(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, "Reach", true);
         effectTranslations.accept(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, "Fast", true);
@@ -41,14 +41,16 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         effectTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Durable", true);
         effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
         effectTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echoing", false);
-
+        
         BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()), name+" Pickaxe");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Shovel()), name+" Shovel");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Axe()), name+" Axe");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Sword()), name+" Sword");
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name+" Rod");
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name+" Trim");
+            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()),
+                name + " Pickaxe");
+            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Shovel()),
+                name + " Shovel");
+            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Axe()), name + " Axe");
+            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Sword()), name + " Sword");
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name + " Rod");
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name + " Trim");
         };
         toolTranslations.accept(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, "Wood");
         toolTranslations.accept(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR, "Iron");
@@ -62,20 +64,20 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
         toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
         toolTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echo");
-
+        
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
         translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Axe Template");
         translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Sword Template");
-
+        
         translationBuilder.add(Items.BASE_PICKAXE_TOOL, "Unknown Type Pickaxe");
         translationBuilder.add(Items.BASE_SHOVEL_TOOL, "Unknown Type Pickaxe");
         translationBuilder.add(Items.BASE_AXE_TOOL, "Unknown Type Axe");
         translationBuilder.add(Items.BASE_SWORD_TOOL, "Unknown Type Sword");
-
+        
         translationBuilder
-                .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");
-
-        translationBuilder.add("creativeTab."+ModularTools.MODID, "Modular Tools");
+            .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");
+        
+        translationBuilder.add("creativeTab." + ModularTools.MODID, "Modular Tools");
     }
 }

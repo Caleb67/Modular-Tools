@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public class MaterialFunctionContext {
     private ArrayList<ResourceKey<MaterialBehavior>> has_been_seen = new ArrayList<>();
+    
     public void add(ResourceKey<MaterialBehavior> seen) {
         this.has_been_seen.add(seen);
     }
-
+    
     public boolean hasSeen(ResourceKey<MaterialBehavior> what) {
         return this.has_been_seen.contains(what);
     }

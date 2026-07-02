@@ -21,8 +21,8 @@ public abstract class CraftingTableConversionMixin extends Block {
     protected CraftingTableConversionMixin(Properties properties) {
         super(properties);
     }
-
-    @Inject(method = "useWithoutItem", at=@At(value = "HEAD"), cancellable = true)
+    
+    @Inject(method = "useWithoutItem", at = @At(value = "HEAD"), cancellable = true)
     public void becomeForge(BlockState state, Level level, BlockPos pos, Player player,
                             BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (level.isClientSide()) return;

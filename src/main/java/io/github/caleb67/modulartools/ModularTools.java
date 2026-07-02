@@ -12,9 +12,8 @@ import org.slf4j.LoggerFactory;
 public class ModularTools implements ModInitializer {
     public static final String MODID = "modulartools";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-
-
-
+    
+    
     @Override
     public void onInitialize() {
         ModularToolsRegistries.load();

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LevelLoadEvents {
     public static final ArrayList<ServerLevelEvents.Load> changes = new ArrayList<>();
-
+    
     public static void load() {
         changes.add(EchoMaterialBehavior.ORE_SIGHT_BEHAVIOR_LOAD_LEVEL);
     }

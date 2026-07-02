@@ -14,27 +14,27 @@ public class DiamondMaterialBehavior extends MaterialBehavior {
     public DiamondMaterialBehavior(Properties properties) {
         super(properties);
     }
-
+    
     public Optional<MaterialEffectTooltipOperation> getEffectTooltip(ItemStack itemStack, int numTimes) {
         return Optional.of((executor, context,
                             display, builder, tooltipFlag) -> {
             builder.accept(
-                    Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
-                            .withStyle(this.getEffectFormatting())
+                Component.translatable(TranslationUtil.makeEffectDescId(this.key, numTimes))
+                         .withStyle(this.getEffectFormatting())
             );
         });
     }
-
+    
     public static boolean shouldNotDamage(ItemStack itemStack, RandomSource randomSource) {
         var head = Part.HEAD.getMaterial(itemStack);
         var rod = Part.ROD.getMaterial(itemStack);
         var trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return true;
-
+        
         int count = (head.get() instanceof DiamondMaterialBehavior ? 1 : 0)
             + (rod.get() instanceof DiamondMaterialBehavior ? 1 : 0)
             + (trim.get() instanceof DiamondMaterialBehavior ? 1 : 0);
-        count = count * LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        count = count*LapisMaterialBehavior.getAmplifierAmount(itemStack);
         return randomSource.nextInt(6) < count;
     }
 }

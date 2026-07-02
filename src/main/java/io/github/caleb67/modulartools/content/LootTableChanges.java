@@ -12,12 +12,13 @@ import java.util.ArrayList;
 
 public class LootTableChanges {
     public static final ArrayList<LootTableEvents.ModifyDrops> changes = new ArrayList<>();
-    public static final RecipeManager.CachedCheck<@NotNull SingleRecipeInput, ? extends AbstractCookingRecipe> SMELTING_CHECK = RecipeManager.createCheck(RecipeType.SMELTING);
-
+    public static final RecipeManager.CachedCheck<@NotNull SingleRecipeInput, ? extends AbstractCookingRecipe> SMELTING_CHECK = RecipeManager.createCheck(
+        RecipeType.SMELTING);
+    
     public static void load() {
         changes.add(BlazeMaterialBehavior.SMELTING_BEHAVIOR);
-
+        
     }
-
-
+    
+    
 }
