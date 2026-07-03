@@ -195,6 +195,7 @@ public class ForgeMenu extends AbstractContainerMenu {
         result.set(MTDataComponents.MODULAR_TOOL_HEAD, head_material.key);
         result.set(MTDataComponents.MODULAR_TOOL_ROD, rod_material.key);
         result.set(MTDataComponents.MODULAR_TOOL_TRIM, trim_material.key);
+        ((ToolTemplateItem) tool_template).modularTool.onCreation(result, level);
         head_slot.remove(1);
         rod_slot.remove(1);
         trim_slot.remove(1);

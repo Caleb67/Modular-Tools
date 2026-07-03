@@ -201,7 +201,7 @@ public abstract class AbstractModularToolItem extends Item {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-        MaterialFunctionContext context = new MaterialFunctionContext();
+        MaterialFunctionContext context = new MaterialFunctionContext(level);
         
         head.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(head.get().key);
@@ -287,9 +287,9 @@ public abstract class AbstractModularToolItem extends Item {
         itemStack.hurtAndBreak(amount, attacker, slot);
     }
     
-    public void onCreation(ItemStack itemStack) {
-        if (!itemStack.is(this)) return;
-        MaterialFunctionContext context = new MaterialFunctionContext();
+    public void onCreation(ItemStack itemStack, ServerLevel level) {
+        if (!(itemStack.getItem() instanceof AbstractModularToolItem)) return;
+        MaterialFunctionContext context = new MaterialFunctionContext(level);
         Part.HEAD.getMaterial(itemStack).ifPresent(head -> new MethodChain<>(head)
             .and(h -> h.onCreation(context, Part.HEAD, this.getHeadType(), itemStack))
             .and(h -> context.add(h.key)));

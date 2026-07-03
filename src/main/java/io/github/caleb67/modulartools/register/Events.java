@@ -63,6 +63,7 @@ public class Events {
         });
         
         ServerLevelEvents.LOAD.register((server, level) -> {
+            MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR.load(level);
             MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR.addValidItems(
                 setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.PLANKS))
             );
