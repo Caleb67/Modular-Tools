@@ -80,6 +80,8 @@ public class Events {
             MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.QUARTZ));
             MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.DIAMOND));
             MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.ECHO_SHARD));
+            MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.REDSTONE));
+            MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR.addValidItems(Set.of(Items.NETHERITE_INGOT));
         });
     }
     
