@@ -42,7 +42,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
         effectTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echoing", false);
         effectTranslations.accept(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "Smart", false);
-        effectTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Fireproof", false);
+        effectTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Heavy Duty", false);
         
         BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()),
