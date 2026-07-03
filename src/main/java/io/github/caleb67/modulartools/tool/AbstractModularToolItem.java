@@ -115,11 +115,6 @@ public abstract class AbstractModularToolItem extends Item {
         return modular_tool_trim != null ? Optional.of(modular_tool_trim) : Optional.empty();
     }
     
-    public static Optional<ResourceKey<MaterialBehavior>> getToolImprint(ItemInstance item) {
-        var modular_tool_imprint = item.get(MTDataComponents.MODULAR_TOOL_IMPRINT);
-        return modular_tool_imprint != null ? Optional.of(modular_tool_imprint) : Optional.empty();
-    }
-    
     
     @Override
     public InteractionResult useOn(UseOnContext context) {
