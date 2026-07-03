@@ -1,0 +1,322 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:select",
+        "cases": [
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_blaze"
+            },
+            "when": "modulartools:blaze_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_iron"
+            },
+            "when": "modulartools:iron_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_prismarine"
+            },
+            "when": "modulartools:prismarine_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_gold"
+            },
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_diamond"
+            },
+            "when": "modulartools:diamond_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_lapis"
+            },
+            "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_emerald"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_copper"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_stone"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_quartz"
+            },
+            "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_wood"
+            },
+            "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_echo"
+            },
+            "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_redstone"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/rod_netherite"
+            },
+            "when": "modulartools:netherite_material_behavior"
+          }
+        ],
+        "component": "modulartools:modular_tool_rod",
+        "property": "minecraft:component"
+      },
+      {
+        "type": "minecraft:select",
+        "cases": [
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_blaze_head"
+            },
+            "when": "modulartools:blaze_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_iron_head"
+            },
+            "when": "modulartools:iron_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_prismarine_head"
+            },
+            "when": "modulartools:prismarine_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_gold_head"
+            },
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_diamond_head"
+            },
+            "when": "modulartools:diamond_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_lapis_head"
+            },
+            "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_emerald_head"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_copper_head"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_stone_head"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_quartz_head"
+            },
+            "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_wood_head"
+            },
+            "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_echo_head"
+            },
+            "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_redstone_head"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_hoe_tool_netherite_head"
+            },
+            "when": "modulartools:netherite_material_behavior"
+          }
+        ],
+        "component": "modulartools:modular_tool_head",
+        "property": "minecraft:component"
+      },
+      {
+        "type": "minecraft:select",
+        "cases": [
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_blaze_trim"
+            },
+            "when": "modulartools:blaze_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_iron_trim"
+            },
+            "when": "modulartools:iron_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_prismarine_trim"
+            },
+            "when": "modulartools:prismarine_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_gold_trim"
+            },
+            "when": "modulartools:gold_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_diamond_trim"
+            },
+            "when": "modulartools:diamond_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_lapis_trim"
+            },
+            "when": "modulartools:lapis_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_emerald_trim"
+            },
+            "when": "modulartools:emerald_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_copper_trim"
+            },
+            "when": "modulartools:copper_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_stone_trim"
+            },
+            "when": "modulartools:stone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_quartz_trim"
+            },
+            "when": "modulartools:quartz_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_wood_trim"
+            },
+            "when": "modulartools:wood_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_echo_trim"
+            },
+            "when": "modulartools:echo_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_redstone_trim"
+            },
+            "when": "modulartools:redstone_material_behavior"
+          },
+          {
+            "model": {
+              "type": "minecraft:model",
+              "model": "modulartools:item/base_pickaxe_tool_netherite_trim"
+            },
+            "when": "modulartools:netherite_material_behavior"
+          }
+        ],
+        "component": "modulartools:modular_tool_trim",
+        "property": "minecraft:component"
+      }
+    ]
+  }
+}

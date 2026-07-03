@@ -2,7 +2,7 @@ package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public class PrismarineMaterialBehavior extends MaterialBehavior {
+public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
     public static final ServerTickEvents.EndTick SUBMERGED_BEHAVIOR = minecraftServer -> {
         minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
             PrismarineMaterialBehavior.testAndApply(serverPlayer.getMainHandItem(), serverPlayer);

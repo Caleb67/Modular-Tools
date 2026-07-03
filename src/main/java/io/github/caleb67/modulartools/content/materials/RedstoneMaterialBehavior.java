@@ -1,7 +1,7 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
 import net.minecraft.core.component.DataComponents;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class RedstoneMaterialBehavior extends MaterialBehavior {
+public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
     public RedstoneMaterialBehavior(Properties properties) {
         super(properties);
     }

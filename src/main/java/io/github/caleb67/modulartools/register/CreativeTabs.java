@@ -33,6 +33,7 @@ public class CreativeTabs {
         output.accept(Items.SHOVEL_TOOL_TEMPLATE);
         output.accept(Items.AXE_TOOL_TEMPLATE);
         output.accept(Items.SWORD_TOOL_TEMPLATE);
+        output.accept(Items.HOE_TOOL_TEMPLATE);
         
         TriConsumer<AbstractModularToolItem, Iterable<MaterialBehavior>, CreativeModeTab.Output>
             acceptForTool = (tool, materials, tabout) -> {
@@ -62,6 +63,7 @@ public class CreativeTabs {
         acceptForTool.accept(Items.BASE_SHOVEL_TOOL, materials, output);
         acceptForTool.accept(Items.BASE_AXE_TOOL, materials, output);
         acceptForTool.accept(Items.BASE_SWORD_TOOL, materials, output);
+        acceptForTool.accept(Items.BASE_HOE_TOOL, materials, output);
     }
     
     public static void load() {

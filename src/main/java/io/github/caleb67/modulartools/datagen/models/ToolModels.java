@@ -37,14 +37,15 @@ public class ToolModels {
     );
     
     public static void generateItemModels(ItemModelGenerators itemModelGenerators) {
-        var pickaxe_heads = makePickaxeToolHeadModels(itemModelGenerators);
-        var pickaxe_trims = makePickaxeToolTrimModels(itemModelGenerators);
-        var shovel_heads = makeShovelToolHeadModels(itemModelGenerators);
-        var shovel_trims = makeShovelToolTrimModels(itemModelGenerators);
-        var axe_heads = makeAxeToolHeadModels(itemModelGenerators);
-        var axe_trims = makeAxeToolTrimModels(itemModelGenerators);
-        var sword_heads = makeSwordToolHeadModels(itemModelGenerators);
-        var sword_trims = makeSwordToolTrimModels(itemModelGenerators);
+        var pickaxe_heads = makeToolHeadModels(Items.BASE_PICKAXE_TOOL, itemModelGenerators);
+        var pickaxe_trims = makeToolTrimModels(Items.BASE_PICKAXE_TOOL, itemModelGenerators);
+        var shovel_heads = makeToolHeadModels(Items.BASE_SHOVEL_TOOL, itemModelGenerators);
+        var shovel_trims = makeToolTrimModels(Items.BASE_SHOVEL_TOOL, itemModelGenerators);
+        var axe_heads = makeToolHeadModels(Items.BASE_AXE_TOOL, itemModelGenerators);
+        var axe_trims = makeToolTrimModels(Items.BASE_AXE_TOOL, itemModelGenerators);
+        var sword_heads = makeToolHeadModels(Items.BASE_SWORD_TOOL, itemModelGenerators);
+        var sword_trims = makeToolTrimModels(Items.BASE_SWORD_TOOL, itemModelGenerators);
+        var hoe_heads = makeToolHeadModels(Items.BASE_HOE_TOOL, itemModelGenerators);
         
         var rods = makeRodModels(itemModelGenerators);
         var sword_rods = makeSwordRodModels(itemModelGenerators);
@@ -53,6 +54,7 @@ public class ToolModels {
         generateToolModel(itemModelGenerators, Items.BASE_SHOVEL_TOOL, shovel_heads, rods, shovel_trims);
         generateToolModel(itemModelGenerators, Items.BASE_AXE_TOOL, axe_heads, rods, axe_trims);
         generateToolModel(itemModelGenerators, Items.BASE_SWORD_TOOL, sword_heads, sword_rods, sword_trims);
+        generateToolModel(itemModelGenerators, Items.BASE_HOE_TOOL, hoe_heads, rods, pickaxe_trims);
     }
     
     private static void generateToolModel(ItemModelGenerators itemModelGenerators, AbstractModularToolItem tool,
@@ -81,65 +83,22 @@ public class ToolModels {
         return list;
     }
     
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makePickaxeToolHeadModels(ItemModelGenerators itemModelGenerators) {
+    
+    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeToolTrimModels(AbstractModularToolItem tool,
+                                                                                                ItemModelGenerators itemModelGenerators) {
         var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
         for (var entry : materialBehaviors)
             out.put(entry.getKey().key,
-                makeToolHeadModel(itemModelGenerators, Items.BASE_PICKAXE_TOOL, entry.getValue()));
+                makeToolTrimModel(itemModelGenerators, tool, entry.getValue()));
         return out;
     }
     
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makePickaxeToolTrimModels(ItemModelGenerators itemModelGenerators) {
+    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeToolHeadModels(AbstractModularToolItem tool,
+                                                                                                ItemModelGenerators itemModelGenerators) {
         var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
         for (var entry : materialBehaviors)
             out.put(entry.getKey().key,
-                makeToolTrimModel(itemModelGenerators, Items.BASE_PICKAXE_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeShovelToolHeadModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key,
-                makeToolHeadModel(itemModelGenerators, Items.BASE_SHOVEL_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeShovelToolTrimModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key,
-                makeToolTrimModel(itemModelGenerators, Items.BASE_SHOVEL_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeAxeToolHeadModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key, makeToolHeadModel(itemModelGenerators, Items.BASE_AXE_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeAxeToolTrimModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key, makeToolTrimModel(itemModelGenerators, Items.BASE_AXE_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeSwordToolHeadModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key,
-                makeToolHeadModel(itemModelGenerators, Items.BASE_SWORD_TOOL, entry.getValue()));
-        return out;
-    }
-    
-    private static HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked> makeSwordToolTrimModels(ItemModelGenerators itemModelGenerators) {
-        var out = new HashMap<ResourceKey<MaterialBehavior>, ItemModel.Unbaked>();
-        for (var entry : materialBehaviors)
-            out.put(entry.getKey().key,
-                makeToolTrimModel(itemModelGenerators, Items.BASE_SWORD_TOOL, entry.getValue()));
+                makeToolHeadModel(itemModelGenerators, tool, entry.getValue()));
         return out;
     }
     

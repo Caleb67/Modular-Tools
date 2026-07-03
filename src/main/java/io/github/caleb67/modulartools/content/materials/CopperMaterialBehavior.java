@@ -2,7 +2,7 @@ package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public class CopperMaterialBehavior extends MaterialBehavior {
+public class CopperMaterialBehavior extends BaseMaterialBehavior {
     public static final ServerTickEvents.EndTick REACH_BEHAVIOR = minecraftServer -> {
         minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
             CopperMaterialBehavior.testAndApply(serverPlayer.getMainHandItem(), serverPlayer);

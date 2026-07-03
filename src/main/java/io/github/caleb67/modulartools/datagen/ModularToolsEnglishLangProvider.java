@@ -12,6 +12,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import org.apache.commons.lang3.function.TriConsumer;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -23,7 +24,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
     }
     
     @Override
-    public void generateTranslations(HolderLookup.Provider holderLookup, TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.@NonNull Provider holderLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(TranslationUtil.makePartUnknown(), "Unknown");
         
         TriConsumer<MaterialBehavior, String, Boolean> effectTranslations = (material, name, hasLevels) -> {
@@ -51,6 +52,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
                 name + " Shovel");
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Axe()), name + " Axe");
             translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Sword()), name + " Sword");
+            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Hoe()), name + " Hoe");
             translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name + " Rod");
             translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name + " Trim");
         };
@@ -73,11 +75,13 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
         translationBuilder.add(Items.AXE_TOOL_TEMPLATE, "Axe Template");
         translationBuilder.add(Items.SWORD_TOOL_TEMPLATE, "Sword Template");
+        translationBuilder.add(Items.HOE_TOOL_TEMPLATE, "Hoe Template");
         
         translationBuilder.add(Items.BASE_PICKAXE_TOOL, "Unknown Type Pickaxe");
         translationBuilder.add(Items.BASE_SHOVEL_TOOL, "Unknown Type Pickaxe");
         translationBuilder.add(Items.BASE_AXE_TOOL, "Unknown Type Axe");
         translationBuilder.add(Items.BASE_SWORD_TOOL, "Unknown Type Sword");
+        translationBuilder.add(Items.BASE_HOE_TOOL, "Unknown Type Hoe");
         
         translationBuilder
             .add(Util.makeDescriptionId("menu", Identifier.fromNamespaceAndPath(ModularTools.MODID, "forge")), "Forge");

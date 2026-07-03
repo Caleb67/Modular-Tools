@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:wooden_hoe"
+  ],
+  "result": {
+    "id": "modulartools:hoe_tool_template"
+  }
+}

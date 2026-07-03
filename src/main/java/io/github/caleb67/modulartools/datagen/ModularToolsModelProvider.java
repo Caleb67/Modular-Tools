@@ -31,6 +31,7 @@ public class ModularToolsModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(Items.SHOVEL_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(Items.AXE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(Items.SWORD_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(Items.HOE_TOOL_TEMPLATE, ModelTemplates.FLAT_ITEM);
     }
     
     @Override

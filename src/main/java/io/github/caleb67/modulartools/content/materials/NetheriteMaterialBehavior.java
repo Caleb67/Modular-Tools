@@ -1,8 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.HeadType;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.component.DamageResistant;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class NetheriteMaterialBehavior extends MaterialBehavior {
+public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
     private Optional<ServerLevel> level;
     
     public NetheriteMaterialBehavior(Properties properties) {

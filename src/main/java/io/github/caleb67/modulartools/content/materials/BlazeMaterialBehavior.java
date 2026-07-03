@@ -2,7 +2,7 @@ package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.Tests;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static io.github.caleb67.modulartools.content.LootTableChanges.SMELTING_CHECK;
 
-public class BlazeMaterialBehavior extends MaterialBehavior {
+public class BlazeMaterialBehavior extends BaseMaterialBehavior {
     public static final LootTableEvents.ModifyDrops SMELTING_BEHAVIOR = (table, context, stacks) -> {
         var isKill = context.hasParameter(LootContextParams.ATTACKING_ENTITY);
         var isBlockBreak = context.hasParameter(LootContextParams.BLOCK_STATE);

@@ -82,22 +82,22 @@ public class Items {
         new Item.Properties()
     );
 
-//    public static final AbstractModularToolItem BASE_HOE_TOOL = register(
-//            "base_hoe_tool",
-//            properties -> new AbstractModularToolItem(properties) {
-//                @Override public @NotNull HeadType getHeadType() {return new HeadType.Hoe();}
-//                @Override public @NonNull InteractionResult useOn(UseOnContext context) {
-//                    var result = net.minecraft.world.item.Items.NETHERITE_HOE.useOn(context);
-//                    return result == InteractionResult.PASS ? super.useOn(context) : result;
-//                }
-//            },
-//            new Item.Properties()
-//    );
-//    public static final Item HOE_TOOL_TEMPLATE = register(
-//            "hoe_tool_template",
-//            properties -> new ToolTemplateItem(properties, BASE_SWORD_TOOL),
-//            new Item.Properties()
-//    );
+    public static final AbstractModularToolItem BASE_HOE_TOOL = register(
+            "base_hoe_tool",
+            properties -> new AbstractModularToolItem(properties) {
+                @Override public @NotNull HeadType getHeadType() {return new HeadType.Hoe();}
+                @Override public @NonNull InteractionResult useOn(@NonNull UseOnContext context) {
+                    var result = net.minecraft.world.item.Items.NETHERITE_HOE.useOn(context);
+                    return result == InteractionResult.PASS ? super.useOn(context) : result;
+                }
+            },
+            new Item.Properties()
+    );
+    public static final Item HOE_TOOL_TEMPLATE = register(
+            "hoe_tool_template",
+            properties -> new ToolTemplateItem(properties, BASE_HOE_TOOL),
+            new Item.Properties()
+    );
     
     
     public static final Item ROD = register(

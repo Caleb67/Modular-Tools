@@ -181,6 +181,7 @@ public class MaterialBehavior {
         }
         
         public Properties setAttributesForHeadType(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
+            if (this.attribute_map.containsKey(type)) return this;
             this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
             return this;
         }

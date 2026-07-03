@@ -5,7 +5,7 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import io.github.caleb67.modulartools.util.MethodChain;
@@ -34,7 +34,7 @@ import java.util.*;
 import java.util.List;
 
 
-public class EchoMaterialBehavior extends MaterialBehavior {
+public class EchoMaterialBehavior extends BaseMaterialBehavior {
     
     private final HashMap<Entity, HashMap<BlockPos, BlockDisplay>> active;
     public static Component ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME = Component.literal(

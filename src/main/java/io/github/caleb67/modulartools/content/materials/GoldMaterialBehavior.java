@@ -1,8 +1,8 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.HeadType;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 
-public class GoldMaterialBehavior extends MaterialBehavior {
+public class GoldMaterialBehavior extends BaseMaterialBehavior {
     
     public GoldMaterialBehavior(Properties properties) {
         super(properties);

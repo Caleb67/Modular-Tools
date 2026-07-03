@@ -44,6 +44,11 @@ public class ModularToolsRecipeProvider extends FabricRecipeProvider {
                     .requires(Items.WOODEN_SWORD)
                     .unlockedBy(getHasName(Items.WOODEN_SWORD), has(Items.WOODEN_SWORD))
                     .save(output);
+                shapeless(RecipeCategory.TOOLS, io.github.caleb67.modulartools.register.Items.HOE_TOOL_TEMPLATE)
+                    .requires(Items.BOOK)
+                    .requires(Items.WOODEN_HOE)
+                    .unlockedBy(getHasName(Items.WOODEN_HOE), has(Items.WOODEN_HOE))
+                    .save(output);
             }
         };
     }

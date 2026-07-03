@@ -1,7 +1,7 @@
 package io.github.caleb67.modulartools.content.materials;
 
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
-import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public class LapisMaterialBehavior extends MaterialBehavior {
+public class LapisMaterialBehavior extends BaseMaterialBehavior {
     public LapisMaterialBehavior(Properties properties) {
         super(properties);
     }

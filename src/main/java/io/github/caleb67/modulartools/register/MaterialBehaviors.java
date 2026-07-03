@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.register;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
 import io.github.caleb67.modulartools.content.materials.*;
+import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import net.minecraft.ChatFormatting;
@@ -16,25 +17,17 @@ import java.util.function.Function;
 public class MaterialBehaviors {
     public static final MaterialBehavior WOOD_MATERIAL_BEHAVIOR = register(
         "wood_material_behavior",
-        MaterialBehavior::new,
+        BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.WOOD)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.WHITE)
     
     );
     public static final MaterialBehavior STONE_MATERIAL_BEHAVIOR = register(
         "stone_material_behavior",
-        MaterialBehavior::new,
+        BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.WHITE)
     );
     
@@ -43,10 +36,6 @@ public class MaterialBehaviors {
         GoldMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.GOLD)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.GOLD, ChatFormatting.ITALIC)
     );
@@ -55,10 +44,6 @@ public class MaterialBehaviors {
         BlazeMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.AQUA)
             .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.BOLD)
     );
@@ -67,22 +52,14 @@ public class MaterialBehaviors {
         EmeraldMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.GREEN)
     );
     public static final MaterialBehavior IRON_MATERIAL_BEHAVIOR = register(
         "iron_material_behavior",
-        MaterialBehavior::new,
+        BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.YELLOW)
     );
     public static final CopperMaterialBehavior COPPER_MATERIAL_BEHAVIOR = register(
@@ -90,10 +67,6 @@ public class MaterialBehaviors {
         CopperMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.COPPER)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.RED)
     );
@@ -103,10 +76,6 @@ public class MaterialBehaviors {
         PrismarineMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.DARK_AQUA)
     );
@@ -116,10 +85,6 @@ public class MaterialBehaviors {
         LapisMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.BLUE)
     );
@@ -129,10 +94,6 @@ public class MaterialBehaviors {
         QuartzMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.WHITE, ChatFormatting.ITALIC)
     );
@@ -142,10 +103,6 @@ public class MaterialBehaviors {
         DiamondMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.AQUA)
             .setEffectFormatting(ChatFormatting.AQUA, ChatFormatting.BOLD)
     );
@@ -155,10 +112,6 @@ public class MaterialBehaviors {
         EchoMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.NETHERITE)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.LIGHT_PURPLE)
             .setEffectFormatting(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC)
     );
@@ -168,12 +121,8 @@ public class MaterialBehaviors {
         RedstoneMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setFormatting(ChatFormatting.YELLOW)
-            .setEffectFormatting(ChatFormatting.RED)
+            .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.ITALIC)
     );
     
     public static final NetheriteMaterialBehavior NETHERITE_MATERIAL_BEHAVIOR = register(
@@ -181,10 +130,7 @@ public class MaterialBehaviors {
         NetheriteMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.NETHERITE)
-            .setAttributesForHeadType(new HeadType.Pickaxe(), 1.0F, -2.8F)
-            .setAttributesForHeadType(new HeadType.Shovel(), 1.5F, -3.0F)
-            .setAttributesForHeadType(new HeadType.Axe(), 7.0F, -3.2F)
-            .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
+            .setAttributesForHeadType(new HeadType.Hoe(), -4.0F, 0.0F)
             .setFormatting(ChatFormatting.LIGHT_PURPLE)
             .setEffectFormatting(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)
     );
