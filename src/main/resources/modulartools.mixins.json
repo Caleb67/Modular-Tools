@@ -5,6 +5,7 @@
   "mixins": [
     "BlockPlaceDamageCopperMixin",
     "CraftingTableConversionMixin",
+    "ModularToolHurtAndBreakMixin",
     "RedstoneMaterialSortMixin"
   ],
   "injectors": {

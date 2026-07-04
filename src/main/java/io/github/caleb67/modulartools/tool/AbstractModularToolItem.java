@@ -277,9 +277,14 @@ public abstract class AbstractModularToolItem extends Item {
     }
     
     public static void hurtAndBreakTool(ItemStack itemStack, int amount, LivingEntity attacker, EquipmentSlot slot) {
+        if (attacker.level().isClientSide()) return;
         if (DiamondMaterialBehavior.shouldNotDamage(itemStack, attacker.getRandom())) return;
-        //if (EchoMaterialBehavior.shouldNotDamage(itemStack)) return;
-        itemStack.hurtAndBreak(amount, attacker, slot);
+        itemStack.hurtAndBreak(
+            amount,
+            (ServerLevel) attacker.level(),
+            attacker instanceof ServerPlayer sp ? sp : null,
+            (Item brokenItem) -> attacker.onEquippedItemBroken(brokenItem, slot)
+        );
     }
     
     public void onCreation(ItemStack itemStack, ServerLevel level) {
