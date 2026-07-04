@@ -26,7 +26,6 @@ public record ServerboundForgeToolPayload(int containerId) implements CustomPack
         return TYPE;
     }
     
-    // !TODO play sound effects
     public static void handle(ServerboundForgeToolPayload packet, ServerPlayer player, ServerLevel level) {
         if (player.containerMenu instanceof ForgeMenu fm && fm.containerId == packet.containerId()) {
             boolean result = fm.attemptForge(level);
