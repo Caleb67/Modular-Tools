@@ -43,6 +43,15 @@ public interface HeadType {
     record Hoe() implements HeadType {
         @Override
         public Identifier getName() {return Identifier.fromNamespaceAndPath(ModularTools.MODID, "hoe");}
+
+        @Override
+        public Tool getTool(ToolMaterial material) {
+            return new Tool(List.of(
+                Tool.Rule.deniesDrops(BuiltInRegistries.BLOCK.getOrThrow(material.incorrectBlocksForDrops())),
+                Tool.Rule.minesAndDrops(BuiltInRegistries.BLOCK.getOrThrow(BlockTags.MINEABLE_WITH_HOE),
+                    material.speed())
+            ), 1.0F, 1, true);
+        }
     }
     
     record Sword() implements HeadType {
@@ -82,6 +91,4 @@ public interface HeadType {
     Identifier getName();
     
     default Tool getTool(ToolMaterial material) {return null;}
-    
-    ;
 }
