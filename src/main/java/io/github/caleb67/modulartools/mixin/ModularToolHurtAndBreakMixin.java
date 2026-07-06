@@ -20,7 +20,7 @@ public abstract class ModularToolHurtAndBreakMixin implements DataComponentHolde
     
     @Inject(method = "hurtAndBreak(ILnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;)V",
         at = @At(value = "HEAD"), cancellable = true)
-    public void ensureDamageAffects(int amount, LivingEntity owner, EquipmentSlot slot, CallbackInfo ci) {
+    public void ensureDamageEffects(int amount, LivingEntity owner, EquipmentSlot slot, CallbackInfo ci) {
         if (this.getItem() instanceof AbstractModularToolItem) {
             AbstractModularToolItem.hurtAndBreakTool((ItemStack) (Object) this, amount, owner, slot);
             ci.cancel();

@@ -43,7 +43,7 @@ public interface HeadType {
     record Hoe() implements HeadType {
         @Override
         public Identifier getName() {return Identifier.fromNamespaceAndPath(ModularTools.MODID, "hoe");}
-
+        
         @Override
         public Tool getTool(ToolMaterial material) {
             return new Tool(List.of(
