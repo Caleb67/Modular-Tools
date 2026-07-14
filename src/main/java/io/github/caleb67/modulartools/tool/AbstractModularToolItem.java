@@ -10,6 +10,7 @@ import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollecto
 import io.github.caleb67.modulartools.util.MethodChain;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -196,7 +197,7 @@ public abstract class AbstractModularToolItem extends Item {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-        MaterialFunctionContext context = new MaterialFunctionContext(level);
+        MaterialFunctionContext context = new MaterialFunctionContext(level.registryAccess());
         
         head.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(head.get().key);
@@ -287,16 +288,19 @@ public abstract class AbstractModularToolItem extends Item {
         );
     }
     
-    public void onCreation(ItemStack itemStack, ServerLevel level) {
+    public void onCreation(ItemStack itemStack, HolderLookup.Provider registryAccess) {
         if (!(itemStack.getItem() instanceof AbstractModularToolItem)) return;
-        MaterialFunctionContext context = new MaterialFunctionContext(level);
-        Part.HEAD.getMaterial(itemStack).ifPresent(head -> new MethodChain<>(head)
-            .and(h -> h.onCreation(context, Part.HEAD, this.getHeadType(), itemStack))
-            .and(h -> context.add(h.key)));
-        Part.ROD.getMaterial(itemStack).ifPresent(rod -> new MethodChain<>(rod)
-            .and(r -> r.onCreation(context, Part.ROD, this.getHeadType(), itemStack))
-            .and(r -> context.add(r.key)));
-        Part.TRIM.getMaterial(itemStack).ifPresent(
-            trim -> trim.onCreation(context, Part.TRIM, this.getHeadType(), itemStack));
+        MaterialFunctionContext context = new MaterialFunctionContext(registryAccess);
+        Part.HEAD.getMaterial(itemStack).ifPresent(head -> {
+            head.onCreation(context, Part.HEAD, this.getHeadType(), itemStack);
+            context.add(head.key);
+        });
+        Part.ROD.getMaterial(itemStack).ifPresent(rod -> {
+            rod.onCreation(context, Part.ROD, this.getHeadType(), itemStack);
+            context.add(rod.key);
+        });
+        Part.TRIM.getMaterial(itemStack).ifPresent(trim -> {
+            trim.onCreation(context, Part.TRIM, this.getHeadType(), itemStack);
+        });
     }
 }

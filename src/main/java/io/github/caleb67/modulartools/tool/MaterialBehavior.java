@@ -21,20 +21,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class MaterialBehavior {
+public abstract class MaterialBehavior {
     public final ToolMaterial material;
     private HashMap<HeadType, Attribute> attribute_map;
     public final ResourceKey<MaterialBehavior> key;
-    private Set<Item> items;
     
     private final Properties properties;
     
@@ -43,7 +40,6 @@ public class MaterialBehavior {
         this.attribute_map = properties.attribute_map;
         this.key = properties.getIdOrThrow();
         this.properties = properties;
-        this.items = Set.of();
     }
     
     public ChatFormatting[] getFormatting() {
@@ -58,7 +54,7 @@ public class MaterialBehavior {
             : new ChatFormatting[]{ChatFormatting.WHITE};
     }
     
-    public List<Item> getItems() {return this.items.stream().toList();}
+    public Set<Item> getItems() {return Collections.unmodifiableSet(this.properties.itemSupplier.get());}
     
     public boolean mineBlock(Part part, HeadType type, ItemStack itemStack, Level level,
                              BlockState state, BlockPos pos, LivingEntity owner) {
@@ -129,9 +125,7 @@ public class MaterialBehavior {
         return attribute.baseAttackSpeed;
     }
     
-    public void addValidItems(Set<Item> items) {
-        this.items = Stream.concat(this.items.stream(), items.stream()).collect(Collectors.toSet());
-    }
+    protected abstract Set<Item> validItemsToRepair();
     
     public void addHeadTypeAttributes(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
         if (this.attribute_map.containsKey(type))
@@ -151,7 +145,7 @@ public class MaterialBehavior {
         return StreamSupport
             .stream(materials.spliterator(), false)
             .filter(materialBehavior -> materialBehavior.getItems().contains(item))
-            .collect(Collectors.toSet());
+            .collect(Collectors.toUnmodifiableSet());
     }
     
     public void hurtEnemy(Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
@@ -166,6 +160,7 @@ public class MaterialBehavior {
         ToolMaterial material;
         @Nullable ChatFormatting[] formatting;
         @Nullable ChatFormatting[] effect_formatting;
+        Supplier<Set<Item>> itemSupplier;
         
         public Properties() {
             this.attribute_map = new HashMap<HeadType, Attribute>();
@@ -173,6 +168,7 @@ public class MaterialBehavior {
             this.material = ToolMaterial.WOOD;
             this.formatting = null;
             this.effect_formatting = null;
+            this.itemSupplier = Collections::emptySet;
         }
         
         public Properties setId(ResourceKey<MaterialBehavior> key) {
@@ -204,6 +200,11 @@ public class MaterialBehavior {
         public ResourceKey<MaterialBehavior> getIdOrThrow() {
             if (this.key == null) throw new NullPointerException("MaterialBehavior id not set.");
             return this.key;
+        }
+        
+        public Properties setRepairItems(Supplier<Set<Item>> itemSupplier) {
+            this.itemSupplier = itemSupplier;
+            return this;
         }
     }
     

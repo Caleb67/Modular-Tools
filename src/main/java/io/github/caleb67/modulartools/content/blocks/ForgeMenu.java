@@ -131,12 +131,7 @@ public class ForgeMenu extends AbstractContainerMenu {
             boolean a_is_lit = level.getBlockState(furnaces.get().getKey()).getValue(BlastFurnaceBlock.LIT);
             boolean b_is_lit = level.getBlockState(furnaces.get().getValue()).getValue(BlastFurnaceBlock.LIT);
             
-            int heat = 0;
-            if (a_is_lit)
-                heat += 1;
-            if (b_is_lit)
-                heat += 1;
-            
+            int heat = (a_is_lit ? 1 : 0) + (b_is_lit ? 1 : 0);
             this.data.set(0, heat);
         });
     }
@@ -158,48 +153,49 @@ public class ForgeMenu extends AbstractContainerMenu {
         var head_slot = this.slots.get(CONTAINER_START + 1);
         var rod_slot = this.slots.get(CONTAINER_START + 3);
         var trim_slot = this.slots.get(CONTAINER_START + 7);
-        
         var result_slot = this.slots.get(CONTAINER_START + 5);
         
-        Function<Slot, Boolean> conflict_test = slot -> {
+        Function<Slot, Boolean> conflicts = slot -> {
             var materials = MaterialBehavior.fromItem(slot.getItem().getItem());
             try {
                 if (materials.size() > 1)
                     throw new IllegalStateException(
                         "Unable to forge: conflicting items for materials: '" + materials + "'!");
                 else
-                    return true;
-            } catch (IllegalStateException ise) {
+                    return false;
+            }
+            catch (IllegalStateException ise) {
                 ModularTools.LOGGER.error(ise.getMessage());
-                return false;
+                return true;
             }
         };
-        
-        if (!conflict_test.apply(head_slot) || !conflict_test.apply(rod_slot) || !conflict_test.apply(trim_slot))
+        if (conflicts.apply(head_slot) || conflicts.apply(rod_slot) || conflicts.apply(trim_slot))
             return false;
         
-        var head_material = MaterialBehavior.fromItem(head_slot.getItem().getItem()).stream().findFirst().orElse(null);
-        var rod_material = MaterialBehavior.fromItem(rod_slot.getItem().getItem()).stream().findFirst().orElse(null);
-        var trim_material = MaterialBehavior.fromItem(trim_slot.getItem().getItem()).stream().findFirst().orElse(null);
-        
-        if (head_material == null || rod_material == null || trim_material == null) return false;
+        var head_material = MaterialBehavior.fromItem(head_slot.getItem().getItem()).stream().findFirst();
+        var rod_material = MaterialBehavior.fromItem(rod_slot.getItem().getItem()).stream().findFirst();
+        var trim_material = MaterialBehavior.fromItem(trim_slot.getItem().getItem()).stream().findFirst();
+        if (head_material.isEmpty()|| rod_material.isEmpty() || trim_material.isEmpty()) return false;
         
         if (!template_slot.hasItem()) return false;
-        
-        var tool_template = template_slot.getItem().getItem();
-        if (!(tool_template instanceof ToolTemplateItem)) return false;
-        
         if (result_slot.hasItem()) return false;
         
-        var result = ((ToolTemplateItem) tool_template).modularTool.getDefaultInstance();
-        result.set(MTDataComponents.MODULAR_TOOL_HEAD, head_material.key);
-        result.set(MTDataComponents.MODULAR_TOOL_ROD, rod_material.key);
-        result.set(MTDataComponents.MODULAR_TOOL_TRIM, trim_material.key);
-        ((ToolTemplateItem) tool_template).modularTool.onCreation(result, level);
+        
+        var template_item = template_slot.getItem().getItem();
+        if (!(template_item instanceof ToolTemplateItem tool_template)) return false;
+        
+        var result = tool_template.modularTool.getDefaultInstance();
+        result.set(MTDataComponents.MODULAR_TOOL_HEAD, head_material.get().key);
+        result.set(MTDataComponents.MODULAR_TOOL_ROD, rod_material.get().key);
+        result.set(MTDataComponents.MODULAR_TOOL_TRIM, trim_material.get().key);
+        
+        tool_template.modularTool.onCreation(result, level.registryAccess());
+        
         head_slot.remove(1);
         rod_slot.remove(1);
         trim_slot.remove(1);
         result_slot.set(result);
+        
         this.broadcastChanges();
         return true;
     }

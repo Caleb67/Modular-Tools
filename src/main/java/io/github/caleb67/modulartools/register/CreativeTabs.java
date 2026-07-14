@@ -42,19 +42,12 @@ public class CreativeTabs {
             for (var material : materials) {
                 if (!material.hasHeadTypeAttributes(tool.getHeadType())) continue;
                 stack = stack.copy();
-                var context = new MaterialFunctionContext(null);
                 stack.set(MTDataComponents.MODULAR_TOOL_HEAD, material.key);
                 stack.set(MTDataComponents.MODULAR_TOOL_ROD, material.key);
                 stack.set(MTDataComponents.MODULAR_TOOL_TRIM, material.key);
-                if (Tests.in(Part.HEAD.getMaterial(stack).get(),
-                             Part.ROD.getMaterial(stack).get(),
-                             Part.TRIM.getMaterial(stack).get())
-                         .test(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR)) {
-                    MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR.onCreationNullLevel(
-                        context, Part.HEAD, new HeadType.NotApplicable(), stack
-                    );
-                }
+                tool.onCreation(stack, output.getContext().holders());
                 tabout.accept(stack);
+                
             }
         };
         

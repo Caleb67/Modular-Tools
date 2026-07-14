@@ -20,8 +20,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
-    private Optional<ServerLevel> level;
-    
     public NetheriteMaterialBehavior(Properties properties) {
         super(properties);
     }
@@ -36,27 +34,15 @@ public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
     @Override public void onCreation(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
         if (context.hasSeen(this.key)) return;
         new MethodChain<>(context)
-            .andWithResult(c -> c.level.registryAccess().lookup(Registries.DAMAGE_TYPE))
-            .then(damageTypes -> {
-                if (damageTypes.isEmpty()) return;
-                new MethodChain<>(damageTypes)
-                    .mutate(Optional::get)
-                    .andWithResult(r -> Stream.concat(
-                        r.getOrThrow(DamageTypeTags.IS_FIRE).stream(),
-                        r.getOrThrow(DamageTypeTags.IS_EXPLOSION).stream()
-                    ))
-                    .then(types -> itemStack.set(
-                        DataComponents.DAMAGE_RESISTANT,
-                        new DamageResistant(HolderSet.direct(types.toList()))
-                    ));
-            });
-    }
-    
-    public void onCreationNullLevel(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
-        this.onCreation(new MaterialFunctionContext(context, level.get()), part, type, itemStack);
-    }
-    
-    public void load(ServerLevel level) {
-        this.level = Optional.of(level);
+            .andWithResult(c -> c.registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE))
+            .then(damageTypes -> new MethodChain<>(damageTypes)
+                .andWithResult(r -> Stream.concat(
+                    r.getOrThrow(DamageTypeTags.IS_FIRE).stream(),
+                    r.getOrThrow(DamageTypeTags.IS_EXPLOSION).stream()
+                ))
+                .then(types -> itemStack.set(
+                    DataComponents.DAMAGE_RESISTANT,
+                    new DamageResistant(HolderSet.direct(types.toList()))
+                )));
     }
 }

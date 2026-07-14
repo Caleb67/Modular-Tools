@@ -1,5 +1,9 @@
 package io.github.caleb67.modulartools.tool;
 
+import net.minecraft.world.item.Item;
+
+import java.util.Set;
+
 public class BaseMaterialBehavior extends MaterialBehavior {
     public BaseMaterialBehavior(Properties properties) {
         properties
@@ -9,5 +13,9 @@ public class BaseMaterialBehavior extends MaterialBehavior {
             .setAttributesForHeadType(new HeadType.Sword(), 3.0F, -2.4F)
             .setAttributesForHeadType(new HeadType.Hoe(), -3.0F, 0.0F);
         super(properties);
+    }
+    
+    @Override protected Set<Item> validItemsToRepair() {
+        return Set.of();
     }
 }

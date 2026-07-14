@@ -7,12 +7,19 @@ import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.HeadType;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.Items;
 
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MaterialBehaviors {
     public static final MaterialBehavior WOOD_MATERIAL_BEHAVIOR = register(
@@ -20,6 +27,7 @@ public class MaterialBehaviors {
         BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.WOOD)
+            .setRepairItems(() -> setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.PLANKS)))
             .setFormatting(ChatFormatting.WHITE)
     
     );
@@ -28,6 +36,7 @@ public class MaterialBehaviors {
         BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
+            .setRepairItems(() -> setFromHolderSet(BuiltInRegistries.ITEM.getOrThrow(ItemTags.STONE_TOOL_MATERIALS)))
             .setFormatting(ChatFormatting.WHITE)
     );
     
@@ -36,6 +45,7 @@ public class MaterialBehaviors {
         GoldMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.GOLD)
+            .setRepairItems(() -> Set.of(Items.GOLD_INGOT))
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.GOLD, ChatFormatting.ITALIC)
     );
@@ -44,6 +54,7 @@ public class MaterialBehaviors {
         BlazeMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
+            .setRepairItems(() -> Set.of(Items.BLAZE_ROD))
             .setFormatting(ChatFormatting.AQUA)
             .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.BOLD)
     );
@@ -52,6 +63,7 @@ public class MaterialBehaviors {
         EmeraldMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
+            .setRepairItems(() -> Set.of(Items.EMERALD))
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.GREEN)
     );
@@ -60,6 +72,7 @@ public class MaterialBehaviors {
         BaseMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
+            .setRepairItems(() -> Set.of(Items.IRON_INGOT))
             .setFormatting(ChatFormatting.YELLOW)
     );
     public static final CopperMaterialBehavior COPPER_MATERIAL_BEHAVIOR = register(
@@ -67,6 +80,7 @@ public class MaterialBehaviors {
         CopperMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.COPPER)
+            .setRepairItems(() -> Set.of(Items.COPPER_INGOT))
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.RED)
     );
@@ -76,6 +90,7 @@ public class MaterialBehaviors {
         PrismarineMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
+            .setRepairItems(() -> Set.of(Items.PRISMARINE_SHARD))
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.DARK_AQUA)
     );
@@ -85,6 +100,7 @@ public class MaterialBehaviors {
         LapisMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
+            .setRepairItems(() -> Set.of(Items.LAPIS_LAZULI))
             .setFormatting(ChatFormatting.WHITE)
             .setEffectFormatting(ChatFormatting.BLUE)
     );
@@ -94,6 +110,7 @@ public class MaterialBehaviors {
         QuartzMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.IRON)
+            .setRepairItems(() -> Set.of(Items.QUARTZ))
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.WHITE, ChatFormatting.ITALIC)
     );
@@ -103,6 +120,7 @@ public class MaterialBehaviors {
         DiamondMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.DIAMOND)
+            .setRepairItems(() -> Set.of(Items.DIAMOND))
             .setFormatting(ChatFormatting.AQUA)
             .setEffectFormatting(ChatFormatting.AQUA, ChatFormatting.BOLD)
     );
@@ -112,6 +130,7 @@ public class MaterialBehaviors {
         EchoMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.NETHERITE)
+            .setRepairItems(() -> Set.of(Items.ECHO_SHARD))
             .setFormatting(ChatFormatting.LIGHT_PURPLE)
             .setEffectFormatting(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC)
     );
@@ -121,6 +140,7 @@ public class MaterialBehaviors {
         RedstoneMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.STONE)
+            .setRepairItems(() -> Set.of(Items.REDSTONE))
             .setFormatting(ChatFormatting.YELLOW)
             .setEffectFormatting(ChatFormatting.DARK_RED, ChatFormatting.ITALIC)
     );
@@ -130,6 +150,7 @@ public class MaterialBehaviors {
         NetheriteMaterialBehavior::new,
         new MaterialBehavior.Properties()
             .toolMaterial(ToolMaterial.NETHERITE)
+            .setRepairItems(() -> Set.of(Items.NETHERITE_INGOT))
             .setAttributesForHeadType(new HeadType.Hoe(), -4.0F, 0.0F)
             .setFormatting(ChatFormatting.LIGHT_PURPLE)
             .setEffectFormatting(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)
@@ -146,4 +167,10 @@ public class MaterialBehaviors {
     }
     
     public static void load() {}
+    
+    private static <T> Set<T> setFromHolderSet(HolderSet<T> holderSet) {
+        return holderSet.stream()
+                        .map(Holder::value)
+                        .collect(Collectors.toSet());
+    }
 }
