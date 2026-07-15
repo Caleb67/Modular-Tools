@@ -18,16 +18,16 @@ When the correct blocks are present, you can interact with the crafting table to
 
 The forge has a 9 slots, only 5 of these slots will be used for forging tools.
 
-The center slot is where you will place the tool template for the tool you want to forge.
-The top, left, and bottom slots are for the head, rod, and trim material respectively.
+The center slot is where you will place the tool template for the tool you want to forge.  
+The top, left, and bottom slots are for the head, rod, and trim material respectively.  
 The right slot is where the result will be placed.
 
-The forge requires heat to operate, specifically, both blast furnaces must be running in order to forge.
-The heat level is displayed in the forge menu.
+The forge requires heat to operate, specifically, both blast furnaces must be running in order to forge.  
+The heat level is displayed in the forge's menu.
 
 ![Screenshot of the forge's menu, with 9 slots, a heat indicator on the left, and a hammer indicator on the right.](/images/ForgeMenu.png)
 
-To forge a tool, you will need a tool template and 3 materials.
+To forge a tool, you will need a tool template and 3 materials.  
 The result slot must also be empty.
 
 When ready to forge a tool, simply press the forge's "hammer" button.
