@@ -58,6 +58,7 @@ public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty() ||
             !ItemStack.isSameItemSameComponents(player.getMainHandItem(), itemStack)) {
             submerged_mine_speed.removeModifier(SUBMERGED_MINING_INCREASE);
+            oxygen_bonus.removeModifier(OXYGEN_BONUS_INCREASE);
             return;
         }
         
