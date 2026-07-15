@@ -168,7 +168,7 @@ public class MaterialBehaviors {
     
     public static void load() {}
     
-    private static <T> Set<T> setFromHolderSet(HolderSet<T> holderSet) {
+    public static <T> Set<T> setFromHolderSet(HolderSet<T> holderSet) {
         return holderSet.stream()
                         .map(Holder::value)
                         .collect(Collectors.toSet());
