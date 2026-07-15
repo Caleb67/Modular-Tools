@@ -25,7 +25,7 @@ The right slot is where the result will be placed.
 The forge requires heat to operate, specifically, both blast furnaces must be running in order to forge.
 The heat level is displayed in the forge menu.
 
-![Screenshot of the forge's menu, with 9 slots, a heat indicator on the left, and a hammer indicator on the lower right of the forging grid.](/images/ForgeMenu.png)
+![Screenshot of the forge's menu, with 9 slots, a heat indicator on the left, and a hammer indicator on the right.](/images/ForgeMenu.png)
 
 To forge a tool, you will need a tool template and 3 materials.
 The result slot must also be empty.
