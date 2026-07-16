@@ -163,8 +163,7 @@ public class ForgeMenu extends AbstractContainerMenu {
                         "Unable to forge: conflicting items for materials: '" + materials + "'!");
                 else
                     return false;
-            }
-            catch (IllegalStateException ise) {
+            } catch (IllegalStateException ise) {
                 ModularTools.LOGGER.error(ise.getMessage());
                 return true;
             }
@@ -175,7 +174,7 @@ public class ForgeMenu extends AbstractContainerMenu {
         var head_material = MaterialBehavior.fromItem(head_slot.getItem().getItem()).stream().findFirst();
         var rod_material = MaterialBehavior.fromItem(rod_slot.getItem().getItem()).stream().findFirst();
         var trim_material = MaterialBehavior.fromItem(trim_slot.getItem().getItem()).stream().findFirst();
-        if (head_material.isEmpty()|| rod_material.isEmpty() || trim_material.isEmpty()) return false;
+        if (head_material.isEmpty() || rod_material.isEmpty() || trim_material.isEmpty()) return false;
         
         if (!template_slot.hasItem()) return false;
         if (result_slot.hasItem()) return false;

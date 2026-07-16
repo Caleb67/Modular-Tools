@@ -11,17 +11,10 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 public class Events {
     public static void load() {
@@ -30,34 +23,35 @@ public class Events {
         LoadEntityEvents.changes.forEach(ServerEntityEvents.ENTITY_LOAD::register);
         LevelLoadEvents.changes.forEach(ServerLevelEvents.LOAD::register);
         
-        ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
-            var attack_speed_attr = serverPlayer.getAttribute(Attributes.ATTACK_SPEED);
-            var attack_damage_attr = serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE);
-            assert attack_speed_attr != null;
-            assert attack_damage_attr != null;
-            
-            AtomicReference<ItemStack> viable_tool = new AtomicReference<>();
-            serverPlayer.getInventory().forEach(itemStack -> {
-                if (ItemStack.isSameItemSameComponents((serverPlayer).getMainHandItem(), itemStack) &&
-                    (itemStack.getItem() instanceof AbstractModularToolItem)) {
-                    viable_tool.set(itemStack);
+        ServerTickEvents.END_SERVER_TICK.register(
+            minecraftServer -> minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
+                var attack_speed_attr = serverPlayer.getAttribute(Attributes.ATTACK_SPEED);
+                var attack_damage_attr = serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE);
+                assert attack_speed_attr != null;
+                assert attack_damage_attr != null;
+                
+                AtomicReference<ItemStack> viable_tool = new AtomicReference<>();
+                serverPlayer.getInventory().forEach(itemStack -> {
+                    if (ItemStack.isSameItemSameComponents((serverPlayer).getMainHandItem(), itemStack) &&
+                        (itemStack.getItem() instanceof AbstractModularToolItem)) {
+                        viable_tool.set(itemStack);
+                    }
+                });
+                
+                if (viable_tool.get() != null) {
+                    var stack = viable_tool.get();
+                    ((AbstractModularToolItem) stack.getItem()).updateAttackAttributes(stack, serverPlayer);
                 }
-            });
-            
-            if (viable_tool.get() != null) {
-                var stack = viable_tool.get();
-                ((AbstractModularToolItem) stack.getItem()).updateAttackAttributes(stack, serverPlayer);
-            }
-            else {
-                attack_speed_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
-                attack_damage_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
-            }
-            
-            
-            // update Menus if open
-            if (serverPlayer.containerMenu instanceof ForgeMenu fm) {
-                fm.updateFuel();
-            }
-        }));
+                else {
+                    attack_speed_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
+                    attack_damage_attr.removeModifier(AbstractModularToolItem.BASE_ATTACK_SPEED);
+                }
+                
+                
+                // update Menus if open
+                if (serverPlayer.containerMenu instanceof ForgeMenu fm) {
+                    fm.updateFuel();
+                }
+            }));
     }
 }

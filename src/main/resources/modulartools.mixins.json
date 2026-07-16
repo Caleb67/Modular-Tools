@@ -5,6 +5,7 @@
   "mixins": [
     "BlockPlaceDamageCopperMixin",
     "CraftingTableConversionMixin",
+    "GameTestsDynamicLoadingMixin",
     "ModularToolHurtAndBreakMixin",
     "RedstoneMaterialSortMixin"
   ],

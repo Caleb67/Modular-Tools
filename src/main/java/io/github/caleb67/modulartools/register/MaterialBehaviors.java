@@ -14,8 +14,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ToolMaterial;
 
 import java.util.Set;
 import java.util.function.Function;

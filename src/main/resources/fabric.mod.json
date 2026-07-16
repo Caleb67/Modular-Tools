@@ -29,5 +29,6 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}"
-  }
+  },
+  "accessWidener": "modulartools.classtweaker"
 }

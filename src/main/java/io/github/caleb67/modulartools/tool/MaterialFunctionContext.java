@@ -2,7 +2,6 @@ package io.github.caleb67.modulartools.tool;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 
 import java.util.ArrayList;
 

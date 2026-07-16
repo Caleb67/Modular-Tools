@@ -4,8 +4,11 @@ import io.github.caleb67.modulartools.content.EndTickEvents;
 import io.github.caleb67.modulartools.content.LevelLoadEvents;
 import io.github.caleb67.modulartools.content.LoadEntityEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
+import io.github.caleb67.modulartools.gametest.GameTests;
 import io.github.caleb67.modulartools.register.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.impl.gametest.FabricGameTestRunner;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,5 +33,9 @@ public class ModularTools implements ModInitializer {
         LevelLoadEvents.load();
         Events.load();
         CreativeTabs.load();
+        
+        if (FabricGameTestRunner.ENABLED || FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            GameTests.load();
+        }
     }
 }

@@ -2,8 +2,8 @@ package io.github.caleb67.modulartools.register;
 
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.ModularToolsRegistries;
-import io.github.caleb67.modulartools.tool.*;
-import io.github.caleb67.modulartools.util.Tests;
+import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
+import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
