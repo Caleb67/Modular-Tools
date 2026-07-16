@@ -11,17 +11,13 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
-import org.apache.commons.lang3.IntegerRange;
-import org.apache.commons.lang3.function.TriConsumer;
 import org.jspecify.annotations.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
     protected ModularToolsEnglishLangProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
@@ -36,14 +32,20 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         Map.entry(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, new Translation("Copper", Optional.of("Reach"), true)),
         Map.entry(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, new Translation("Gold", Optional.of("Fast"), true)),
         Map.entry(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR, new Translation("Blaze", Optional.of("Smelting"), false)),
-        Map.entry(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR, new Translation("Emerald", Optional.of("Fortune"), true)),
-        Map.entry(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR, new Translation("Prismarine", Optional.of("Aquatic"), true)),
+        Map.entry(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR,
+            new Translation("Emerald", Optional.of("Fortune"), true)),
+        Map.entry(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR,
+            new Translation("Prismarine", Optional.of("Aquatic"), true)),
         Map.entry(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, new Translation("Lapis", Optional.of("Amplifier"), true)),
-        Map.entry(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, new Translation("Quartz", Optional.of("Silk Touch"), false)),
-        Map.entry(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, new Translation("Diamond", Optional.of("Durable"), true)),
+        Map.entry(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR,
+            new Translation("Quartz", Optional.of("Silk Touch"), false)),
+        Map.entry(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR,
+            new Translation("Diamond", Optional.of("Durable"), true)),
         Map.entry(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, new Translation("Echo", Optional.of("Echoing"), false)),
-        Map.entry(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, new Translation("Redstone", Optional.of("Smart"), false)),
-        Map.entry(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, new Translation("Netherite", Optional.of("Heavy Duty"), true))
+        Map.entry(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR,
+            new Translation("Redstone", Optional.of("Smart"), false)),
+        Map.entry(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR,
+            new Translation("Netherite", Optional.of("Heavy Duty"), true))
     );
     
     private static final Map<HeadType, String> HEAD_TYPES = Map.of(
@@ -59,15 +61,19 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         
         BiConsumer<MaterialBehavior, Translation> effectTranslations = (material, translation) -> {
             HEAD_TYPES.forEach((headType, headName) -> translationBuilder.add(
-                TranslationUtil.makeToolDescId(material.key, headType), translation.name+" "+headName)
+                TranslationUtil.makeToolDescId(material.key, headType), translation.name + " " + headName)
             );
             translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), translation.name + " Rod");
             translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), translation.name + " Trim");
             translation.effectName.ifPresent(effectName -> {
-                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1), translation.hasLevels ? effectName + " I" : effectName);
-                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2), translation.hasLevels ? effectName + " II" : effectName);
-                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3), translation.hasLevels ? effectName + " III" : effectName);
-                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4), translation.hasLevels ? effectName + " IV" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1),
+                    translation.hasLevels ? effectName + " I" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2),
+                    translation.hasLevels ? effectName + " II" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3),
+                    translation.hasLevels ? effectName + " III" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4),
+                    translation.hasLevels ? effectName + " IV" : effectName);
             });
         };
         

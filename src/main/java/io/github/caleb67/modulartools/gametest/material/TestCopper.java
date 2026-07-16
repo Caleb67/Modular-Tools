@@ -1,6 +1,5 @@
 package io.github.caleb67.modulartools.gametest.material;
 
-import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
 import io.github.caleb67.modulartools.gametest.base.BaseMaterialBehaviorTest;
 import io.github.caleb67.modulartools.gametest.base.Helper;
@@ -12,16 +11,17 @@ import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.enchantment.Enchantments;
 
 public final class TestCopper extends BaseMaterialBehaviorTest {
     @GameTest
     public void testInventoryTick(GameTestHelper context, AbstractModularToolItem tool,
                                   ServerPlayer player, int slot, int level) {
-        try {testInHand(context, player, level);}
-        catch (GameTestAssertException e) {throw Helper.specify(context, e, "(in mainhand)");}
-        try {testNotInHand(context, player, level);}
-        catch (GameTestAssertException e) {throw Helper.specify(context, e, "(not in mainhand)");}
+        try {testInHand(context, player, level);} catch (GameTestAssertException e) {
+            throw Helper.specify(context, e, "(in mainhand)");
+        }
+        try {testNotInHand(context, player, level);} catch (GameTestAssertException e) {
+            throw Helper.specify(context, e, "(not in mainhand)");
+        }
     }
     
     private void testInHand(GameTestHelper context, ServerPlayer player, int level) {

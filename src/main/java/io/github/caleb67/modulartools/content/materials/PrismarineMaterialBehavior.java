@@ -84,9 +84,9 @@ public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
     private static double getIncrease(MaterialBehavior head, MaterialBehavior rod, MaterialBehavior trim, ItemStack itemStack) {
         return (
             (head instanceof PrismarineMaterialBehavior ? 1 : 0)
-            + (rod instanceof PrismarineMaterialBehavior ? 1 : 0)
-            + (trim instanceof PrismarineMaterialBehavior ? 1 : 0)
-        ) * LapisMaterialBehavior.getAmplifierAmount(itemStack);
+                + (rod instanceof PrismarineMaterialBehavior ? 1 : 0)
+                + (trim instanceof PrismarineMaterialBehavior ? 1 : 0)
+        )*LapisMaterialBehavior.getAmplifierAmount(itemStack);
     }
 }
 

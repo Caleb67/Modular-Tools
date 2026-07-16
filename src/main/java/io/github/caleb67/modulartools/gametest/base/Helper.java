@@ -7,8 +7,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -66,7 +64,7 @@ public class Helper {
         }
         context.assertTrue(has_modifier, TestError.noAttributeModifier(modifier));
         var modifier_value = player.getAttributes().getModifierValue(attribute, modifier);
-        context.assertTrue(modifier_value == value, TestError.wrongValueAttributeModifier(value,  modifier_value));
+        context.assertTrue(modifier_value == value, TestError.wrongValueAttributeModifier(value, modifier_value));
     }
     
     /**
@@ -81,12 +79,13 @@ public class Helper {
     
     /**
      * Append more information to a game test exception.
-     * @param context context
+     *
+     * @param context   context
      * @param exception original exception
-     * @param with text to append
+     * @param with      text to append
      * @return new exception with additional text
      */
     public static GameTestAssertException specify(GameTestHelper context, GameTestAssertException exception, String with) {
-        return new GameTestAssertException(exception.message.copy().append(" "+with), (int) context.getTick());
+        return new GameTestAssertException(exception.message.copy().append(" " + with), (int) context.getTick());
     }
 }

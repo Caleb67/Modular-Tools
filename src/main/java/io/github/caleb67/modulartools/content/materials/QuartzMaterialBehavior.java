@@ -3,7 +3,6 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
-import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;

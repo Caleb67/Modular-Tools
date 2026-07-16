@@ -14,8 +14,8 @@ public abstract class BaseMaterialBehaviorTest {
      *
      * @param context
      * @param tool
-     * @param player has slot 0 selected in hotbar
-     * @param slot always 0
+     * @param player  has slot 0 selected in hotbar
+     * @param slot    always 0
      * @param level
      */
     protected void testInventoryTick(GameTestHelper context, AbstractModularToolItem tool,
