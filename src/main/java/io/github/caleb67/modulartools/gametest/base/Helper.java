@@ -35,6 +35,9 @@ public class Helper {
         player.getInventory().setItem(slot, stack);
     }
     
+    public static void expectLevellessEnchantment(GameTestHelper helper, ResourceKey<Enchantment> enchantmentKey, ItemStack stack, int level) {
+        expectEnchantment(helper, enchantmentKey, stack, Math.min(level, 1));
+    }
     
     public static void expectEnchantment(GameTestHelper context, ResourceKey<Enchantment> enchantmentKey, ItemStack stack, int level) {
         Holder<Enchantment> enchantment = context.getLevel().registryAccess()

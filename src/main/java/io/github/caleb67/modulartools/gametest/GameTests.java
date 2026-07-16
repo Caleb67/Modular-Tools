@@ -4,6 +4,7 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.gametest.base.BaseMaterialBehaviorTest;
 import io.github.caleb67.modulartools.gametest.material.TestCopper;
 import io.github.caleb67.modulartools.gametest.material.TestEmerald;
+import io.github.caleb67.modulartools.gametest.material.TestQuartz;
 import io.github.caleb67.modulartools.register.Items;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,7 +24,7 @@ public final class GameTests {
     
     public static void createTests() {
         MATERIAL_BEHAVIOR_TESTS.addAll(List.of(
-            new TestEmerald(), new TestCopper()
+            new TestEmerald(), new TestCopper(), new TestQuartz()
         ));
         MATERIAL_BEHAVIOR_TESTS.forEach(gameTest -> {
             var id = gameTest.getTestId();
