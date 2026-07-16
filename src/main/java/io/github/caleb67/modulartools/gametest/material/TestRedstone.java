@@ -2,12 +2,10 @@ package io.github.caleb67.modulartools.gametest.material;
 
 import io.github.caleb67.modulartools.content.materials.RedstoneMaterialBehavior;
 import io.github.caleb67.modulartools.gametest.base.BaseMaterialBehaviorTest;
-import io.github.caleb67.modulartools.gametest.base.Helper;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -28,25 +26,26 @@ public class TestRedstone extends BaseMaterialBehaviorTest {
         
         player.getInventory().setItem(3, new ItemStack(Blocks.SHULKER_BOX, 1));
         var box = player.getInventory().getItem(3);
-
+        
         assertPickUp(context, player, pickupStack, true, "(empty box)");
         clearInventory(context, player, pickupStack);
-
+        
         box.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(new ItemStack(Blocks.STONE))));
         assertPickUp(context, player, pickupStack, true, "(mismatched box)");
         clearInventory(context, player, pickupStack);
-
+        
         box.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(pickupStack.copyWithCount(2))));
         assertPickUp(context, player, pickupStack, false, "(matching box)");
         var sum = getSum(context, box);
-        context.assertTrue(sum == (64+2), "Expected 66 items in the box! (matching box)");
+        context.assertTrue(sum == (64 + 2), "Expected 66 items in the box! (matching box)");
         clearInventory(context, player, pickupStack);
-
-        box.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(Collections.nCopies(27, pickupStack.copyWithCount(63))));
+        
+        box.set(DataComponents.CONTAINER,
+            ItemContainerContents.fromItems(Collections.nCopies(27, pickupStack.copyWithCount(63))));
         assertPickUp(context, player, pickupStack, true, "(matching box almost full)");
         sum = getSum(context, box);
         context.assertTrue(sum == (64*27), "Expected full box! (matching box almost full)");
-        context.assertTrue(getRemaining(context, player, pickupStack) == (64-27),
+        context.assertTrue(getRemaining(context, player, pickupStack) == (64 - 27),
             "Expected 37 to be picked up! (matching box almost full)");
     }
     
@@ -56,9 +55,9 @@ public class TestRedstone extends BaseMaterialBehaviorTest {
     
     private int getSum(GameTestHelper context, ItemStack shulkerBox) {
         var sum = shulkerBox.get(DataComponents.CONTAINER)
-                     .allItemsCopyStream()
-                     .map(ItemStack::getCount)
-                     .reduce(Integer::sum);
+                            .allItemsCopyStream()
+                            .map(ItemStack::getCount)
+                            .reduce(Integer::sum);
         context.assertTrue(sum.isPresent(), "Expected items in the box!");
         return sum.orElseThrow();
     }
@@ -77,11 +76,11 @@ public class TestRedstone extends BaseMaterialBehaviorTest {
                               ItemStack pickup, boolean shouldPickUp, String errorDetails) {
         var picked_up = pickedUp(player, pickup);
         if (shouldPickUp) {
-            context.assertTrue(picked_up , "Expected player to pick up stack! "+errorDetails);
+            context.assertTrue(picked_up, "Expected player to pick up stack! " + errorDetails);
             
         }
         else
-            context.assertFalse(picked_up, "Expected stack to go in box! "+errorDetails);
+            context.assertFalse(picked_up, "Expected stack to go in box! " + errorDetails);
     }
     
     private void clearInventory(GameTestHelper context, ServerPlayer player, ItemStack of) {

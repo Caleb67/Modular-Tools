@@ -8,10 +8,8 @@ import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
-import org.apache.commons.lang3.function.TriConsumer;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public abstract class BaseMaterialBehaviorTest {
     
@@ -85,9 +83,9 @@ public abstract class BaseMaterialBehaviorTest {
     }
     
     protected final void invokeTest(String name, GameTestHelper context,
-                              BiConsumer<GameTestHelper, Integer> function,
-                              ServerPlayer player, AbstractModularToolItem tool,
-                              MaterialBehavior material, int slot, int level) {
+                                    BiConsumer<GameTestHelper, Integer> function,
+                                    ServerPlayer player, AbstractModularToolItem tool,
+                                    MaterialBehavior material, int slot, int level) {
         switch (level) {
             case 0 -> Helper.setTool(tool, player, slot, MaterialBehaviors.STONE_MATERIAL_BEHAVIOR);
             case 1 -> Helper.setTool(tool, player, slot, material,

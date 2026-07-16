@@ -3,7 +3,6 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
-import io.github.caleb67.modulartools.util.MethodChain;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,8 +12,6 @@ import net.minecraft.world.item.component.ItemContainerContents;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
     public RedstoneMaterialBehavior(Properties properties) {
@@ -52,7 +49,7 @@ public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
                     else if (ItemStack.isSameItemSameComponents(stk, itemStack))
                         tryAddToStack(stk, itemStack);
                     return stk;
-                 }).toList();
+                }).toList();
             
             box.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(new_container));
         });

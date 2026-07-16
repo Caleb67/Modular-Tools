@@ -29,7 +29,8 @@ public final class GameTests {
         ));
         MATERIAL_BEHAVIOR_TESTS.forEach(gameTest -> {
             var id = gameTest.getTestId();
-            createTest("tick_pickaxe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_PICKAXE_TOOL), 200);
+            createTest("tick_pickaxe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_PICKAXE_TOOL),
+                200);
             createTest("misc_pickaxe_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_PICKAXE_TOOL), 200);
             createTest("tick_shovel_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_SHOVEL_TOOL), 200);
             createTest("misc_shovel_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_SHOVEL_TOOL), 200);

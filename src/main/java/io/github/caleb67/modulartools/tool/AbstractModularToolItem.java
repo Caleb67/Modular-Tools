@@ -77,9 +77,10 @@ public abstract class AbstractModularToolItem extends Item {
     public void appendHoverText(ItemStack itemStack, TooltipContext context,
                                 TooltipDisplay display, Consumer<Component> builder,
                                 TooltipFlag tooltipFlag) {
-        var tool_head = Part.HEAD.getMaterial(itemStack);
-        var tool_rod = Part.ROD.getMaterial(itemStack);
-        var tool_trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            tool_head = Part.HEAD.getMaterial(itemStack),
+            tool_rod = Part.ROD.getMaterial(itemStack),
+            tool_trim = Part.TRIM.getMaterial(itemStack);
         
         tool_rod.ifPresentOrElse(
             rod -> rod.appendPartTooltip(Part.ROD, context, display, builder, tooltipFlag),
@@ -128,9 +129,10 @@ public abstract class AbstractModularToolItem extends Item {
     
     @Override
     public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity owner) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.mineBlock(itemStack, level, state, pos, owner);
         
@@ -154,9 +156,10 @@ public abstract class AbstractModularToolItem extends Item {
     @Override
     public void hurtEnemy(ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {
         hurtAndBreakTool(itemStack, 1, attacker, EquipmentSlot.MAINHAND);
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) {
             super.hurtEnemy(itemStack, mob, attacker);
             return;
@@ -177,9 +180,10 @@ public abstract class AbstractModularToolItem extends Item {
     
     @Override
     public float getDestroySpeed(ItemStack itemStack, BlockState state) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.getDestroySpeed(itemStack, state);
         
@@ -194,9 +198,10 @@ public abstract class AbstractModularToolItem extends Item {
     
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
@@ -231,9 +236,10 @@ public abstract class AbstractModularToolItem extends Item {
         var attack_damage_attr = player.getAttribute(Attributes.ATTACK_DAMAGE);
         assert attack_damage_attr != null;
         
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return;
         // !TODO log this at some point
@@ -266,9 +272,10 @@ public abstract class AbstractModularToolItem extends Item {
     }
     
     public int findMaxDamage(ItemStack itemStack) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return 0;
         

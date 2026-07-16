@@ -5,7 +5,6 @@ import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
-import io.github.caleb67.modulartools.util.MethodChain;
 import io.github.caleb67.modulartools.util.Tests;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
