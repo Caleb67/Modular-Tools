@@ -7,13 +7,12 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
-import net.fabricmc.fabric.api.event.registry.DynamicRegistryView;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -142,10 +141,12 @@ public abstract class AbstractModularToolItem extends Item {
         
         var context = new MaterialFunctionContext(level.registryAccess(), head.get(), rod.get(), trim.get());
         
-        if (!head.get().mineBlock(context, Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner)) return false;
+        if (!head.get().mineBlock(context, Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner))
+            return false;
         if (!rod.get().mineBlock(context, Part.ROD, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
             return false;
-        if (!trim.get().mineBlock(context, Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
+        if (!trim.get()
+                 .mineBlock(context, Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
             return false;
         return true;
     }
@@ -154,8 +155,8 @@ public abstract class AbstractModularToolItem extends Item {
     public boolean canDestroyBlock(ItemStack itemStack, BlockState state, Level level, BlockPos pos, LivingEntity user) {
         var head = Part.HEAD.getMaterial(itemStack);
         return head.map(materialBehavior ->
-                           this.getHeadType().getTool(materialBehavior.material).canDestroyBlocksInCreative() ||
-                               !((user instanceof Player player) && player.getAbilities().instabuild))
+                       this.getHeadType().getTool(materialBehavior.material).canDestroyBlocksInCreative() ||
+                           !((user instanceof Player player) && player.getAbilities().instabuild))
                    .orElseGet(() -> super.canDestroyBlock(itemStack, state, level, pos, user));
     }
     
@@ -174,7 +175,7 @@ public abstract class AbstractModularToolItem extends Item {
         var context = new MaterialFunctionContext(attacker.registryAccess(), head.get(), rod.get(), trim.get());
         
         head.get().hurtEnemy(context, Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
-        rod.get().hurtEnemy(context,Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        rod.get().hurtEnemy(context, Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
         trim.get().hurtEnemy(context, Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
     }
     
@@ -186,10 +187,11 @@ public abstract class AbstractModularToolItem extends Item {
             trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.isCorrectToolForDrops(itemStack, state);
-        if (!(FabricLoader.getInstance().getGameInstance() instanceof MinecraftServer ms))
-            return super.isCorrectToolForDrops(itemStack, state);
         
-        var context = new MaterialFunctionContext(ms.reloadableRegistries().lookup(), head.get(),  rod.get(), trim.get());
+        MaterialFunctionContext context = new MaterialFunctionContext(
+            registriesFromInstance(FabricLoader.getInstance().getGameInstance()),
+            head.get(), rod.get(), trim.get());
+        
         return head.get().isCorrectToolForDrops(context, this.getHeadType(), itemStack, state);
     }
     
@@ -201,10 +203,10 @@ public abstract class AbstractModularToolItem extends Item {
             trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.getDestroySpeed(itemStack, state);
-        if (!(FabricLoader.getInstance().getGameInstance() instanceof MinecraftServer ms))
-            return super.getDestroySpeed(itemStack, state);
         
-        var context = new MaterialFunctionContext(ms.reloadableRegistries().lookup(), head.get(), rod.get(), trim.get());
+        MaterialFunctionContext context = new MaterialFunctionContext(
+            registriesFromInstance(FabricLoader.getInstance().getGameInstance()),
+            head.get(), rod.get(), trim.get());
         
         var head_speed = this.getHeadType().getTool(head.get().material).getMiningSpeed(state)
             *head.get().getDestroySpeed(context, Part.HEAD, this.getHeadType(), itemStack, state);
@@ -227,7 +229,8 @@ public abstract class AbstractModularToolItem extends Item {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-        MaterialFunctionContext context = new MaterialFunctionContext(level.registryAccess(), head.get(), rod.get(), trim.get());
+        MaterialFunctionContext context = new MaterialFunctionContext(level.registryAccess(), head.get(), rod.get(),
+            trim.get());
         
         head.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(head.get().key);
@@ -330,7 +333,8 @@ public abstract class AbstractModularToolItem extends Item {
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return;
         
-        MaterialFunctionContext context = new MaterialFunctionContext(registryAccess, head.get(), rod.get(), trim.get());
+        MaterialFunctionContext context = new MaterialFunctionContext(registryAccess, head.get(), rod.get(),
+            trim.get());
         Part.HEAD.getMaterial(itemStack).ifPresent(h -> {
             h.onCreation(context, Part.HEAD, this.getHeadType(), itemStack);
             context.add(h.key);
@@ -342,5 +346,14 @@ public abstract class AbstractModularToolItem extends Item {
         Part.TRIM.getMaterial(itemStack).ifPresent(t -> {
             t.onCreation(context, Part.TRIM, this.getHeadType(), itemStack);
         });
+    }
+    
+    protected HolderLookup.Provider registriesFromInstance(Object gameInstance) {
+        if (gameInstance instanceof MinecraftServer ms)
+            return ms.reloadableRegistries().lookup();
+        else if (gameInstance instanceof Minecraft mc)
+            return mc.level.registryAccess();
+        else
+            throw new IllegalArgumentException("Not a game instance!");
     }
 }

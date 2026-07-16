@@ -6,10 +6,8 @@ import io.github.caleb67.modulartools.content.LoadEntityEvents;
 import io.github.caleb67.modulartools.content.LootTableChanges;
 import io.github.caleb67.modulartools.gametest.GameTests;
 import io.github.caleb67.modulartools.register.*;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.impl.gametest.FabricGameTestRunner;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

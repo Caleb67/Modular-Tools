@@ -30,8 +30,9 @@ public class GoldMaterialBehavior extends BaseMaterialBehavior {
     
     @Override
     public float getDestroySpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack, BlockState state) {
-        if (!(type instanceof HeadType.NotApplicable)) return super.getDestroySpeed(context, part, type, itemStack, state)
-            *LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        if (!(type instanceof HeadType.NotApplicable))
+            return super.getDestroySpeed(context, part, type, itemStack, state)
+                *LapisMaterialBehavior.getAmplifierAmount(itemStack);
         if (part == Part.ROD) return 3.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack);
         else if (part == Part.TRIM) return 2.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack);
         return 1.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack);
@@ -39,7 +40,8 @@ public class GoldMaterialBehavior extends BaseMaterialBehavior {
     
     @Override
     public float getAttackSpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
-        return super.getAttackSpeed(context, part, type, itemStack) + (1.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack));
+        return super.getAttackSpeed(context, part, type, itemStack)
+            + (1.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack));
     }
 }
 
