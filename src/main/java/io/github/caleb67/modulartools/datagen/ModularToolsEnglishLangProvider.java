@@ -11,11 +11,17 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
+import org.apache.commons.lang3.IntegerRange;
 import org.apache.commons.lang3.function.TriConsumer;
 import org.jspecify.annotations.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
     protected ModularToolsEnglishLangProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
@@ -23,53 +29,50 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         super(dataOutput, "en_us", registryLookup);
     }
     
+    private static final List<Map.Entry<MaterialBehavior, Translation>> MATERIAL_TRANSLATIONS = List.of(
+        Map.entry(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, new Translation("Wood", Optional.empty(), false)),
+        Map.entry(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR, new Translation("Iron", Optional.empty(), false)),
+        Map.entry(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR, new Translation("Stone", Optional.empty(), false)),
+        Map.entry(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, new Translation("Copper", Optional.of("Reach"), true)),
+        Map.entry(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, new Translation("Gold", Optional.of("Fast"), true)),
+        Map.entry(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR, new Translation("Blaze", Optional.of("Smelting"), false)),
+        Map.entry(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR, new Translation("Emerald", Optional.of("Fortune"), true)),
+        Map.entry(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR, new Translation("Prismarine", Optional.of("Aquatic"), true)),
+        Map.entry(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, new Translation("Lapis", Optional.of("Amplifier"), true)),
+        Map.entry(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, new Translation("Quartz", Optional.of("Silk Touch"), false)),
+        Map.entry(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, new Translation("Diamond", Optional.of("Durable"), true)),
+        Map.entry(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, new Translation("Echo", Optional.of("Echoing"), false)),
+        Map.entry(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, new Translation("Redstone", Optional.of("Smart"), false)),
+        Map.entry(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, new Translation("Netherite", Optional.of("Heavy Duty"), true))
+    );
+    
+    private static final Map<HeadType, String> HEAD_TYPES = Map.of(
+        new HeadType.Pickaxe(), "Pickaxe", new HeadType.Shovel(), "Shovel", new HeadType.Axe(), "Axe",
+        new HeadType.Sword(), "Sword", new HeadType.Hoe(), "Hoe"
+    );
+    
+    record Translation(String name, Optional<String> effectName, boolean hasLevels) {}
+    
     @Override
     public void generateTranslations(HolderLookup.@NonNull Provider holderLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(TranslationUtil.makePartUnknown(), "Unknown");
         
-        TriConsumer<MaterialBehavior, String, Boolean> effectTranslations = (material, name, hasLevels) -> {
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1), hasLevels ? name + " I" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2), hasLevels ? name + " II" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3), hasLevels ? name + " III" : name);
-            translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4), hasLevels ? name + " IV" : name);
+        BiConsumer<MaterialBehavior, Translation> effectTranslations = (material, translation) -> {
+            HEAD_TYPES.forEach((headType, headName) -> translationBuilder.add(
+                TranslationUtil.makeToolDescId(material.key, headType), translation.name+" "+headName)
+            );
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), translation.name + " Rod");
+            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), translation.name + " Trim");
+            translation.effectName.ifPresent(effectName -> {
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 1), translation.hasLevels ? effectName + " I" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 2), translation.hasLevels ? effectName + " II" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 3), translation.hasLevels ? effectName + " III" : effectName);
+                translationBuilder.add(TranslationUtil.makeEffectDescId(material.key, 4), translation.hasLevels ? effectName + " IV" : effectName);
+            });
         };
-        effectTranslations.accept(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, "Reach", true);
-        effectTranslations.accept(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, "Fast", true);
-        effectTranslations.accept(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR, "Smelting", false);
-        effectTranslations.accept(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR, "Fortune", true);
-        effectTranslations.accept(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR, "Aquatic", true);
-        effectTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Silk Touch", false);
-        effectTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Durable", true);
-        effectTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Amplifier", true);
-        effectTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echoing", false);
-        effectTranslations.accept(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "Smart", false);
-        effectTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Heavy Duty", false);
         
-        BiConsumer<MaterialBehavior, String> toolTranslations = (material, name) -> {
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Pickaxe()),
-                name + " Pickaxe");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Shovel()),
-                name + " Shovel");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Axe()), name + " Axe");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Sword()), name + " Sword");
-            translationBuilder.add(TranslationUtil.makeToolDescId(material.key, new HeadType.Hoe()), name + " Hoe");
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.ROD), name + " Rod");
-            translationBuilder.add(TranslationUtil.makePartDescId(material.key, Part.TRIM), name + " Trim");
-        };
-        toolTranslations.accept(MaterialBehaviors.WOOD_MATERIAL_BEHAVIOR, "Wood");
-        toolTranslations.accept(MaterialBehaviors.IRON_MATERIAL_BEHAVIOR, "Iron");
-        toolTranslations.accept(MaterialBehaviors.STONE_MATERIAL_BEHAVIOR, "Stone");
-        toolTranslations.accept(MaterialBehaviors.COPPER_MATERIAL_BEHAVIOR, "Copper");
-        toolTranslations.accept(MaterialBehaviors.GOLD_MATERIAL_BEHAVIOR, "Gold");
-        toolTranslations.accept(MaterialBehaviors.BLAZE_MATERIAL_BEHAVIOR, "Blaze");
-        toolTranslations.accept(MaterialBehaviors.EMERALD_MATERIAL_BEHAVIOR, "Emerald");
-        toolTranslations.accept(MaterialBehaviors.PRISMARINE_MATERIAL_BEHAVIOR, "Prismarine");
-        toolTranslations.accept(MaterialBehaviors.LAPIS_MATERIAL_BEHAVIOR, "Lapis");
-        toolTranslations.accept(MaterialBehaviors.QUARTZ_MATERIAL_BEHAVIOR, "Quartz");
-        toolTranslations.accept(MaterialBehaviors.DIAMOND_MATERIAL_BEHAVIOR, "Diamond");
-        toolTranslations.accept(MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR, "Echo");
-        toolTranslations.accept(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR, "Redstone");
-        toolTranslations.accept(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR, "Netherite");
+        MATERIAL_TRANSLATIONS.forEach(entry -> effectTranslations.accept(entry.getKey(), entry.getValue()));
+        
         
         translationBuilder.add(Items.PICKAXE_TOOL_TEMPLATE, "Pickaxe Template");
         translationBuilder.add(Items.SHOVEL_TOOL_TEMPLATE, "Shovel Template");
@@ -78,7 +81,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(Items.HOE_TOOL_TEMPLATE, "Hoe Template");
         
         translationBuilder.add(Items.BASE_PICKAXE_TOOL, "Unknown Type Pickaxe");
-        translationBuilder.add(Items.BASE_SHOVEL_TOOL, "Unknown Type Pickaxe");
+        translationBuilder.add(Items.BASE_SHOVEL_TOOL, "Unknown Type Shovel");
         translationBuilder.add(Items.BASE_AXE_TOOL, "Unknown Type Axe");
         translationBuilder.add(Items.BASE_SWORD_TOOL, "Unknown Type Sword");
         translationBuilder.add(Items.BASE_HOE_TOOL, "Unknown Type Hoe");

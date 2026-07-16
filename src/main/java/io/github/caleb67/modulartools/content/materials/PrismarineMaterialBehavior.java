@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
+import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -42,18 +43,16 @@ public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
     }
     
     public static void testAndApply(ItemStack itemStack, Entity owner) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
-        
-        var isPlayer = owner instanceof Player;
-        if (!isPlayer) return;
-        var player = (Player) owner;
+        if (!(owner instanceof Player player)) return;
         
         var submerged_mine_speed = player.getAttribute(Attributes.SUBMERGED_MINING_SPEED);
         assert submerged_mine_speed != null;
         var oxygen_bonus = player.getAttribute(Attributes.OXYGEN_BONUS);
         assert oxygen_bonus != null;
+        
+        var head = Part.HEAD.getMaterial(itemStack);
+        var rod = Part.ROD.getMaterial(itemStack);
+        var trim = Part.TRIM.getMaterial(itemStack);
         
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty() ||
             !ItemStack.isSameItemSameComponents(player.getMainHandItem(), itemStack)) {
@@ -62,10 +61,7 @@ public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
             return;
         }
         
-        double increase = (head.get() instanceof PrismarineMaterialBehavior ? 1 : 0)
-            + (rod.get() instanceof PrismarineMaterialBehavior ? 1 : 0)
-            + (trim.get() instanceof PrismarineMaterialBehavior ? 1 : 0);
-        increase = increase*LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        double increase = getIncrease(head.get(), rod.get(), trim.get(), itemStack);
         
         if (increase == 0) {
             submerged_mine_speed.removeModifier(SUBMERGED_MINING_INCREASE);
@@ -83,6 +79,14 @@ public class PrismarineMaterialBehavior extends BaseMaterialBehavior {
             increase*10,
             AttributeModifier.Operation.ADD_VALUE
         ));
+    }
+    
+    private static double getIncrease(MaterialBehavior head, MaterialBehavior rod, MaterialBehavior trim, ItemStack itemStack) {
+        return (
+            (head instanceof PrismarineMaterialBehavior ? 1 : 0)
+            + (rod instanceof PrismarineMaterialBehavior ? 1 : 0)
+            + (trim instanceof PrismarineMaterialBehavior ? 1 : 0)
+        ) * LapisMaterialBehavior.getAmplifierAmount(itemStack);
     }
 }
 

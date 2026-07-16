@@ -42,23 +42,14 @@ public class QuartzMaterialBehavior extends BaseMaterialBehavior {
     }
     
     protected static void testAndApply(ItemStack itemStack, ServerLevel level) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
-        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty()) return;
-        
-        boolean should_enchant = head.get() instanceof QuartzMaterialBehavior ||
-            rod.get() instanceof QuartzMaterialBehavior ||
-            trim.get() instanceof QuartzMaterialBehavior;
-        
         Holder<Enchantment> silk_touch = level.registryAccess()
                                               .lookupOrThrow(Registries.ENCHANTMENT)
                                               .getOrThrow(Enchantments.SILK_TOUCH);
         
         var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
         item_enchantments.removeIf(enchantmentHolder -> enchantmentHolder.value() == silk_touch.value());
+        item_enchantments.set(silk_touch, 1);
         
-        if (should_enchant) item_enchantments.set(silk_touch, 1);
         EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
 }

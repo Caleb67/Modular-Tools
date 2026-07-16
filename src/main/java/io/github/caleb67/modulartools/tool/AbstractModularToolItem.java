@@ -80,14 +80,17 @@ public abstract class AbstractModularToolItem extends Item {
         var tool_head = Part.HEAD.getMaterial(itemStack);
         var tool_rod = Part.ROD.getMaterial(itemStack);
         var tool_trim = Part.TRIM.getMaterial(itemStack);
+        
         tool_rod.ifPresentOrElse(
             rod -> rod.appendPartTooltip(Part.ROD, context, display, builder, tooltipFlag),
             () -> builder.accept(Component.translatable(TranslationUtil.makePartUnknown()))
         );
+        
         tool_trim.ifPresentOrElse(
             trim -> trim.appendPartTooltip(Part.TRIM, context, display, builder, tooltipFlag),
             () -> builder.accept(Component.translatable(TranslationUtil.makePartUnknown()))
         );
+        
         if (tool_head.isEmpty() || tool_rod.isEmpty() || tool_trim.isEmpty()) return;
         
         MaterialEffectTooltipCollector collector = new MaterialEffectTooltipCollector();
@@ -95,8 +98,10 @@ public abstract class AbstractModularToolItem extends Item {
                                   .add(tool_rod.get().key)
                                   .add(tool_trim.get().key)
                                   .complete(itemStack, context, display, builder, tooltipFlag);
+        
         if (!operations.isEmpty())
             builder.accept(Component.literal("————————").withStyle(ChatFormatting.GRAY, ChatFormatting.BOLD));
+        
         operations.forEach(operation -> operation.apply(collector, context, display, builder, tooltipFlag));
     }
     
