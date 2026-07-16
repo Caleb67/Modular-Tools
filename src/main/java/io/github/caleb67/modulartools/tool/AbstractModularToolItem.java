@@ -7,13 +7,17 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistryView;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -136,10 +140,12 @@ public abstract class AbstractModularToolItem extends Item {
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.mineBlock(itemStack, level, state, pos, owner);
         
-        if (!head.get().mineBlock(Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner)) return false;
-        if (!rod.get().mineBlock(Part.ROD, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
+        var context = new MaterialFunctionContext(level.registryAccess(), head.get(), rod.get(), trim.get());
+        
+        if (!head.get().mineBlock(context, Part.HEAD, this.getHeadType(), itemStack, level, state, pos, owner)) return false;
+        if (!rod.get().mineBlock(context, Part.ROD, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
             return false;
-        if (!trim.get().mineBlock(Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
+        if (!trim.get().mineBlock(context, Part.TRIM, new HeadType.NotApplicable(), itemStack, level, state, pos, owner))
             return false;
         return true;
     }
@@ -147,10 +153,10 @@ public abstract class AbstractModularToolItem extends Item {
     @Override
     public boolean canDestroyBlock(ItemStack itemStack, BlockState state, Level level, BlockPos pos, LivingEntity user) {
         var head = Part.HEAD.getMaterial(itemStack);
-        if (head.isEmpty())
-            return super.canDestroyBlock(itemStack, state, level, pos, user);
-        return this.getHeadType().getTool(head.get().material).canDestroyBlocksInCreative()
-            || !((user instanceof Player player) && player.getAbilities().instabuild);
+        return head.map(materialBehavior ->
+                           this.getHeadType().getTool(materialBehavior.material).canDestroyBlocksInCreative() ||
+                               !((user instanceof Player player) && player.getAbilities().instabuild))
+                   .orElseGet(() -> super.canDestroyBlock(itemStack, state, level, pos, user));
     }
     
     @Override
@@ -165,17 +171,26 @@ public abstract class AbstractModularToolItem extends Item {
             return;
         }
         
-        head.get().hurtEnemy(Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
-        rod.get().hurtEnemy(Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
-        trim.get().hurtEnemy(Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        var context = new MaterialFunctionContext(attacker.registryAccess(), head.get(), rod.get(), trim.get());
+        
+        head.get().hurtEnemy(context, Part.HEAD, this.getHeadType(), itemStack, mob, attacker);
+        rod.get().hurtEnemy(context,Part.ROD, new HeadType.NotApplicable(), itemStack, mob, attacker);
+        trim.get().hurtEnemy(context, Part.HEAD, new HeadType.NotApplicable(), itemStack, mob, attacker);
     }
     
     @Override
     public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        return head
-            .map(materialBehavior -> materialBehavior.isCorrectToolForDrops(this.getHeadType(), itemStack, state))
-            .orElseGet(() -> super.isCorrectToolForDrops(itemStack, state));
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
+            return super.isCorrectToolForDrops(itemStack, state);
+        if (!(FabricLoader.getInstance().getGameInstance() instanceof MinecraftServer ms))
+            return super.isCorrectToolForDrops(itemStack, state);
+        
+        var context = new MaterialFunctionContext(ms.reloadableRegistries().lookup(), head.get(),  rod.get(), trim.get());
+        return head.get().isCorrectToolForDrops(context, this.getHeadType(), itemStack, state);
     }
     
     @Override
@@ -186,13 +201,19 @@ public abstract class AbstractModularToolItem extends Item {
             trim = Part.TRIM.getMaterial(itemStack);
         if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
             return super.getDestroySpeed(itemStack, state);
+        if (!(FabricLoader.getInstance().getGameInstance() instanceof MinecraftServer ms))
+            return super.getDestroySpeed(itemStack, state);
+        
+        var context = new MaterialFunctionContext(ms.reloadableRegistries().lookup(), head.get(), rod.get(), trim.get());
         
         var head_speed = this.getHeadType().getTool(head.get().material).getMiningSpeed(state)
-            *head.get().getDestroySpeed(Part.HEAD, this.getHeadType(), itemStack, state);
+            *head.get().getDestroySpeed(context, Part.HEAD, this.getHeadType(), itemStack, state);
+        context.add(head.get().key);
         var rod_speed = this.getHeadType().getTool(rod.get().material).getMiningSpeed(state)
-            *rod.get().getDestroySpeed(Part.ROD, new HeadType.NotApplicable(), itemStack, state);
+            *rod.get().getDestroySpeed(context, Part.ROD, new HeadType.NotApplicable(), itemStack, state);
+        context.add(rod.get().key);
         var trim_speed = this.getHeadType().getTool(trim.get().material).getMiningSpeed(state)
-            *trim.get().getDestroySpeed(Part.TRIM, new HeadType.NotApplicable(), itemStack, state);
+            *trim.get().getDestroySpeed(context, Part.TRIM, new HeadType.NotApplicable(), itemStack, state);
         return head_speed + rod_speed + trim_speed;
     }
     
@@ -206,7 +227,7 @@ public abstract class AbstractModularToolItem extends Item {
             super.inventoryTick(itemStack, level, owner, slot);
             return;
         }
-        MaterialFunctionContext context = new MaterialFunctionContext(level.registryAccess());
+        MaterialFunctionContext context = new MaterialFunctionContext(level.registryAccess(), head.get(), rod.get(), trim.get());
         
         head.get().inventoryTick(context, itemStack, level, owner, slot);
         context.add(head.get().key);
@@ -244,14 +265,15 @@ public abstract class AbstractModularToolItem extends Item {
             return;
         // !TODO log this at some point
         
+        var context = new MaterialFunctionContext(owner.level().registryAccess(), head.get(), rod.get(), trim.get());
         
         attack_speed_attr.addOrReplacePermanentModifier(
             new AttributeModifier(
                 BASE_ATTACK_SPEED,
                 this.getSumAttributesOfParts(
-                    (part, type) -> head.get().getAttackSpeed(part, type, itemStack),
-                    (part, type) -> rod.get().getAttackSpeed(part, type, itemStack),
-                    (part, type) -> trim.get().getAttackSpeed(part, type, itemStack),
+                    (part, type) -> head.get().getAttackSpeed(context, part, type, itemStack),
+                    (part, type) -> rod.get().getAttackSpeed(context, part, type, itemStack),
+                    (part, type) -> trim.get().getAttackSpeed(context, part, type, itemStack),
                     3
                 ),
                 AttributeModifier.Operation.ADD_VALUE
@@ -261,9 +283,9 @@ public abstract class AbstractModularToolItem extends Item {
             new AttributeModifier(
                 BASE_ATTACK_DAMAGE,
                 this.getSumAttributesOfParts(
-                    (part, type) -> head.get().getAttackDamage(part, type, itemStack),
-                    (part, type) -> rod.get().getAttackDamage(part, type, itemStack),
-                    (part, type) -> trim.get().getAttackDamage(part, type, itemStack),
+                    (part, type) -> head.get().getAttackDamage(context, part, type, itemStack),
+                    (part, type) -> rod.get().getAttackDamage(context, part, type, itemStack),
+                    (part, type) -> trim.get().getAttackDamage(context, part, type, itemStack),
                     3
                 ),
                 AttributeModifier.Operation.ADD_VALUE
@@ -301,17 +323,24 @@ public abstract class AbstractModularToolItem extends Item {
     
     public void onCreation(ItemStack itemStack, HolderLookup.Provider registryAccess) {
         if (!(itemStack.getItem() instanceof AbstractModularToolItem)) return;
-        MaterialFunctionContext context = new MaterialFunctionContext(registryAccess);
-        Part.HEAD.getMaterial(itemStack).ifPresent(head -> {
-            head.onCreation(context, Part.HEAD, this.getHeadType(), itemStack);
-            context.add(head.key);
+        Optional<MaterialBehavior>
+            head = Part.HEAD.getMaterial(itemStack),
+            rod = Part.ROD.getMaterial(itemStack),
+            trim = Part.TRIM.getMaterial(itemStack);
+        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty())
+            return;
+        
+        MaterialFunctionContext context = new MaterialFunctionContext(registryAccess, head.get(), rod.get(), trim.get());
+        Part.HEAD.getMaterial(itemStack).ifPresent(h -> {
+            h.onCreation(context, Part.HEAD, this.getHeadType(), itemStack);
+            context.add(h.key);
         });
-        Part.ROD.getMaterial(itemStack).ifPresent(rod -> {
-            rod.onCreation(context, Part.ROD, this.getHeadType(), itemStack);
-            context.add(rod.key);
+        Part.ROD.getMaterial(itemStack).ifPresent(r -> {
+            r.onCreation(context, Part.ROD, this.getHeadType(), itemStack);
+            context.add(r.key);
         });
-        Part.TRIM.getMaterial(itemStack).ifPresent(trim -> {
-            trim.onCreation(context, Part.TRIM, this.getHeadType(), itemStack);
+        Part.TRIM.getMaterial(itemStack).ifPresent(t -> {
+            t.onCreation(context, Part.TRIM, this.getHeadType(), itemStack);
         });
     }
 }

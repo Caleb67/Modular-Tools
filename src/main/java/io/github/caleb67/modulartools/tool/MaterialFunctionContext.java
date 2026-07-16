@@ -6,16 +6,12 @@ import net.minecraft.resources.ResourceKey;
 import java.util.ArrayList;
 
 public class MaterialFunctionContext {
-    private ArrayList<ResourceKey<MaterialBehavior>> has_been_seen = new ArrayList<>();
+    private final ArrayList<ResourceKey<MaterialBehavior>> has_been_seen = new ArrayList<>();
     public final HolderLookup.Provider registryAccess;
     
-    public MaterialFunctionContext(HolderLookup.Provider registryAccess) {
+    public MaterialFunctionContext(HolderLookup.Provider registryAccess,
+                                   MaterialBehavior head, MaterialBehavior rod, MaterialBehavior trim) {
         this.registryAccess = registryAccess;
-    }
-    
-    public MaterialFunctionContext(MaterialFunctionContext other, HolderLookup.Provider registryAccess) {
-        this.registryAccess = registryAccess;
-        this.has_been_seen = other.has_been_seen;
     }
     
     public void add(ResourceKey<MaterialBehavior> seen) {

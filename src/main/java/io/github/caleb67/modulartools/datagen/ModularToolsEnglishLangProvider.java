@@ -45,7 +45,7 @@ public class ModularToolsEnglishLangProvider extends FabricLanguageProvider {
         Map.entry(MaterialBehaviors.REDSTONE_MATERIAL_BEHAVIOR,
             new Translation("Redstone", Optional.of("Smart"), false)),
         Map.entry(MaterialBehaviors.NETHERITE_MATERIAL_BEHAVIOR,
-            new Translation("Netherite", Optional.of("Heavy Duty"), true))
+            new Translation("Netherite", Optional.of("Heavy Duty"), false))
     );
     
     private static final Map<HeadType, String> HEAD_TYPES = Map.of(

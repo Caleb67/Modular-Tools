@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.HeadType;
+import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.network.chat.Component;
@@ -28,8 +29,8 @@ public class GoldMaterialBehavior extends BaseMaterialBehavior {
     }
     
     @Override
-    public float getDestroySpeed(Part part, HeadType type, ItemStack itemStack, BlockState state) {
-        if (!(type instanceof HeadType.NotApplicable)) return super.getDestroySpeed(part, type, itemStack, state)
+    public float getDestroySpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack, BlockState state) {
+        if (!(type instanceof HeadType.NotApplicable)) return super.getDestroySpeed(context, part, type, itemStack, state)
             *LapisMaterialBehavior.getAmplifierAmount(itemStack);
         if (part == Part.ROD) return 3.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack);
         else if (part == Part.TRIM) return 2.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack);
@@ -37,8 +38,8 @@ public class GoldMaterialBehavior extends BaseMaterialBehavior {
     }
     
     @Override
-    public float getAttackSpeed(Part part, HeadType type, ItemStack itemStack) {
-        return super.getAttackSpeed(part, type, itemStack) + (1.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack));
+    public float getAttackSpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
+        return super.getAttackSpeed(context, part, type, itemStack) + (1.0F*LapisMaterialBehavior.getAmplifierAmount(itemStack));
     }
 }
 

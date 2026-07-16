@@ -58,7 +58,7 @@ public abstract class MaterialBehavior {
     
     public Set<Item> getItems() {return Collections.unmodifiableSet(this.properties.itemSupplier.get());}
     
-    public boolean mineBlock(Part part, HeadType type, ItemStack itemStack, Level level,
+    public boolean mineBlock(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack, Level level,
                              BlockState state, BlockPos pos, LivingEntity owner) {
         if (type instanceof HeadType.NotApplicable) return true;
         
@@ -74,7 +74,7 @@ public abstract class MaterialBehavior {
         return true;
     }
     
-    public float getDestroySpeed(Part part, HeadType type, ItemStack itemStack, BlockState state) {
+    public float getDestroySpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         else return 1.0F;
     }
@@ -82,7 +82,7 @@ public abstract class MaterialBehavior {
     public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level,
                               Entity owner, @Nullable EquipmentSlot slot) {}
     
-    public boolean isCorrectToolForDrops(HeadType type, ItemStack itemStack, BlockState state) {
+    public boolean isCorrectToolForDrops(MaterialFunctionContext context, HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return true;
         
         Attribute attribute = this.attribute_map.get(type);
@@ -105,7 +105,7 @@ public abstract class MaterialBehavior {
         return Optional.empty();
     }
     
-    public float getAttackDamage(Part part, HeadType type, ItemStack itemStack) {
+    public float getAttackDamage(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         
         Attribute attribute = this.attribute_map.get(type);
@@ -116,7 +116,7 @@ public abstract class MaterialBehavior {
         return attribute.baseAttackDamage + this.material.attackDamageBonus();
     }
     
-    public float getAttackSpeed(Part part, HeadType type, ItemStack itemStack) {
+    public float getAttackSpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         
         Attribute attribute = this.attribute_map.get(type);
@@ -150,7 +150,7 @@ public abstract class MaterialBehavior {
             .collect(Collectors.toUnmodifiableSet());
     }
     
-    public void hurtEnemy(Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
+    public void hurtEnemy(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack, LivingEntity mob, LivingEntity attacker) {}
     
     public void onCreation(MaterialFunctionContext context, Part part, HeadType type,
                            ItemStack itemStack) {

@@ -27,8 +27,9 @@ public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
             if (!stack.has(DataComponents.CONTAINER)) return;
             if (stack.get(DataComponents.CONTAINER)
                      .nonEmptyItemCopyStream()
-                     .anyMatch(stk -> stk.is(itemStack.getItem())))
+                     .anyMatch(stk -> stk.is(itemStack.getItem()))) {
                 possible_boxes.add(stack);
+            }
         });
         
         possible_boxes.forEach(box -> {

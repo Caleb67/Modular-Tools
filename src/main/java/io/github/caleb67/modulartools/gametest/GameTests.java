@@ -7,6 +7,7 @@ import io.github.caleb67.modulartools.gametest.material.TestEmerald;
 import io.github.caleb67.modulartools.gametest.material.TestQuartz;
 import io.github.caleb67.modulartools.gametest.material.TestRedstone;
 import io.github.caleb67.modulartools.register.Items;
+import net.fabricmc.fabric.impl.gametest.FabricGameTestRunner;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -44,7 +45,7 @@ public final class GameTests {
     }
     
     public static void bootstrapInstances(Registry<GameTestInstance> testInstances) {
-        registerTests(testInstances);
+        if (FabricGameTestRunner.ENABLED) registerTests(testInstances);
     }
     
     private static void createTest(String id, Consumer<GameTestHelper> test, int maxTicks) {
