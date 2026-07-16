@@ -62,9 +62,10 @@ public class EmeraldMaterialBehavior extends BaseMaterialBehavior {
         
         var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
         item_enchantments.removeIf(Tests.in(fortune, looting));
-        if (enchant_level > 0) new MethodChain<>(item_enchantments)
-            .and(ItemEnchantments.Mutable::set, fortune, enchant_level)
-            .and(ItemEnchantments.Mutable::set, looting, enchant_level);
+        if (enchant_level > 0) {
+            item_enchantments.set(fortune, enchant_level);
+            item_enchantments.set(looting, enchant_level);
+        }
         EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
 }

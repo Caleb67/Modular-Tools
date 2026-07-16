@@ -5,6 +5,7 @@ import io.github.caleb67.modulartools.gametest.base.BaseMaterialBehaviorTest;
 import io.github.caleb67.modulartools.gametest.material.TestCopper;
 import io.github.caleb67.modulartools.gametest.material.TestEmerald;
 import io.github.caleb67.modulartools.gametest.material.TestQuartz;
+import io.github.caleb67.modulartools.gametest.material.TestRedstone;
 import io.github.caleb67.modulartools.register.Items;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,16 +25,20 @@ public final class GameTests {
     
     public static void createTests() {
         MATERIAL_BEHAVIOR_TESTS.addAll(List.of(
-            new TestEmerald(), new TestCopper(), new TestQuartz()
+            new TestEmerald(), new TestCopper(), new TestQuartz(), new TestRedstone()
         ));
         MATERIAL_BEHAVIOR_TESTS.forEach(gameTest -> {
             var id = gameTest.getTestId();
-            createTest("tick_pickaxe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_PICKAXE_TOOL),
-                200);
+            createTest("tick_pickaxe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_PICKAXE_TOOL), 200);
+            createTest("misc_pickaxe_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_PICKAXE_TOOL), 200);
             createTest("tick_shovel_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_SHOVEL_TOOL), 200);
+            createTest("misc_shovel_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_SHOVEL_TOOL), 200);
             createTest("tick_axe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_AXE_TOOL), 200);
+            createTest("misc_axe_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_AXE_TOOL), 200);
             createTest("tick_sword_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_SWORD_TOOL), 200);
+            createTest("misc_sword_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_SWORD_TOOL), 200);
             createTest("tick_hoe_" + id, ctx -> gameTest.invokeInventoryTickTest(ctx, Items.BASE_HOE_TOOL), 200);
+            createTest("misc_hoe_" + id, ctx -> gameTest.invokeMiscTest(ctx, Items.BASE_HOE_TOOL), 200);
         });
     }
     

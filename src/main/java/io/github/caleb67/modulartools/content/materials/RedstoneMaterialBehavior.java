@@ -35,31 +35,30 @@ public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
         });
         
         possible_boxes.forEach(box -> {
-            var new_container = new MethodChain<>(box)
-                .mutate(ItemStack::get, DataComponents.CONTAINER)
-                .mutate(container -> new ArrayList<>(container.allItemsCopyStream().toList()))
-                .andWithResult(ArrayList::size)
-                .then((size, items) -> {
-                    for (int i = 27 - size; i > 0; i--)
-                        items.add(ItemStack.EMPTY);
-                })
-                .mutate(ArrayList::stream)
-                .mutate(Stream::map, (Function<ItemStack, ItemStack>) stk -> {
-                    if (!stk.is(itemStack.getItem()) && !stk.isEmpty()) return stk;
-                    if (stk.isEmpty()) stk = new ItemStack(itemStack.getItem(), 0);
-                    if (stk.getMaxStackSize() == stk.count() ||
-                        itemStack.count() == 0) return stk;
-                    addToStack(stk, itemStack);
+            var container = new ArrayList<>(box.get(DataComponents.CONTAINER).allItemsCopyStream().toList());
+            for (int i = 27 - container.size(); i > 0; i--)
+                container.add(ItemStack.EMPTY);
+            
+            var new_container = container
+                .stream()
+                .map(stk -> {
+                    if (stk.isEmpty()) {
+                        stk = new ItemStack(
+                            itemStack.getItem().builtInRegistryHolder(), 0,
+                            itemStack.getComponentsPatch()
+                        );
+                        tryAddToStack(stk, itemStack);
+                    }
+                    else if (ItemStack.isSameItemSameComponents(stk, itemStack))
+                        tryAddToStack(stk, itemStack);
                     return stk;
-                })
-                .andWithResult(Stream::toList)
-                .get();
+                 }).toList();
             
             box.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(new_container));
         });
     }
     
-    protected static void addToStack(ItemStack destinationStack, ItemStack sourceStack) {
+    protected static void tryAddToStack(ItemStack destinationStack, ItemStack sourceStack) {
         if (destinationStack.isEmpty()) {
             destinationStack.setCount(sourceStack.getCount());
             sourceStack.setCount(0);
@@ -68,8 +67,8 @@ public class RedstoneMaterialBehavior extends BaseMaterialBehavior {
             var dest_capacity = destinationStack.getMaxStackSize() - destinationStack.getCount();
             var amount_to_move = Math.min(dest_capacity, sourceStack.getCount());
             
-            sourceStack.setCount(sourceStack.getCount() - amount_to_move);
-            destinationStack.setCount(destinationStack.getCount() + amount_to_move);
+            sourceStack.shrink(amount_to_move);
+            destinationStack.grow(amount_to_move);
         }
     }
     
