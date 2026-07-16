@@ -4,6 +4,7 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.MaterialBehavior;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
@@ -70,12 +71,12 @@ public abstract class BaseMaterialBehaviorTest {
             player.getInventory().setSelectedSlot(0);
             player.getInventory().tick();
             testInventoryTick(context, tool, player, 0, expectedLevel);
-        } catch (Exception e) {
+        } catch (GameTestAssertException e) {
             ModularTools.LOGGER.error(
                 "Test failed for testInventoryTick lvl{} '{}', on headtype '{}'",
                 expectedLevel, material.key, tool.getHeadType().getName()
             );
-            ModularTools.LOGGER.error(e.getMessage());
+            context.testInfo.fail(e.getDescription());
         }
     }
 }
