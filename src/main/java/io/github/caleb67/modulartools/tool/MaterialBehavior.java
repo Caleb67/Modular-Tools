@@ -36,7 +36,7 @@ import java.util.stream.StreamSupport;
 
 public abstract class MaterialBehavior {
     public final ToolMaterial material;
-    private HashMap<HeadType, Attribute> attribute_map;
+    private HashMap<HeadType, MaterialStats> attribute_map;
     public final ResourceKey<MaterialBehavior> key;
     
     private final Properties properties;
@@ -89,8 +89,8 @@ public abstract class MaterialBehavior {
     public boolean isCorrectToolForDrops(MaterialFunctionContext context, HeadType type, ItemStack itemStack, BlockState state) {
         if (type instanceof HeadType.NotApplicable) return true;
         
-        Attribute attribute = this.attribute_map.get(type);
-        if (attribute == null)
+        MaterialStats materialStats = this.attribute_map.get(type);
+        if (materialStats == null)
             throw new IllegalStateException(
                 "No attributes set for head type '" + type.getName() + "' with material '" + this.key.identifier() + "'!");
         
@@ -112,23 +112,23 @@ public abstract class MaterialBehavior {
     public float getAttackDamage(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         
-        Attribute attribute = this.attribute_map.get(type);
-        if (attribute == null)
+        MaterialStats materialStats = this.attribute_map.get(type);
+        if (materialStats == null)
             throw new IllegalStateException(
                 "No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
         
-        return attribute.baseAttackDamage + this.material.attackDamageBonus();
+        return materialStats.baseAttackDamage + this.material.attackDamageBonus();
     }
     
     public float getAttackSpeed(MaterialFunctionContext context, Part part, HeadType type, ItemStack itemStack) {
         if (type instanceof HeadType.NotApplicable) return 0.0F;
         
-        Attribute attribute = this.attribute_map.get(type);
-        if (attribute == null)
+        MaterialStats materialStats = this.attribute_map.get(type);
+        if (materialStats == null)
             throw new IllegalStateException(
                 "No attributes set for head type '" + type.getName() + "' with material '" + this.key + "'!");
         
-        return attribute.baseAttackSpeed;
+        return materialStats.baseAttackSpeed;
     }
     
     protected abstract Set<Item> validItemsToRepair();
@@ -138,12 +138,12 @@ public abstract class MaterialBehavior {
             throw new IllegalArgumentException(
                 "HeadType '" + type.getName() + "' already has attributes for material '" + this.key.identifier() + "'!");
         else
-            this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
+            this.attribute_map.put(type, new MaterialStats(baseAttackDamage, baseAttackSpeed));
     }
     
     public boolean hasHeadTypeAttributes(HeadType type) {
-        Attribute attribute = this.attribute_map.get(type);
-        return attribute != null;
+        MaterialStats materialStats = this.attribute_map.get(type);
+        return materialStats != null;
     }
     
     public static Set<MaterialBehavior> fromItem(Item item) {
@@ -160,10 +160,10 @@ public abstract class MaterialBehavior {
                            ItemStack itemStack) {
     }
     
-    public void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {}
+    public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {}
     
     public static final class Properties {
-        HashMap<HeadType, Attribute> attribute_map;
+        HashMap<HeadType, MaterialStats> attribute_map;
         ResourceKey<MaterialBehavior> key;
         ToolMaterial material;
         @Nullable ChatFormatting[] formatting;
@@ -171,7 +171,7 @@ public abstract class MaterialBehavior {
         Supplier<Set<Item>> itemSupplier;
         
         public Properties() {
-            this.attribute_map = new HashMap<HeadType, Attribute>();
+            this.attribute_map = new HashMap<HeadType, MaterialStats>();
             this.key = null;
             this.material = ToolMaterial.WOOD;
             this.formatting = null;
@@ -186,7 +186,7 @@ public abstract class MaterialBehavior {
         
         public Properties setAttributesForHeadType(HeadType type, float baseAttackDamage, float baseAttackSpeed) {
             if (this.attribute_map.containsKey(type)) return this;
-            this.attribute_map.put(type, new Attribute(baseAttackDamage, baseAttackSpeed));
+            this.attribute_map.put(type, new MaterialStats(baseAttackDamage, baseAttackSpeed));
             return this;
         }
         
@@ -216,7 +216,7 @@ public abstract class MaterialBehavior {
         }
     }
     
-    public record Attribute(float baseAttackDamage, float baseAttackSpeed) {}
+    public record MaterialStats(float baseAttackDamage, float baseAttackSpeed) {}
     
     public static Optional<Holder.Reference<Enchantment>> getEnchantment(HolderLookup.Provider registryAccess, ResourceKey<Enchantment> enchantment) {
         return registryAccess.lookupOrThrow(Registries.ENCHANTMENT).get(enchantment);

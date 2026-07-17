@@ -4,6 +4,7 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
+import io.github.caleb67.modulartools.util.Tests;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -37,18 +38,19 @@ public class QuartzMaterialBehavior extends BaseMaterialBehavior {
     @Override
     public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
-        Holder<Enchantment> silk_touch = level.registryAccess()
-                                              .lookupOrThrow(Registries.ENCHANTMENT)
-                                              .getOrThrow(Enchantments.SILK_TOUCH);
+        Holder<Enchantment> silk_touch = getEnchantment(context.registryAccess, Enchantments.SILK_TOUCH).orElseThrow();
         
         var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
-        item_enchantments.removeIf(enchantmentHolder -> enchantmentHolder.value() == silk_touch.value());
         item_enchantments.set(silk_touch, 1);
         
         EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
     
-    @Override public void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {
-    
+    @Override public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {
+        var silk_touch = getEnchantment(context.registryAccess, Enchantments.SILK_TOUCH).orElseThrow();
+        
+        var item_enchantments = new ItemEnchantments.Mutable(itemStack.getEnchantments());
+        item_enchantments.removeIf(Tests.in(silk_touch));
+        EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
 }

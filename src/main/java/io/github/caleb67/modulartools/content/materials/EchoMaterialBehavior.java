@@ -8,7 +8,6 @@ import io.github.caleb67.modulartools.tool.AbstractModularToolItem;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
-import io.github.caleb67.modulartools.util.MethodChain;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -22,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Display.BlockDisplay;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class EchoMaterialBehavior extends BaseMaterialBehavior {
     
-    private final HashMap<Entity, HashMap<BlockPos, BlockDisplay>> active;
+    private final HashMap<Player, HashMap<BlockPos, BlockDisplay>> active;
     public static Component ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME = Component.literal(
         Identifier.fromNamespaceAndPath(ModularTools.MODID, "ore_highlight_block_display").toString()
     );
@@ -58,27 +58,23 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
     
     public static final ServerTickEvents.EndTick ORE_SIGHT_BEHAVIOR_CLEAR_DISPLAYS = minecraftServer -> {
         minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
-            var this_material = MaterialBehaviors
-                .ECHO_MATERIAL_BEHAVIOR;
-            if (!this_material.active.containsKey(serverPlayer))
-                this_material.active.put(serverPlayer, new HashMap<>());
-            for (var entry : this_material.active.get(serverPlayer).entrySet()) {
+            var player_displays = MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.computeIfAbsent(
+                serverPlayer, _ -> new HashMap<>()
+            );
+            for (var entry : player_displays.entrySet()) {
                 var display = entry.getValue();
                 var level = (ServerLevel) display.level();
                 var test_pos = display.position().subtract(0.0001);
                 var test_block = display.getBlockState().getBlock();
-                if (!display.closerThan(serverPlayer, 5.0) && entry.getValue() != null)
-                    new MethodChain<>(entry)
-                        .andWithResult(Map.Entry::getValue)
-                        .then(e -> e.kill(level))
-                        .and(Map.Entry::setValue, (BlockDisplay) null);
-                else if (!level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
-                    new MethodChain<>(entry)
-                        .andWithResult(Map.Entry::getValue)
-                        .then(e -> e.kill(level))
-                        .and(Map.Entry::setValue, (BlockDisplay) null);
+                if (!(
+                    display.closerThan(serverPlayer, 5.0) && entry.getValue() != null &&
+                    level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
+                ) {
+                    entry.getValue().kill(level);
+                    entry.setValue(null);
+                }
             }
-            this_material.active.get(serverPlayer).values().removeIf(Objects::isNull);
+            player_displays.values().removeIf(Objects::isNull);
         });
     };
     
@@ -87,10 +83,9 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
             var name = bd.getCustomName();
             if (name == null) return;
             if (!name.getString().equals(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString())) return;
-            if (MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.entrySet()
-                                                               .stream()
-                                                               .anyMatch(entry -> entry.getValue().containsValue(bd)))
-                return;
+            if (MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.entrySet().stream().anyMatch(
+                entry -> entry.getValue().containsValue(bd))
+            ) { return;}
             entity.kill(level);
         }
     };
@@ -112,6 +107,47 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
                          .withStyle(this.getEffectFormatting())
             );
         });
+    }
+    
+    @Override
+    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        if (context.hasSeen(this.key)) return;
+        if (slot != EquipmentSlot.MAINHAND && slot != EquipmentSlot.OFFHAND) return;
+        if (!(owner instanceof Player player)) return;
+        
+        var player_displays = this.active.computeIfAbsent(player, _ -> new HashMap<>());
+        if (this.ore_colors.isEmpty()) this.addColors();
+        
+        var center = owner.getOnPos();
+        getPositions(center).forEach(pos -> {
+            var state = level.getBlockState(pos);
+            if (state.is(ConventionalBlockTags.ORES) && !player_displays.containsKey(pos)) {
+                var display = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
+                if (display == null) return;
+                initializeDisplay(state, pos, display);
+                player_displays.put(pos, display);
+                level.addFreshEntity(display);
+                AbstractModularToolItem.hurtAndBreakTool(itemStack, 1, player, EquipmentSlot.MAINHAND);
+            }
+        });
+    }
+    
+    private void initializeDisplay(BlockState state, BlockPos pos, Display.BlockDisplay display) {
+        display.setBlockState(state);
+        display.setTransformation(
+            new Transformation(
+                null, null,
+                new Vector3f(0.999F, 0.999F, 0.999F),
+                null
+            )
+        );
+        display.setPos(new Vec3(pos.getX(), pos.getY(), pos.getZ()).add(0.0001));
+        display.setXRot(0.0F);
+        display.setYRot(0.0F);
+        display.setGlowingTag(true);
+        display.setGlowColorOverride(ore_colors.get(state).getRGB());
+        display.setCustomNameVisible(false);
+        display.setCustomName(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME);
     }
     
     private void addColors() {
@@ -143,47 +179,6 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
             new Color(192, 0, 255), BuiltInRegistries.BLOCK.getOrThrow(ConventionalBlockTags.NETHERITE_SCRAP_ORES)
                                                            .stream().map(Holder::value).toArray(Block[]::new));
         
-    }
-    
-    @Override
-    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
-        if (context.hasSeen(this.key)) return;
-        if (slot != EquipmentSlot.MAINHAND && slot != EquipmentSlot.OFFHAND) return;
-        
-        if (!this.active.containsKey(owner)) this.active.put(owner, new HashMap<>());
-        if (this.ore_colors.isEmpty()) this.addColors();
-        
-        var center = owner.getOnPos();
-        
-        getPositions(center).forEach(pos -> {
-            var state = level.getBlockState(pos);
-            if (state.is(ConventionalBlockTags.ORES) && !this.active.get(owner).containsKey(pos)) {
-                var display = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
-                if (display == null) return;
-                
-                new MethodChain<>(display)
-                    .and(BlockDisplay::setBlockState, state)
-                    .and(BlockDisplay::setTransformation,
-                        new Transformation(
-                            null, null,
-                            new Vector3f(0.999F, 0.999F, 0.999F),
-                            null)
-                    )
-                    .and(BlockDisplay::setPos,
-                        new Vec3(pos.getX(), pos.getY(), pos.getZ()).add(0.0001)
-                    )
-                    .and(BlockDisplay::setXRot, 0.0F)
-                    .and(BlockDisplay::setYRot, 0.0F)
-                    .and(BlockDisplay::setGlowingTag, true)
-                    .and(BlockDisplay::setGlowColorOverride, ore_colors.get(state).getRGB())
-                    .and(BlockDisplay::setCustomNameVisible, false)
-                    .and(BlockDisplay::setCustomName, ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME);
-                
-                this.active.get(owner).put(pos, display);
-                level.addFreshEntity(display);
-                AbstractModularToolItem.hurtAndBreakTool(itemStack, 1, (LivingEntity) owner, EquipmentSlot.MAINHAND);
-            }
-        });
     }
     
     public interface Colors {

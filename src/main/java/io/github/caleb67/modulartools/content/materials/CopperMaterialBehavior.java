@@ -3,25 +3,27 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
+import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class CopperMaterialBehavior extends BaseMaterialBehavior {
-    public static final ServerTickEvents.EndTick REACH_BEHAVIOR = minecraftServer -> {
-        minecraftServer.getPlayerList().getPlayers().forEach(serverPlayer -> {
-            CopperMaterialBehavior.testAndApply(serverPlayer.getMainHandItem(), serverPlayer);
-        });
-    };
     public static final Identifier INCREASE_ENTITY_REACH = Identifier.fromNamespaceAndPath(ModularTools.MODID,
         "increase_entity_reach");
     public static final Identifier INCREASE_BLOCK_REACH = Identifier.fromNamespaceAndPath(ModularTools.MODID,
@@ -41,46 +43,51 @@ public class CopperMaterialBehavior extends BaseMaterialBehavior {
         });
     }
     
-    public static void testAndApply(ItemStack itemStack, Entity owner) {
-        var head = Part.HEAD.getMaterial(itemStack);
-        var rod = Part.ROD.getMaterial(itemStack);
-        var trim = Part.TRIM.getMaterial(itemStack);
+    @Override
+    public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        if (context.hasSeen(this.key)) return;
+        if (!(owner instanceof Player player)) return;
         
-        var isPlayer = owner instanceof Player;
-        if (!isPlayer) return;
-        var player = (Player) owner;
+        var block_range = getAttribute(player, Attributes.BLOCK_INTERACTION_RANGE).orElseThrow();
+        var interaction_range = getAttribute(player, Attributes.ENTITY_INTERACTION_RANGE).orElseThrow();
         
-        var block_range = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-        assert block_range != null;
-        var interaction_range = player.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
-        assert interaction_range != null;
-        
-        if (head.isEmpty() || rod.isEmpty() || trim.isEmpty() ||
-            !ItemStack.isSameItemSameComponents(player.getMainHandItem(), itemStack)) {
-            block_range.removeModifier(INCREASE_BLOCK_REACH);
-            interaction_range.removeModifier(INCREASE_ENTITY_REACH);
+        if (!(slot == EquipmentSlot.MAINHAND)) {
+            removeModifiers(block_range, interaction_range);
             return;
         }
         
-        double increase = (head.get() instanceof CopperMaterialBehavior ? 2 : 0)
-            + (rod.get() instanceof CopperMaterialBehavior ? 2 : 0)
-            + (trim.get() instanceof CopperMaterialBehavior ? 2 : 0);
-        increase = increase*LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        double increase = (
+            (context.head instanceof CopperMaterialBehavior ? 2 : 0)
+            + (context.rod instanceof CopperMaterialBehavior ? 2 : 0)
+            + (context.trim instanceof CopperMaterialBehavior ? 2 : 0)
+        ) * LapisMaterialBehavior.getAmplifierAmount(itemStack);
         
-        if (increase == 0) {
-            block_range.removeModifier(INCREASE_BLOCK_REACH);
-            interaction_range.removeModifier(INCREASE_ENTITY_REACH);
-            return;
-        }
-        
-        
-        block_range.addOrReplacePermanentModifier(new AttributeModifier(
+        addModifiers(block_range, interaction_range, increase);
+    }
+    
+    @Override public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {
+        if (!(owner instanceof Player player)) return;
+        var block_range = getAttribute(player, Attributes.BLOCK_INTERACTION_RANGE).orElseThrow();
+        var interaction_range = getAttribute(player, Attributes.ENTITY_INTERACTION_RANGE).orElseThrow();
+        removeModifiers(block_range, interaction_range);
+    }
+    
+    private static Optional<AttributeInstance> getAttribute(Player player, Holder<Attribute> attribute) {
+        return Optional.ofNullable(player.getAttribute(attribute));
+    }
+    
+    private void removeModifiers(AttributeInstance blockRange, AttributeInstance interactionRange) {
+        blockRange.removeModifier(INCREASE_BLOCK_REACH);
+        interactionRange.removeModifier(INCREASE_ENTITY_REACH);
+    }
+    
+    private void addModifiers(AttributeInstance blockRange, AttributeInstance interactionRange, double increase) {
+        blockRange.addOrReplacePermanentModifier(new AttributeModifier(
             INCREASE_BLOCK_REACH,
             increase,
             AttributeModifier.Operation.ADD_VALUE
         ));
-        
-        interaction_range.addOrReplacePermanentModifier(new AttributeModifier(
+        interactionRange.addOrReplacePermanentModifier(new AttributeModifier(
             INCREASE_ENTITY_REACH,
             increase,
             AttributeModifier.Operation.ADD_VALUE

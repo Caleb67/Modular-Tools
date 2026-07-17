@@ -62,7 +62,7 @@ public class EmeraldMaterialBehavior extends BaseMaterialBehavior {
         EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
     }
     
-    @Override public void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {
+    @Override public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {
         var fortune = getEnchantment(context.registryAccess, Enchantments.FORTUNE).orElseThrow();
         var looting = getEnchantment(context.registryAccess, Enchantments.LOOTING).orElseThrow();
         

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public final class TestCopper extends BaseMaterialBehaviorTest {
@@ -19,14 +20,14 @@ public final class TestCopper extends BaseMaterialBehaviorTest {
         try {testInHand(context, player, level);} catch (GameTestAssertException e) {
             throw Helper.specify(context, e, "(in mainhand)");
         }
-        try {testNotInHand(context, player, level);} catch (GameTestAssertException e) {
+        try {testNotInHand(context, player);} catch (GameTestAssertException e) {
             throw Helper.specify(context, e, "(not in mainhand)");
         }
     }
     
     private void testInHand(GameTestHelper context, ServerPlayer player, int level) {
         player.getInventory().setSelectedSlot(0);
-        CopperMaterialBehavior.testAndApply(player.getSlot(0).get(), player);
+        player.getInventory().tick();
         Helper.expectAttributeModifier(context,
             Attributes.BLOCK_INTERACTION_RANGE, CopperMaterialBehavior.INCREASE_BLOCK_REACH,
             player, level, 2*level
@@ -37,9 +38,9 @@ public final class TestCopper extends BaseMaterialBehaviorTest {
         );
     }
     
-    private void testNotInHand(GameTestHelper context, ServerPlayer player, int level) {
+    private void testNotInHand(GameTestHelper context, ServerPlayer player) {
         player.getInventory().setSelectedSlot(1);
-        CopperMaterialBehavior.testAndApply(player.getSlot(0).get(), player);
+        player.getInventory().tick();
         Helper.expectAttributeModifier(context,
             Attributes.BLOCK_INTERACTION_RANGE, CopperMaterialBehavior.INCREASE_BLOCK_REACH,
             player, 0, 0

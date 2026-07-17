@@ -236,7 +236,7 @@ public abstract class AbstractModularToolItem extends Item {
         context.add(rod.get().key);
         trim.get().inventoryTick(context, itemStack, level, owner, slot);
         
-        removeEffects(context, itemStack);
+        removeEffects(context, owner, itemStack);
         
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         super.inventoryTick(itemStack, level, owner, slot);
@@ -356,10 +356,10 @@ public abstract class AbstractModularToolItem extends Item {
             throw new IllegalArgumentException("Not a game instance!");
     }
     
-    protected static void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {
+    protected static void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {
         ModularToolsRegistries.getAllMaterialBehaviors().forEach(mb -> {
             var cond = Tests.notIn(context.head, context.rod, context.trim).test(mb);
-            if (cond) mb.removeEffects(context, itemStack);
+            if (cond) mb.removeEffects(context, owner, itemStack);
         });
     }
 }
