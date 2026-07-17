@@ -41,18 +41,6 @@ public class MethodChain<T> {
         return new ChainResult<>(method.apply(object, param1, param2), this);
     }
     
-    public <R> MethodChain<R> mutate(Function<T, R> method) {
-        return new MethodChain<>(method.apply(object));
-    }
-    
-    public <R, U> MethodChain<R> mutate(BiFunction<T, U, R> method, U param) {
-        return new MethodChain<>(method.apply(object, param));
-    }
-    
-    public <R, U, V> MethodChain<R> mutate(TriFunction<T, U, V, R> method, U param1, V param2) {
-        return new MethodChain<>(method.apply(object, param1, param2));
-    }
-    
     public static final class ChainResult<R, T> {
         private final MethodChain<T> chain;
         public R value;
@@ -76,11 +64,6 @@ public class MethodChain<T> {
         
         public MethodChain<T> put(Collection<R> collection) {
             collection.add(value);
-            return chain;
-        }
-        
-        public MethodChain<T> put(MutableSingleton<R> singleton) {
-            singleton.set(0, value);
             return chain;
         }
     }

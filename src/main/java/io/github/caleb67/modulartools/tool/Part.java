@@ -5,8 +5,6 @@ import net.minecraft.world.item.ItemInstance;
 
 import java.util.Optional;
 
-import static io.github.caleb67.modulartools.tool.AbstractModularToolItem.*;
-
 public enum Part {
     HEAD,
     ROD,
@@ -22,12 +20,15 @@ public enum Part {
     
     public Optional<MaterialBehavior> getMaterial(ItemInstance itemInstance) {
         return switch (this) {
-            case HEAD -> getToolHead(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
-                                                  .flatMap(value -> Optional.of(value.value()));
-            case ROD -> getToolRod(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+            case HEAD -> AbstractModularToolItem.getToolHead(itemInstance)
+                                                .flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
                                                 .flatMap(value -> Optional.of(value.value()));
-            case TRIM -> getToolTrim(itemInstance).flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
-                                                  .flatMap(value -> Optional.of(value.value()));
+            case ROD -> AbstractModularToolItem.getToolRod(itemInstance)
+                                               .flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+                                               .flatMap(value -> Optional.of(value.value()));
+            case TRIM -> AbstractModularToolItem.getToolTrim(itemInstance)
+                                                .flatMap(ModularToolsRegistries.MATERIAL_BEHAVIOR::get)
+                                                .flatMap(value -> Optional.of(value.value()));
         };
     }
 }

@@ -37,10 +37,6 @@ public class QuartzMaterialBehavior extends BaseMaterialBehavior {
     @Override
     public void inventoryTick(MaterialFunctionContext context, ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (context.hasSeen(this.key)) return;
-        testAndApply(itemStack, level);
-    }
-    
-    protected static void testAndApply(ItemStack itemStack, ServerLevel level) {
         Holder<Enchantment> silk_touch = level.registryAccess()
                                               .lookupOrThrow(Registries.ENCHANTMENT)
                                               .getOrThrow(Enchantments.SILK_TOUCH);
@@ -50,5 +46,9 @@ public class QuartzMaterialBehavior extends BaseMaterialBehavior {
         item_enchantments.set(silk_touch, 1);
         
         EnchantmentHelper.setEnchantments(itemStack, item_enchantments.toImmutable());
+    }
+    
+    @Override public void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {
+    
     }
 }

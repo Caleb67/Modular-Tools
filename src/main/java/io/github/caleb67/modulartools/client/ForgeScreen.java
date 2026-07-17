@@ -82,7 +82,8 @@ public class ForgeScreen extends AbstractContainerScreen<ForgeMenu> {
         this.addRenderableWidget(
             new ForgeHammerButton(position.x(), position.y() - SLOT_SIZE, 18, 18,
                 HAMMER_BUTTON_SPRITES,
-                button -> onHammerButtonClick(), button -> {}));
+                _ -> onHammerButtonClick(), _ -> {})
+        );
     }
     
     protected ScreenPosition getHammerButtonPosition() {

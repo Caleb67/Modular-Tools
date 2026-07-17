@@ -7,6 +7,7 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.register.MTDataComponents;
 import io.github.caleb67.modulartools.register.MaterialBehaviors;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipCollector;
+import io.github.caleb67.modulartools.util.Tests;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -110,18 +111,15 @@ public abstract class AbstractModularToolItem extends Item {
     }
     
     public static Optional<ResourceKey<MaterialBehavior>> getToolHead(ItemInstance item) {
-        var modular_tool_head = item.get(MTDataComponents.MODULAR_TOOL_HEAD);
-        return modular_tool_head != null ? Optional.of(modular_tool_head) : Optional.empty();
+        return Optional.ofNullable(item.get(MTDataComponents.MODULAR_TOOL_HEAD));
     }
     
     public static Optional<ResourceKey<MaterialBehavior>> getToolRod(ItemInstance item) {
-        var modular_tool_rod = item.get(MTDataComponents.MODULAR_TOOL_ROD);
-        return modular_tool_rod != null ? Optional.of(modular_tool_rod) : Optional.empty();
+        return Optional.ofNullable(item.get(MTDataComponents.MODULAR_TOOL_ROD));
     }
     
     public static Optional<ResourceKey<MaterialBehavior>> getToolTrim(ItemInstance item) {
-        var modular_tool_trim = item.get(MTDataComponents.MODULAR_TOOL_TRIM);
-        return modular_tool_trim != null ? Optional.of(modular_tool_trim) : Optional.empty();
+        return Optional.ofNullable(item.get(MTDataComponents.MODULAR_TOOL_TRIM));
     }
     
     
@@ -238,6 +236,7 @@ public abstract class AbstractModularToolItem extends Item {
         context.add(rod.get().key);
         trim.get().inventoryTick(context, itemStack, level, owner, slot);
         
+        removeEffects(context, itemStack);
         
         itemStack.set(net.minecraft.core.component.DataComponents.MAX_DAMAGE, findMaxDamage(itemStack));
         super.inventoryTick(itemStack, level, owner, slot);
@@ -355,5 +354,12 @@ public abstract class AbstractModularToolItem extends Item {
             return mc.level.registryAccess();
         else
             throw new IllegalArgumentException("Not a game instance!");
+    }
+    
+    protected static void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {
+        ModularToolsRegistries.getAllMaterialBehaviors().forEach(mb -> {
+            var cond = Tests.notIn(context.head, context.rod, context.trim).test(mb);
+            if (cond) mb.removeEffects(context, itemStack);
+        });
     }
 }

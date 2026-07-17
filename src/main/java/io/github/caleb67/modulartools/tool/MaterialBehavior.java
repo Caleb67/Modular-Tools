@@ -5,6 +5,9 @@ import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +20,7 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -156,6 +160,8 @@ public abstract class MaterialBehavior {
                            ItemStack itemStack) {
     }
     
+    public void removeEffects(MaterialFunctionContext context, ItemStack itemStack) {}
+    
     public static final class Properties {
         HashMap<HeadType, Attribute> attribute_map;
         ResourceKey<MaterialBehavior> key;
@@ -211,4 +217,8 @@ public abstract class MaterialBehavior {
     }
     
     public record Attribute(float baseAttackDamage, float baseAttackSpeed) {}
+    
+    public static Optional<Holder.Reference<Enchantment>> getEnchantment(HolderLookup.Provider registryAccess, ResourceKey<Enchantment> enchantment) {
+        return registryAccess.lookupOrThrow(Registries.ENCHANTMENT).get(enchantment);
+    }
 }
