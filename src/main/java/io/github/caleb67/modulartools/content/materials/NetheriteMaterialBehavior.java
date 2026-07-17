@@ -37,8 +37,8 @@ public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
             damageTypes.getOrThrow(DamageTypeTags.IS_EXPLOSION).stream()
         ).toList();
         itemStack.set(
-                DataComponents.DAMAGE_RESISTANT,
-                new DamageResistant(HolderSet.direct(types))
+            DataComponents.DAMAGE_RESISTANT,
+            new DamageResistant(HolderSet.direct(types))
         );
     }
 }

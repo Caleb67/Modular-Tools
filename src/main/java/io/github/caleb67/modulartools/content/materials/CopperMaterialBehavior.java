@@ -4,9 +4,7 @@ import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
-import io.github.caleb67.modulartools.tool.Part;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -58,9 +56,9 @@ public class CopperMaterialBehavior extends BaseMaterialBehavior {
         
         double increase = (
             (context.head instanceof CopperMaterialBehavior ? 2 : 0)
-            + (context.rod instanceof CopperMaterialBehavior ? 2 : 0)
-            + (context.trim instanceof CopperMaterialBehavior ? 2 : 0)
-        ) * LapisMaterialBehavior.getAmplifierAmount(itemStack);
+                + (context.rod instanceof CopperMaterialBehavior ? 2 : 0)
+                + (context.trim instanceof CopperMaterialBehavior ? 2 : 0)
+        )*LapisMaterialBehavior.getAmplifierAmount(itemStack);
         
         addModifiers(block_range, interaction_range, increase);
     }

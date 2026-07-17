@@ -1,6 +1,5 @@
 package io.github.caleb67.modulartools.content;
 
-import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.EchoMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.PrismarineMaterialBehavior;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

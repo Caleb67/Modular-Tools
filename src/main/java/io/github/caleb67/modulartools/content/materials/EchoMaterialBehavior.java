@@ -19,8 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Display.BlockDisplay;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Display.BlockDisplay;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -68,7 +68,7 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
                 var test_block = display.getBlockState().getBlock();
                 if (!(
                     display.closerThan(serverPlayer, 5.0) && entry.getValue() != null &&
-                    level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
+                        level.getBlockState(BlockPos.containing(test_pos)).is(test_block))
                 ) {
                     entry.getValue().kill(level);
                     entry.setValue(null);
@@ -85,7 +85,7 @@ public class EchoMaterialBehavior extends BaseMaterialBehavior {
             if (!name.getString().equals(ORE_HIGHLIGHT_BLOCK_DISPLAY_NAME.getString())) return;
             if (MaterialBehaviors.ECHO_MATERIAL_BEHAVIOR.active.entrySet().stream().anyMatch(
                 entry -> entry.getValue().containsValue(bd))
-            ) { return;}
+            ) {return;}
             entity.kill(level);
         }
     };
