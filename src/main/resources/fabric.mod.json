@@ -3,8 +3,8 @@
   "id": "modulartools",
   "version": "${version}",
   "name": "Modular Tools",
-  "description": "",
-  "authors": [],
+  "description": "a modular tool mod.",
+  "authors": ["colicamer (Caleb67)"],
   "contact": {
     "repo": "https://github.com/progr/ModularTools"
   },
