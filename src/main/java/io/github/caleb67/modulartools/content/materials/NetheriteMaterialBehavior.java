@@ -11,10 +11,13 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DamageResistant;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
@@ -35,7 +38,8 @@ public class NetheriteMaterialBehavior extends BaseMaterialBehavior {
         var types = Stream.concat(
             damageTypes.getOrThrow(DamageTypeTags.IS_FIRE).stream(),
             damageTypes.getOrThrow(DamageTypeTags.IS_EXPLOSION).stream()
-        ).toList();
+        ).collect(Collectors.toCollection(ArrayList::new));
+        types.add(damageTypes.getOrThrow(DamageTypes.CACTUS));
         itemStack.set(
             DataComponents.DAMAGE_RESISTANT,
             new DamageResistant(HolderSet.direct(types))
