@@ -1,12 +1,13 @@
-## Modular Tools
+# Modular Tools
 
-**Requires Fabric API**
+![The mod's icon, a pickaxe.](/src/main/resources/assets/modulartools/icon.png)
 
 a modular tool mod.
 
-
-
-#### Constructing a Forge
+**Requires Fabric API**
+<br>
+<br>
+## Constructing a Forge
 
 A forge is constructed using 4 stone blocks, 2 anvils, and 2 blast furnaces surrounding a crafting table, the configuration of the blocks does not matter.
 When the correct blocks are present, you can interact with the crafting table to turn it into a forge.
@@ -14,7 +15,7 @@ When the correct blocks are present, you can interact with the crafting table to
 ![Screenshot of the forge multiblock, consisting of a crafting table surrounded directly by 4 stone blocks, 2 anvils, and 2 blast furnaces.](/images/ForgeStructure.png)
 
 
-#### Forging tools in a Forge
+## Forging tools in a Forge
 
 The forge has a 9 slots, only 5 of these slots will be used for forging tools.
 
