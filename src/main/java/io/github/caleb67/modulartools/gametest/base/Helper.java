@@ -59,7 +59,7 @@ public class Helper {
     
     public static void expectAttributeModifier(GameTestHelper context,
                                                Holder<Attribute> attribute, Identifier modifier,
-                                               ServerPlayer player, int level, int value) {
+                                               ServerPlayer player, int level, double value) {
         var has_modifier = player.getAttributes().hasModifier(attribute, modifier);
         if (level == 0) {
             context.assertFalse(has_modifier, TestError.unexpectedAttributeModifier(modifier));

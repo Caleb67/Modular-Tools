@@ -14,6 +14,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -163,13 +166,13 @@ public abstract class MaterialBehavior {
     public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {}
     
     public static final class Properties {
+        
         HashMap<HeadType, MaterialStats> attribute_map;
         ResourceKey<MaterialBehavior> key;
         ToolMaterial material;
         @Nullable ChatFormatting[] formatting;
         @Nullable ChatFormatting[] effect_formatting;
         Supplier<Set<Item>> itemSupplier;
-        
         public Properties() {
             this.attribute_map = new HashMap<HeadType, MaterialStats>();
             this.key = null;
@@ -214,9 +217,13 @@ public abstract class MaterialBehavior {
             this.itemSupplier = itemSupplier;
             return this;
         }
+        
     }
-    
     public record MaterialStats(float baseAttackDamage, float baseAttackSpeed) {}
+    
+    public static Optional<AttributeInstance> getAttribute(Player player, Holder<Attribute> attribute) {
+        return Optional.ofNullable(player.getAttribute(attribute));
+    }
     
     public static Optional<Holder.Reference<Enchantment>> getEnchantment(HolderLookup.Provider registryAccess, ResourceKey<Enchantment> enchantment) {
         return registryAccess.lookupOrThrow(Registries.ENCHANTMENT).get(enchantment);

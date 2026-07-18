@@ -10,7 +10,6 @@ public class EndTickEvents {
     public static final ArrayList<ServerTickEvents.EndTick> changes = new ArrayList<>();
     
     public static void load() {
-        changes.add(PrismarineMaterialBehavior.SUBMERGED_BEHAVIOR);
         changes.add(EchoMaterialBehavior.ORE_SIGHT_BEHAVIOR_CLEAR_DISPLAYS);
     }
 }

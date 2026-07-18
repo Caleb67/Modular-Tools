@@ -3,6 +3,7 @@ package io.github.caleb67.modulartools.content.materials;
 import io.github.caleb67.modulartools.ModularTools;
 import io.github.caleb67.modulartools.datagen.TranslationUtil;
 import io.github.caleb67.modulartools.tool.BaseMaterialBehavior;
+import io.github.caleb67.modulartools.tool.MaterialBehavior;
 import io.github.caleb67.modulartools.tool.MaterialFunctionContext;
 import io.github.caleb67.modulartools.tool.tooltip.MaterialEffectTooltipOperation;
 import net.minecraft.core.Holder;
@@ -54,13 +55,17 @@ public class CopperMaterialBehavior extends BaseMaterialBehavior {
             return;
         }
         
-        double increase = (
-            (context.head instanceof CopperMaterialBehavior ? 2 : 0)
-                + (context.rod instanceof CopperMaterialBehavior ? 2 : 0)
-                + (context.trim instanceof CopperMaterialBehavior ? 2 : 0)
-        )*LapisMaterialBehavior.getAmplifierAmount(itemStack);
+        double increase = getIncrease(context.head, context.rod, context.trim, itemStack);
         
         addModifiers(block_range, interaction_range, increase);
+    }
+    
+    private static double getIncrease(MaterialBehavior head, MaterialBehavior rod, MaterialBehavior trim, ItemStack itemStack) {
+        return (
+            (head instanceof CopperMaterialBehavior ? 2 : 0)
+                + (rod instanceof CopperMaterialBehavior ? 2 : 0)
+                + (trim instanceof CopperMaterialBehavior ? 2 : 0)
+        )*LapisMaterialBehavior.getAmplifierAmount(itemStack);
     }
     
     @Override public void removeEffects(MaterialFunctionContext context, Entity owner, ItemStack itemStack) {
@@ -68,10 +73,6 @@ public class CopperMaterialBehavior extends BaseMaterialBehavior {
         var block_range = getAttribute(player, Attributes.BLOCK_INTERACTION_RANGE).orElseThrow();
         var interaction_range = getAttribute(player, Attributes.ENTITY_INTERACTION_RANGE).orElseThrow();
         removeModifiers(block_range, interaction_range);
-    }
-    
-    private static Optional<AttributeInstance> getAttribute(Player player, Holder<Attribute> attribute) {
-        return Optional.ofNullable(player.getAttribute(attribute));
     }
     
     private void removeModifiers(AttributeInstance blockRange, AttributeInstance interactionRange) {
