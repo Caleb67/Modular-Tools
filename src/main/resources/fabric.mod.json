@@ -8,7 +8,7 @@
   "contact": {
     "repo": "https://github.com/progr/ModularTools"
   },
-  "license": "All-Rights-Reserved",
+  "license": "MIT",
   "icon": "assets/modulartools/icon.png",
   "environment": "*",
   "entrypoints": {
