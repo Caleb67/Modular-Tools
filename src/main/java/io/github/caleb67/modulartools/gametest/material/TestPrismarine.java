@@ -1,6 +1,5 @@
 package io.github.caleb67.modulartools.gametest.material;
 
-import io.github.caleb67.modulartools.content.materials.CopperMaterialBehavior;
 import io.github.caleb67.modulartools.content.materials.PrismarineMaterialBehavior;
 import io.github.caleb67.modulartools.gametest.base.BaseMaterialBehaviorTest;
 import io.github.caleb67.modulartools.gametest.base.Helper;
