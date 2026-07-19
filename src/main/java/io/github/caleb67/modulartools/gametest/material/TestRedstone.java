@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TestRedstone extends BaseMaterialBehaviorTest {
+public final class TestRedstone extends BaseMaterialBehaviorTest {
     @Override protected void testMisc(GameTestHelper context, AbstractModularToolItem tool,
                                       ServerPlayer player, int slot, int level) {
         var pickupStack = new ItemStack(Blocks.DIRT.asItem(), 64);
