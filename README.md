@@ -34,5 +34,5 @@ The result slot must also be empty.
 When ready to forge a tool, simply press the forge's "hammer" button.
 
 ### OH HEY IF YOURE BUILDING THIS
-comment out the imports and the FabricGameTestRunner loaded checks in the initializers before compiling it! D:
+comment out the imports and the FabricGameTestRunner loaded checks in the initializers before compiling a release! D:
 these don't work outside of dev environment (for some reason??????)
